@@ -3,7 +3,7 @@ import os
 import tempfile
 from django.core.management import call_command
 from django.test import TestCase
-from planner.models import Station
+from planner.models import City, Station
 
 class ImportTests(TestCase):
     def test_duplicates_and_conflicting_id(self):
@@ -20,6 +20,32 @@ class ImportTests(TestCase):
         self.assertEqual(station.price, 4)
         self.assertEqual(len(station.rows), 3)
         self.assertIsNone(station.latitude)
+
+    def test_gazetteer_derives_common_city_aliases(self):
+        rows = [
+            ['Nashville-Davidson metropolitan government', 'TN', '36.1', '-86.7'],
+            ['Indianapolis city', 'IN', '39.7', '-86.1'],
+            ['Louisville/Jefferson County metro government', 'KY', '38.1', '-85.6'],
+            ['Louisville', 'KY', '38.2', '-85.7'],
+            ['Winston-Salem', 'NC', '36.0', '-80.2'],
+            ['Milford city', 'CT', '41.2', '-73.0'],
+            ['Milford', 'CT', '41.3', '-73.1'],
+        ]
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', newline='', delete=False) as f:
+            writer = csv.writer(f); writer.writerow(['name', 'state', 'latitude', 'longitude']); writer.writerows(rows); path = f.name
+        try:
+            call_command('load_data', 'gazetteer', path, verbosity=0)
+        finally:
+            os.unlink(path)
+        names = sorted(City.objects.values_list('name', 'state'))
+        self.assertIn(('Nashville', 'TN'), names)
+        self.assertIn(('Indianapolis', 'IN'), names)
+        self.assertIn(('Nashville-Davidson metropolitan government', 'TN'), names)
+        self.assertEqual(City.objects.filter(name__iexact='Louisville', state='KY').count(), 1)
+        self.assertEqual(City.objects.filter(name='Milford', state='CT').count(), 1)
+        self.assertEqual(City.objects.get(name='Milford', state='CT').latitude, 41.3)
+        self.assertFalse(City.objects.filter(name='Winston').exists())
+        self.assertEqual(len(names), 9)
 
     def test_evidence_identity_requires_name_and_location(self):
         from planner.management.commands.load_data import station_match

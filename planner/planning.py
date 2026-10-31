@@ -209,12 +209,11 @@ def is_origin(station, start, fuel):
     return distance(start, [station.latitude, station.longitude]) < 1e-6
 
 
-def proposal_inputs(road, stations, start, fuel, candidates):
+def proposal_inputs(road, stations, start, fuel, candidates_for=None):
     corridor_miles()
     if road['distance_miles'] <= fuel * MPG + 1e-7:
         return None
-    if candidates is None:
-        candidates = nearby(road, stations)
+    candidates = candidates_for(road) if candidates_for else nearby(road, stations)
     origins = [station for station in stations if is_origin(station, start, fuel)]
     return candidates, origins
 
@@ -294,8 +293,8 @@ def progress_proposal(road, candidates, origins, start, fuel, excluded, prefix, 
     return None
 
 
-def proposal(road, stations, start, fuel, excluded=frozenset(), mode='progress', prefix=(), reach=None, candidates=None):
-    inputs = proposal_inputs(road, stations, start, fuel, candidates)
+def proposal(road, stations, start, fuel, excluded=frozenset(), mode='progress', prefix=(), reach=None, candidates_for=None):
+    inputs = proposal_inputs(road, stations, start, fuel, candidates_for)
     if inputs is None:
         return []
     candidates, origins = inputs
@@ -346,11 +345,11 @@ def evaluate(road, stops, fuel):
     return {'verified': True, 'road': road, **result}
 
 
-def estimated_cost(road, stops, stations, fuel, start, candidates=None):
-    if candidates is None:
-        candidates = nearby(road, stations)
-    positions = {candidate.station.pk: candidate.position for candidate in candidates}
-    positions.update({station.pk: 0.0 for station in stops if distance(start, [station.latitude, station.longitude]) < 1e-6})
+def estimated_cost(road, stops, stations, fuel, start, candidates_for=None):
+    positions = {station.pk: 0.0 for station in stops if distance(start, [station.latitude, station.longitude]) < 1e-6}
+    if any(station.pk not in positions for station in stops):
+        candidates = candidates_for(road) if candidates_for else nearby(road, stations)
+        positions = {**{candidate.station.pk: candidate.position for candidate in candidates}, **positions}
     if any(station.pk not in positions for station in stops):
         return float('inf')
     points = [0] + [positions[station.pk] for station in stops] + [road['distance_miles']]
@@ -426,7 +425,7 @@ def plan(start, finish, fuel, stations):
             road_candidates[id(road)] = nearby(road, stations)
         return road_candidates[id(road)]
 
-    baseline_stops = proposal(baseline_road, stations, start, fuel, candidates=candidates_for(baseline_road))
+    baseline_stops = proposal(baseline_road, stations, start, fuel, candidates_for=candidates_for)
     attempts = 0
 
     def verify(road, stops):
@@ -460,7 +459,7 @@ def plan(start, finish, fuel, stations):
         repair = proposal(
             baseline_road, stations, start, fuel,
             excluded=excluded, prefix=baseline_stops[:index], reach=limit - excess,
-            candidates=candidates_for(baseline_road),
+            candidates_for=candidates_for,
         )
         if repair is not None and repair != baseline_stops:
             baseline = verify(baseline_road, repair)
@@ -469,10 +468,10 @@ def plan(start, finish, fuel, stations):
     for index, road in enumerate(roads):
         modes = ('cost',) if index == 0 else ('progress', 'cost')
         for mode in modes:
-            stops = proposal(road, stations, start, fuel, mode=mode, candidates=candidates_for(road))
+            stops = proposal(road, stations, start, fuel, mode=mode, candidates_for=candidates_for)
             if stops is None or (index == 0 and stops == baseline_stops):
                 continue
-            cost = estimated_cost(road, stops, stations, fuel, start, candidates=candidates_for(road))
+            cost = estimated_cost(road, stops, stations, fuel, start, candidates_for=candidates_for)
             choices.append((cost, index, mode, road, stops))
     choices.sort(key=lambda c: (c[0], c[3]['duration_seconds'], c[1], c[2]))
     alternatives = [verify(choices[0][3], choices[0][4])] if choices else []

@@ -33,6 +33,26 @@ def station_match(source_names, source_address, matched_name, matched_address):
     address_match = source_keys is not None and matched_keys is not None and len(source_address) >= 6 and source_address == address
     return names_match and (marker_match or address_match)
 
+GOVERNMENT_SUFFIX = re.compile(r'\s+(?:metropolitan government|metro government|unified government|consolidated government|urban county)$')
+PLAIN_SUFFIX = re.compile(r'\s+(?:city and|city|corporation)$')
+
+def alias_name(name):
+    name = name.strip()
+    if GOVERNMENT_SUFFIX.search(name):
+        return re.split(r'[-/,]', GOVERNMENT_SUFFIX.sub('', name))[0].strip()
+    return PLAIN_SUFFIX.sub('', name).strip()
+
+def gazetteer_aliases(rows):
+    taken = {(norm(row['name']), norm(row['state'])) for row in rows}
+    aliases = []
+    for row in rows:
+        alias = alias_name(row['name'])
+        key = (norm(alias), norm(row['state']))
+        if alias and key not in taken:
+            taken.add(key)
+            aliases.append({**row, 'name': alias})
+    return aliases
+
 class Command(BaseCommand):
     help = 'Import source stations or verified evidence or local gazetteer.'
 
@@ -63,6 +83,7 @@ class Command(BaseCommand):
             Station.objects.bulk_create(objects)
             self.stdout.write(f'Imported {len(objects)} station groups; {sum(len(v) > 1 for v in ids.values())} IDs have conflicting locations.')
         elif kind == 'gazetteer':
+            rows = rows + gazetteer_aliases(rows)
             City.objects.all().delete()
             City.objects.bulk_create([City(name=r['name'].strip(), state=norm(r['state']), latitude=float(r['latitude']), longitude=float(r['longitude'])) for r in rows])
             self.stdout.write(f'Imported {len(rows)} cities.')

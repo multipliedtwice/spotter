@@ -41,6 +41,17 @@ class SearchTests(SimpleTestCase):
         self.assertLess(result['alternatives'][0]['purchase_cost_usd'], result['baseline']['purchase_cost_usd'])
         self.assertEqual(result['recommended'], result['alternatives'][0])
 
+    def test_nearby_scan_skipped_when_starting_fuel_suffices(self):
+        stations = [self.make_station(1, 50, 3)]
+        with patch('planner.planning.nearby') as scan, patch('planner.planning.route', side_effect=[[self.road(100)]]):
+            result = plan([0, 0], [0, 1], 50, stations)
+        self.assertTrue(result['baseline']['verified'])
+        scan.assert_not_called()
+        loader = patch('planner.planning.nearby')
+        with loader as scan:
+            self.assertEqual(proposal(self.road(100), stations, [0, 0], 50, candidates_for=lambda road: self.fail('loaded')), [])
+        scan.assert_not_called()
+
     def test_partial_purchase_before_cheaper_station(self):
         origin = self.make_station(1, 0, 5)
         cheaper = self.make_station(2, 30, 2)
