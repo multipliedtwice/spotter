@@ -13,7 +13,10 @@ if (plan.baseline && plan.baseline.verified) L.geoJSON(geometry(plan.baseline.ro
 if (plan.recommended) {
   const r = plan.recommended;
   L.geoJSON(geometry(r.road),{style:{color:'#1857d3',weight:4}}).addTo(layers);
-  document.getElementById('facts').textContent = `${r.road.distance_miles.toFixed(1)} mi · ${r.purchased_gallons.toFixed(1)} gal purchased · $${r.purchase_cost_usd.toFixed(2)}`;
+  const facts = [`${r.road.distance_miles.toFixed(1)} mi`];
+  if (typeof plan.start_fuel_gallons === 'number') facts.push(`starting fuel ${plan.start_fuel_gallons.toFixed(1)} gal (valued at $0)`);
+  facts.push(`${r.purchased_gallons.toFixed(1)} gal purchased during journey`, `$${r.purchase_cost_usd.toFixed(2)} fuel purchased during journey`);
+  document.getElementById('facts').textContent = facts.join(' · ');
   const c = plan.comparison;
   document.getElementById('comparison').textContent = c.savings_usd === null ? c.status.replaceAll('_',' ') : `Savings $${c.savings_usd.toFixed(2)} · ${c.extra_miles.toFixed(1)} mi · ${(c.extra_duration_seconds / 60).toFixed(0)} min vs baseline`;
   r.stops.forEach((s,i) => {

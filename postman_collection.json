@@ -11,6 +11,24 @@
   ],
   "item": [
     {
+      "name": "Dallas to Los Angeles (cities, over 500 miles)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "description": "Primary demo. City inputs, starting fuel 20 gallons (valued at $0). Live 2026-10-31 on public OSRM: 1,453.9 miles, five purchases, 125.39 gallons, $393.99 fuel purchased during the journey; saves $25.62 versus the fastest-route baseline ($419.61). Import bundled station evidence first.",
+        "url": "{{baseUrl}}/api/routes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start\": \"Dallas, TX\",\n  \"finish\": \"Los Angeles, CA\",\n  \"start_fuel_gallons\": 20\n}"
+        }
+      }
+    },
+    {
       "name": "TN refueling comparison",
       "request": {
         "method": "POST",
