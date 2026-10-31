@@ -16,9 +16,9 @@ OPTIONS = {
     'candidate_limit': 150,
     'repair_limit': 1,
     'comparison': 'cost-duration-distance-v1',
-    'strategy': 'progress-cost-v8',
+    'strategy': 'progress-cost-v9',
     'simplify_tolerance': SIMPLIFY_TOLERANCE,
-    'response': 'start-fuel-cost-basis-v1',
+    'response': 'start-fuel-cost-basis-v2',
 }
 
 def corridor_miles():
@@ -61,7 +61,7 @@ def resolve_locations(values):
                 if is_bool or not is_finite or not -90 <= lat <= 90 or not -180 <= lon <= 180:
                     raise ValueError()
                 result[index] = [lat, lon]
-            except (TypeError, ValueError):
+            except (TypeError, ValueError, OverflowError):
                 raise InputError('INVALID_LOCATION', 'Invalid coordinates.')
         elif isinstance(value, str) and value.strip():
             text = value.strip()
@@ -415,6 +415,17 @@ def normalize_legacy(result):
     }
 
 
+def flat_fields(compacted):
+    recommended = compacted['recommended']
+    keys = ('station_id', 'name', 'address', 'city', 'state', 'latitude', 'longitude', 'price_usd_per_gallon', 'gallons', 'cost_usd', 'route_position_miles', 'waypoint_index')
+    road = (recommended or compacted['baseline'])['road']
+    return {
+        'distance_miles': road.get('distance_miles'),
+        'purchase_cost_usd': recommended['purchase_cost_usd'] if recommended else None,
+        'fuel_stops': [{k: stop[k] for k in keys} for stop in recommended['stops'] if stop['purchase']] if recommended else None,
+    }
+
+
 def plan(start, finish, fuel, stations):
     roads = sorted(route([start, finish], alternatives=True), key=lambda r: (r['duration_seconds'], r['distance_miles']))[:3]
     baseline_road = roads[0]
@@ -474,7 +485,18 @@ def plan(start, finish, fuel, stations):
             cost = estimated_cost(road, stops, stations, fuel, start, candidates_for=candidates_for)
             choices.append((cost, index, mode, road, stops))
     choices.sort(key=lambda c: (c[0], c[3]['duration_seconds'], c[1], c[2]))
-    alternatives = [verify(choices[0][3], choices[0][4])] if choices else []
+    alternatives = []
+    tried = {tuple(s.pk for s in baseline_stops)} if baseline_stops else set()
+    for _, _, _, road, stops in choices:
+        sequence = tuple(s.pk for s in stops)
+        if sequence and sequence in tried:
+            continue
+        if sequence:
+            tried.add(sequence)
+        outcome = verify(road, stops)
+        alternatives.append(outcome)
+        if outcome['verified'] or outcome.get('reason') in ('VERIFICATION_BUDGET_EXHAUSTED', 'VERIFICATION_PROVIDER_FAILURE'):
+            break
     results = [baseline, *alternatives]
     feasible = [r for r in results if r['verified']]
     recommended = min(feasible, key=lambda r: (r['_cost'], r['road']['duration_seconds'], r['road']['distance_miles'])) if feasible else None
@@ -515,7 +537,7 @@ def plan(start, finish, fuel, stations):
         'INSUFFICIENT_VERIFIED_PRICE_COVERAGE': 'No feasible fuel plan found within verified station data and search bounds.',
         'PROVIDER_FAILURE': 'Route verification provider unavailable.',
     }
-    return compact({
+    compacted = compact({
         'status': status,
         'code': status if status != 'ok' else None,
         'reasons': reasons,
@@ -527,3 +549,4 @@ def plan(start, finish, fuel, stations):
         'start_fuel_gallons': fuel,
         'cost_basis': 'Fuel purchased during the journey. Starting fuel is valued at $0.',
     }, recommended)
+    return {**compacted, **flat_fields(compacted)}

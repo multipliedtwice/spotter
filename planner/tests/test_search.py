@@ -144,6 +144,53 @@ class SearchTests(SimpleTestCase):
         self.assertEqual(alternative['reason'], 'VERIFICATION_BUDGET_EXHAUSTED')
         self.assertIsNone(alternative['purchase_cost_usd'])
 
+    def alternative_run(self, proposals, routes):
+        stations = [self.make_station(i, 30, 3) for i in (1, 2, 3)]
+        roads = [self.road(60), {**self.road(60), 'duration_seconds': 7200}]
+        by_id = {s.pk: s for s in stations}
+        outcomes = [None if p is None else [by_id[i] for i in p] for p in proposals]
+        with patch('planner.planning.proposal', side_effect=outcomes), patch('planner.planning.estimated_cost', side_effect=[1, 2, 3]), patch('planner.planning.route', side_effect=[roads, *routes]) as routing:
+            result = plan([0, 0], [0, 1], 5, stations)
+        return result, routing
+
+    def test_second_distinct_alternative_is_verified_after_first_fails(self):
+        failed = {**self.road(60), 'legs_miles': [1000, 10]}
+        verified = {**self.road(60), 'legs_miles': [30, 30]}
+        result, routing = self.alternative_run([None, [1], [2], [3]], [[failed], [verified]])
+        self.assertEqual(routing.call_count, 3)
+        self.assertEqual(result['status'], 'ok')
+        self.assertFalse(result['alternatives'][0]['verified'])
+        self.assertTrue(result['alternatives'][1]['verified'])
+        self.assertEqual(result['recommended'], result['alternatives'][1])
+        self.assertEqual(result['recommended']['stops'][0]['station_id'], '2')
+
+    def test_duplicate_stop_sequence_is_not_reverified(self):
+        failed = {**self.road(60), 'legs_miles': [1000, 10]}
+        verified = {**self.road(60), 'legs_miles': [30, 30]}
+        result, routing = self.alternative_run([None, [1], [1], [3]], [[failed], [verified]])
+        self.assertEqual(routing.call_count, 3)
+        self.assertEqual(len(result['alternatives']), 2)
+        self.assertEqual(result['recommended']['stops'][0]['station_id'], '3')
+
+    def test_alternative_attempts_respect_routing_budget(self):
+        failed = {**self.road(60), 'legs_miles': [1000, 10]}
+        result, routing = self.alternative_run([None, [1], [2], [3]], [[failed], [failed]])
+        self.assertEqual(routing.call_count, 3)
+        self.assertIsNone(result['recommended'])
+        self.assertEqual(result['alternatives'][-1]['reason'], 'VERIFICATION_BUDGET_EXHAUSTED')
+
+    def test_zero_stop_alternative_is_evaluated_when_baseline_has_no_proposal(self):
+        fastest = self.road(600)
+        slower = {**self.road(490), 'duration_seconds': 600 * 60 + 1}
+        with patch('planner.planning.route', side_effect=[[fastest, slower]]) as routing:
+            result = plan([0, 0], [0, 6], 50, [])
+        self.assertEqual(routing.call_count, 1)
+        self.assertEqual(result['status'], 'ok')
+        self.assertFalse(result['baseline']['verified'])
+        self.assertEqual(result['recommended']['road']['distance_miles'], 490)
+        self.assertEqual(result['recommended']['purchase_cost_usd'], 0)
+        self.assertEqual(result['fuel_stops'], [])
+
     def test_zero_fuel_at_origin_requires_zero_length_first_routed_leg(self):
         origin = self.make_station(1, 0, 3)
         baseline = self.road(100)

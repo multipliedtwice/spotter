@@ -1,5 +1,4 @@
 import json
-import math
 from datetime import timedelta
 from django.db import transaction
 from django.http import JsonResponse, Http404
@@ -23,11 +22,14 @@ def cacheable_plan(result):
 @require_POST
 def create_route(request):
     try:
-        body = json.loads(request.body)
+        try:
+            body = json.loads(request.body)
+        except ValueError as exc:
+            raise InputError('INVALID_REQUEST', 'Request body must be JSON.') from exc
         if not isinstance(body, dict) or 'start' not in body or 'finish' not in body:
             raise InputError('INVALID_REQUEST', 'Provide start and finish.')
         value = body.get('start_fuel_gallons', TANK)
-        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or not 0 <= value <= TANK:
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 <= value <= TANK:
             raise InputError('INVALID_FUEL', 'Starting fuel must be between 0 and 50 gallons.')
         value = float(value)
         start, finish = resolve_locations([body['start'], body['finish']])

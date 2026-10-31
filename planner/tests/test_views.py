@@ -116,6 +116,46 @@ class ViewsTests(TestCase):
         response = self.post({'start':'1 Main, Boston','finish':'Dallas, TX','start_fuel_gallons':10})
         self.assertEqual(response.status_code, 400)
 
+    def test_oversized_numbers_are_rejected(self):
+        head = '{"start":{"latitude":40,"longitude":-100},"finish":{"latitude":40,"longitude":-99}'
+        cases = [
+            (head + ',"start_fuel_gallons":1' + '0' * 400 + '}', 'INVALID_FUEL'),
+            ('{"start":{"latitude":1' + '0' * 400 + ',"longitude":-100},"finish":{"latitude":40,"longitude":-99}}', 'INVALID_LOCATION'),
+            ('1' * 5000, 'INVALID_REQUEST'),
+        ]
+        for body, code in cases:
+            response = self.client.post('/api/routes', body, content_type='application/json')
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(response.json()['code'], code)
+
+    @patch('planner.planning.load_boundary', return_value=BOUNDARY)
+    def test_flat_fields_list_purchase_stops_only(self, boundary):
+        Station.objects.create(source_id='1', name='EXAMPLE #1', address='10 MAIN', city='TOWN', state='TX', rows=[], price=3, price_min=3, price_max=3, latitude=40, longitude=-99.5, evidence={'source':'test'})
+        def routing(points, alternatives=False):
+            return [ROAD] if alternatives else [{**ROAD, 'legs_miles': [30, 30]}]
+        with patch('planner.planning.route', side_effect=routing):
+            response = self.post({'start':{'latitude':40,'longitude':-100},'finish':{'latitude':40,'longitude':-99},'start_fuel_gallons':5})
+        data = response.json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['distance_miles'], data['recommended']['road']['distance_miles'])
+        self.assertEqual(data['purchase_cost_usd'], data['recommended']['purchase_cost_usd'])
+        purchases = [stop for stop in data['recommended']['stops'] if stop['purchase']]
+        self.assertTrue(purchases)
+        self.assertEqual([stop['station_id'] for stop in data['fuel_stops']], [stop['station_id'] for stop in purchases])
+        self.assertTrue(all(stop['gallons'] > 0 for stop in data['fuel_stops']))
+        self.assertNotIn('summary', data)
+        self.assertTrue(data['map_url'])
+
+    @patch('planner.planning.load_boundary', return_value=BOUNDARY)
+    @patch('planner.planning.route', return_value=[ROAD])
+    def test_flat_fields_are_null_without_recommendation(self, routing, boundary):
+        response = self.post({'start':{'latitude':40,'longitude':-100},'finish':{'latitude':40,'longitude':-99},'start_fuel_gallons':1})
+        self.assertEqual(response.status_code, 422)
+        data = response.json()
+        self.assertIsNone(data['purchase_cost_usd'])
+        self.assertIsNone(data['fuel_stops'])
+        self.assertEqual(data['distance_miles'], ROAD['distance_miles'])
+
     @patch('planner.planning.load_boundary', return_value=BOUNDARY)
     def test_zero_and_outside(self, boundary):
         body = {'start':{'latitude':40,'longitude':-100},'finish':{'latitude':40,'longitude':-99},'start_fuel_gallons':0}
@@ -146,8 +186,9 @@ class PlanningTests(TestCase):
     def test_two_verifications_share_three_call_budget(self, routing, propose):
         station = self.station('1')
         verified = {**ROAD, 'legs_miles':[30,30]}
+        other = self.station('2', lon=-99.4)
         routing.side_effect = [[ROAD, ROAD, ROAD], [verified], [verified]]
-        propose.return_value = [station]
+        propose.side_effect = [[station], [station], [other], [other], [other], [other]]
         result = plan([40,-100], [40,-99], 5, [station])
         self.assertEqual(routing.call_count, 3)
         self.assertTrue(result['baseline']['verified'])
@@ -200,7 +241,7 @@ class PlanningTests(TestCase):
         bad = {**ROAD, 'legs_miles':[510, 10], 'distance_miles':520}
         good = {**ROAD, 'legs_miles':[30, 30]}
         routing.side_effect = [[ROAD, ROAD], [bad], [good]]
-        propose.side_effect = [[first], [second], [first], [first], [first]]
+        propose.side_effect = [[first], [second], [first], [first, second], [first, second]]
         result = plan([40,-100], [40,-99], 50, [first, second])
         self.assertEqual(routing.call_count, 3)
         self.assertTrue(result['baseline']['verified'])
@@ -255,8 +296,9 @@ class PlanningTests(TestCase):
         from planner.providers import RouteCoverageError
         station = self.station('1')
         verified = {**ROAD, 'legs_miles':[30,30]}
+        other = self.station('2', lon=-99.4)
         routing.side_effect = [[ROAD, ROAD], RouteCoverageError('No drivable route found in loaded road data'), [verified]]
-        propose.side_effect = [[station], None, [station], [station], [station]]
+        propose.side_effect = [[station], None, [other], [other], [other]]
         result = plan([40,-100], [40,-99], 5, [station])
         self.assertEqual(result['baseline']['reason'], 'ROUTING_COVERAGE_UNAVAILABLE')
         self.assertTrue(result['recommended']['verified'])
