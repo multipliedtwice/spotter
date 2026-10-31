@@ -1,0 +1,11 @@
+services:
+  osrm:
+    image: ghcr.io/project-osrm/osrm-backend:v6.0.0
+    container_name: spotter-osrm-trial
+    cpus: 1.0
+    mem_limit: 1g
+    ports:
+      - "127.0.0.1:5050:5000"
+    volumes:
+      - ./local/osrm:/data
+    command: ["osrm-routed", "--algorithm", "mld", "--threads", "1", "/data/region.osrm", "--mmap", "--disable-feature-dataset", "ROUTE_STEPS"]

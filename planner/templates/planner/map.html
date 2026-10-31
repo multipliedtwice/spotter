@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fuel route</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><style>body{font:15px system-ui;margin:0}header{padding:.7rem 1rem}#map{height:80vh}p{margin:.3rem 0}.stop{background:#1857d3;color:white;border:2px solid white;border-radius:50%;text-align:center;font-weight:bold;line-height:22px;box-shadow:0 1px 4px #444}</style></head>
+<body><header><strong>Fuel route</strong><p id="facts"></p><p id="comparison"></p><p>Snapshot prices · Blue: recommended · Orange: verified baseline · Gray dashed: original fastest route</p></header><div id="map"></div>
+{{ result|json_script:"plan" }}<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
+const plan = JSON.parse(document.getElementById('plan').textContent);
+const map = L.map('map');
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom:19}).addTo(map);
+const layers = L.featureGroup().addTo(map);
+const geometry = road => plan.geometries[road.geometry_id];
+if (plan.baseline_original_road) L.geoJSON(geometry(plan.baseline_original_road),{style:{color:'#777',weight:5,dashArray:'6 8'}}).addTo(layers);
+if (plan.baseline && plan.baseline.verified) L.geoJSON(geometry(plan.baseline.road),{style:{color:'#d66c11',weight:6,opacity:.8}}).addTo(layers);
+if (plan.recommended) {
+  const r = plan.recommended;
+  L.geoJSON(geometry(r.road),{style:{color:'#1857d3',weight:4}}).addTo(layers);
+  document.getElementById('facts').textContent = `${r.road.distance_miles.toFixed(1)} mi · ${r.purchased_gallons.toFixed(1)} gal purchased · $${r.purchase_cost_usd.toFixed(2)}`;
+  const c = plan.comparison;
+  document.getElementById('comparison').textContent = c.savings_usd === null ? c.status.replaceAll('_',' ') : `Savings $${c.savings_usd.toFixed(2)} · ${c.extra_miles.toFixed(1)} mi · ${(c.extra_duration_seconds / 60).toFixed(0)} min vs baseline`;
+  r.stops.forEach((s,i) => {
+    const number = s.waypoint_index ?? i+1;
+    const icon = L.divIcon({className:'stop', html:String(number), iconSize:[24,24]});
+    const marker = L.marker([s.latitude,s.longitude],{icon}).addTo(layers);
+    const el = document.createElement('span');
+    const action = s.purchase === false || s.gallons === 0 ? 'Pass through' : `$${s.price_usd_per_gallon.toFixed(3)}/gal · ${s.gallons.toFixed(1)} gal · $${s.cost_usd.toFixed(2)}`;
+    el.textContent = `${number}. ${s.name} · ${action} · fuel ${s.fuel_before_gallons.toFixed(1)} → ${s.fuel_after_gallons.toFixed(1)} gal`;
+    marker.bindPopup(el);
+  });
+} else {
+  const baseline = plan.baseline;
+  if (baseline && baseline.road) {
+    L.geoJSON(geometry(baseline.road),{style:{color:'#777',weight:4,dashArray:'6 8'}}).addTo(layers);
+    const consumption = baseline.consumed_gallons ?? baseline.road.distance_miles / 10;
+    document.getElementById('facts').textContent = `${baseline.road.distance_miles.toFixed(1)} mi · ${consumption.toFixed(1)} gal consumed`;
+  }
+  document.getElementById('comparison').textContent = plan.message || 'No feasible fuel plan found within verified station data and search bounds.';
+}
+if (layers.getLayers().length) map.fitBounds(layers.getBounds()); else map.setView([39,-98],4);
+</script></body></html>

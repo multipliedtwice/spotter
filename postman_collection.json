@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "Fuel Route API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8000"
+    }
+  ],
+  "item": [
+    {
+      "name": "TN refueling comparison",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "description": "Jackson, TN to Dickson, TN. Uses the public OSRM demo by default; for a local Tennessee graph set OSRM_BASE_URL. Import bundled station evidence first.",
+        "url": "{{baseUrl}}/api/routes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start\": {\n    \"station_id\": \"63724\"\n  },\n  \"finish\": {\n    \"station_id\": \"67420\"\n  },\n  \"start_fuel_gallons\": 0\n}"
+        }
+      }
+    },
+    {
+      "name": "DC route with starting fuel",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/routes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start\": {\"latitude\": 38.8977, \"longitude\": -77.0365},\n  \"finish\": {\"latitude\": 38.8899, \"longitude\": -77.0091},\n  \"start_fuel_gallons\": 20\n}"
+        },
+        "description": "Uses the public OSRM demo by default; set OSRM_BASE_URL for a local DC graph."
+      }
+    },
+    {
+      "name": "DC coverage-dependent route",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/routes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start\": {\"latitude\":38.8977,\"longitude\":-77.0365},\n  \"finish\": {\"latitude\":38.8899,\"longitude\":-77.0091},\n  \"start_fuel_gallons\": 0.01\n}"
+        },
+        "description": "Uses the public OSRM demo by default; set OSRM_BASE_URL for a local DC graph. Low fuel may return coverage unavailable."
+      }
+    },
+    {
+      "name": "Invalid fuel",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/routes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"start\": {\"latitude\":38.8977,\"longitude\":-77.0365}, \"finish\": {\"latitude\":38.8899,\"longitude\":-77.0091}, \"start_fuel_gallons\": 51}"
+        },
+        "description": "Input validation example. No routing required."
+      }
+    },
+    {
+      "name": "Long refueling trip",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "description": "Jackson, TN to Amarillo, TX. Uses the public OSRM demo by default; a local graph must cover the whole trip (the DC and Tennessee graphs do not). Import bundled station evidence first.",
+        "url": "{{baseUrl}}/api/routes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start\": {\n    \"station_id\": \"63724\"\n  },\n  \"finish\": {\n    \"station_id\": \"1516\"\n  },\n  \"start_fuel_gallons\": 0\n}"
+        }
+      }
+    }
+  ]
+}
