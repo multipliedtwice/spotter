@@ -1,4 +1,5 @@
 import json
+import uuid
 from datetime import timedelta
 from django.db import transaction
 from django.http import JsonResponse, Http404
@@ -62,14 +63,11 @@ def create_route(request):
         if previous and cacheable_plan(previous.result):
             return JsonResponse(previous.result, status=200 if previous.result['recommended'] else 422)
         result = plan(start, finish, value, stations)
-        stored = RoutePlan.objects.create(result=result, cache_key=cache_key if cacheable_plan(result) else '')
-        result['plan_id'] = str(stored.pk)
-        result['map_url'] = f'/map/{stored.pk}'
-        stored.result = result
-        stored.save(update_fields=['result'])
+        plan_id = uuid.uuid4()
+        result['plan_id'] = str(plan_id)
+        result['map_url'] = f'/map/{plan_id}'
+        RoutePlan.objects.create(pk=plan_id, result=result, cache_key=cache_key if cacheable_plan(result) else '')
         return JsonResponse(result, status=200 if result['recommended'] else 503 if result['status'] == 'PROVIDER_FAILURE' else 422)
-    except (json.JSONDecodeError, UnicodeDecodeError):
-        return JsonResponse({'code': 'INVALID_REQUEST', 'message': 'Request body must be JSON.'}, status=400)
     except InputError as exc:
         return JsonResponse({'code': exc.code, 'message': exc.message, **exc.details}, status=400)
     except RouteCoverageError as exc:

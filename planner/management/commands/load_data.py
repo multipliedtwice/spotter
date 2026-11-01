@@ -104,6 +104,10 @@ class Command(BaseCommand):
                     raise ValueError('Missing state feature')
             except (OSError, UnicodeError, ValueError, KeyError, TypeError) as exc:
                 raise CommandError('Valid state boundary features required for evidence import.') from exc
+            from planner.osm_evidence import identity_tags, matched_values, valid_context
+            city_points = defaultdict(list)
+            for city in City.objects.all():
+                city_points[(norm(city.name), norm(city.state))].append([city.latitude, city.longitude])
             coordinates = defaultdict(set)
             for row in rows:
                 try:
@@ -120,13 +124,30 @@ class Command(BaseCommand):
                 matches = Station.objects.filter(source_id=row['station_id'].strip(), address=norm(row['address']), city=norm(row['city']), state=norm(row['state']))
                 station = matches.first() if matches.count() == 1 else None
                 names = {norm(r['Truckstop Name']) for r in station.rows} if station else set()
-                if not station or not station_match(names, station.address, row['matched_name'], row['matched_address']) or not row['source'].strip():
+                if not station or not row['source'].strip():
                     continue
-                lat, lon = float(row['latitude']), float(row['longitude'])
+                try:
+                    lat, lon = float(row['latitude']), float(row['longitude'])
+                except (ValueError, TypeError, KeyError):
+                    continue
+                osm_text = row.get('osm_evidence', '').strip()
+                if osm_text:
+                    try:
+                        context = json.loads(osm_text)
+                        source = f"https://www.openstreetmap.org/{context['type']}/{context['id']}"
+                        if row['source'] != source or not valid_context(station, context, [lat, lon], states[station.state], city_points[(norm(station.city), norm(station.state))]):
+                            continue
+                    except (ValueError, KeyError, TypeError):
+                        continue
+                elif not station_match(names, station.address, row['matched_name'], row['matched_address']):
+                    continue
                 if not (-90 <= lat <= 90 and -180 <= lon <= 180) or not in_us([lat, lon], states[station.state]):
                     continue
                 station.latitude, station.longitude = lat, lon
                 station.evidence = {'matched_name': row['matched_name'], 'matched_address': row['matched_address'], 'source': row['source'], **{field: row[field] for field in ('source_row_ids', 'place_id', 'datasource_name', 'datasource_license', 'datasource_attribution', 'datasource_url') if row.get(field)}}
+                if osm_text:
+                    station.evidence['matched_name'], station.evidence['matched_address'] = matched_values(identity_tags(context))
+                    station.evidence.update({'place_id': str(context['id']), 'datasource_name': 'OpenStreetMap', 'datasource_license': 'ODbL', 'datasource_attribution': 'OpenStreetMap contributors', 'datasource_url': 'https://www.openstreetmap.org/copyright', 'osm_evidence': context})
                 station.save(update_fields=['latitude', 'longitude', 'evidence'])
                 accepted += 1
             self.stdout.write(f'Accepted {accepted} evidence records of {len(rows)}.')

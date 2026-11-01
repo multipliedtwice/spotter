@@ -64,8 +64,8 @@ def simplify(points, tolerance=SIMPLIFY_TOLERANCE):
             stack.extend([(lo, index), (index, hi)])
     return [list(point) for point, kept in zip(points, keep) if kept]
 
-def optimize(legs, prices, start_fuel):
-    if len(legs) != len(prices) + 1 or not math.isfinite(start_fuel) or not 0 <= start_fuel <= TANK or any(x < 0 or not math.isfinite(x) for x in legs) or any(x <= 0 or not math.isfinite(x) for x in prices):
+def optimize(legs, prices, start_fuel, tank=TANK):
+    if len(legs) != len(prices) + 1 or not math.isfinite(start_fuel) or not 0 <= start_fuel <= tank or any(x < 0 or not math.isfinite(x) for x in legs) or any(x <= 0 or not math.isfinite(x) for x in prices):
         raise ValueError('Invalid fuel sequence')
     fuel = start_fuel
     purchases = []
@@ -82,14 +82,14 @@ def optimize(legs, prices, start_fuel):
         target = None
         for j in range(i + 1, len(prices)):
             cumulative += legs[j] / MPG
-            if cumulative > TANK + EPS:
+            if cumulative > tank + EPS:
                 break
             if prices[j] < prices[i]:
                 target = cumulative
                 break
         if target is None:
             remaining = sum(legs[i+1:]) / MPG
-            target = min(TANK, remaining)
+            target = min(tank, remaining)
         amount = max(0, target - fuel)
         purchases.append({'fuel_before_gallons': fuel, 'gallons': amount, 'fuel_after_gallons': fuel + amount, 'cost_usd': amount * prices[i]})
         fuel += amount

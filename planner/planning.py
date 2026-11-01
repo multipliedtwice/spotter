@@ -7,15 +7,16 @@ from django.conf import settings
 from django.utils import timezone
 from planner.core import MPG, SIMPLIFY_TOLERANCE, TANK, distance, in_us, key, optimize, load_boundary, simplify
 from planner.models import City, RoutePlan, Station
-from planner.locations import STATE_NAMES
+from planner.locations import STATE_NAMES, strip_country
 from planner.providers import census, route, route_settings, ProviderError, RouteCoverageError, AddressError
 
 OPTIONS = {
     'tank': TANK,
     'mpg': MPG,
     'repair_limit': 1,
+    'range_margins_miles': [25.0, 0.0],
     'comparison': 'cost-duration-distance-v1',
-    'strategy': 'progress-cost-v10',
+    'strategy': 'progress-cost-v12',
     'simplify_tolerance': SIMPLIFY_TOLERANCE,
     'response': 'start-fuel-cost-basis-v2',
 }
@@ -64,7 +65,7 @@ def resolve_locations(values):
                 raise InputError('INVALID_LOCATION', 'Invalid coordinates.')
         elif isinstance(value, str) and value.strip():
             text = value.strip()
-            parts = [x.strip() for x in text.split(',')]
+            parts = strip_country([x.strip() for x in text.split(',')])
             cities = City.objects.filter(name__iexact=parts[0])
             state_code = STATE_NAMES.get(parts[1].upper(), parts[1].upper()) if len(parts) == 2 else ''
             if len(parts) == 2 and state_code in set(STATE_NAMES.values()):
@@ -203,7 +204,7 @@ def proposal_inputs(road, stations, start, fuel, candidates_for=None):
     return candidates, origins
 
 
-def cost_proposal(road, candidates, origins, start, fuel, excluded):
+def cost_proposal(road, candidates, origins, start, fuel, excluded, margin=0.0):
     origin_ids = {station.pk for station in origins}
     candidates = [
         candidate for candidate in candidates
@@ -213,9 +214,10 @@ def cost_proposal(road, candidates, origins, start, fuel, excluded):
         station = min(origins, key=lambda item: (item.price, item.source_id))
         candidates.append(Candidate(0.0, 0.0, station))
     candidates.sort(key=lambda item: (item.position, item.station.source_id))
-    positions = [0.0] + [item.position for item in candidates] + [road['distance_miles']]
-    legs = [max(0.0, b - a) for a, b in zip(positions, positions[1:])]
-    result = optimize(legs, [item.station.price for item in candidates], fuel)
+    points = [(0.0, 0.0)] + [(item.position, item.detour) for item in candidates] + [(road['distance_miles'], 0.0)]
+    weight = 1.0 if margin else 0.0
+    legs = [max(0.0, b[0] - a[0]) + weight * (a[1] + b[1]) for a, b in zip(points, points[1:])]
+    result = optimize(legs, [item.station.price for item in candidates], max(0.0, fuel - margin / MPG), (TANK * MPG - margin) / MPG)
     if result is None:
         return None
     chosen = [
@@ -227,25 +229,27 @@ def cost_proposal(road, candidates, origins, start, fuel, excluded):
     return chosen
 
 
-def progress_proposal(road, candidates, origins, start, fuel, excluded, prefix, reach):
-    slack_per_stop = 2 * corridor_miles()
+def progress_proposal(road, candidates, origins, start, fuel, excluded, prefix, reach, margin=0.0):
+    slack_per_stop = 0.0 if margin else 2 * corridor_miles()
     included = {candidate.station.pk for candidate in candidates}
     candidates = [
         *candidates,
         *(Candidate(0.0, 0.0, station) for station in origins if station.pk not in included),
     ]
     positions = {candidate.station.pk: candidate.position for candidate in candidates}
+    detours = {candidate.station.pk: candidate.detour if margin else 0.0 for candidate in candidates}
     chosen = list(prefix)
     if any(station.pk not in positions for station in chosen):
         return None
     position = positions[chosen[-1].pk] if chosen else 0.0
+    here = detours[chosen[-1].pk] if chosen else 0.0
     available = TANK * MPG if chosen else fuel * MPG
     slack = slack_per_stop
     forced = reach is not None
     if forced:
         available, slack = max(0.0, reach), 0.0
     for _ in range(30):
-        if not forced and road['distance_miles'] - position <= available + 1e-7:
+        if not forced and road['distance_miles'] - position + here <= available - margin + 1e-7:
             return chosen
         forced = False
 
@@ -256,7 +260,7 @@ def progress_proposal(road, candidates, origins, start, fuel, excluded, prefix, 
             at_origin = not chosen and distance(start, [station.latitude, station.longitude]) < 1e-6
             if not (candidate.position > position + 0.01 or at_origin):
                 return False
-            if candidate.position - position > available + slack + 1e-7:
+            if candidate.position - position + here + detours[station.pk] > available - margin + slack + 1e-7:
                 return False
             return not chosen or station.pk != chosen[-1].pk
 
@@ -273,6 +277,7 @@ def progress_proposal(road, candidates, origins, start, fuel, excluded, prefix, 
         pick = max(shortlist, key=lambda c: (c.position, -c.station.price, c.station.source_id))
         chosen.append(pick.station)
         position = pick.position
+        here = detours[pick.station.pk]
         available = TANK * MPG
         slack = slack_per_stop
     return None
@@ -283,9 +288,14 @@ def proposal(road, stations, start, fuel, excluded=frozenset(), mode='progress',
     if inputs is None:
         return []
     candidates, origins = inputs
-    if mode == 'cost':
-        return cost_proposal(road, candidates, origins, start, fuel, excluded)
-    return progress_proposal(road, candidates, origins, start, fuel, excluded, prefix, reach)
+    for margin in OPTIONS['range_margins_miles']:
+        if mode == 'cost':
+            stops = cost_proposal(road, candidates, origins, start, fuel, excluded, margin)
+        else:
+            stops = progress_proposal(road, candidates, origins, start, fuel, excluded, prefix, reach, margin)
+        if stops is not None:
+            return stops
+    return None
 
 
 def unavailable(road, reason):
@@ -421,7 +431,6 @@ def plan(start, finish, fuel, stations):
             road_candidates[id(road)] = nearby(road, stations)
         return road_candidates[id(road)]
 
-    baseline_stops = proposal(baseline_road, stations, start, fuel, candidates_for=candidates_for)
     attempts = 0
 
     def verify(road, stops):
@@ -430,8 +439,6 @@ def plan(start, finish, fuel, stations):
             return unavailable(road, 'INSUFFICIENT_VERIFIED_PRICE_COVERAGE')
         if not stops:
             return evaluate(road, [], fuel) or unavailable(road, 'INSUFFICIENT_VERIFIED_PRICE_COVERAGE')
-        if attempts >= 2:
-            return unavailable(road, 'VERIFICATION_BUDGET_EXHAUSTED')
         attempts += 1
         try:
             actual = route([start] + [[s.latitude, s.longitude] for s in stops] + [finish])[0]
@@ -441,47 +448,65 @@ def plan(start, finish, fuel, stations):
             return unavailable(road, 'VERIFICATION_PROVIDER_FAILURE')
         return evaluate(actual, stops, fuel) or unavailable(actual, 'VERIFICATION_FAILED_OR_INSUFFICIENT_VERIFIED_PRICE_COVERAGE')
 
-    baseline = verify(baseline_road, baseline_stops)
-    repairable = (
-        not baseline['verified']
-        and baseline_stops
-        and attempts < 2
-        and baseline.get('reason') == 'VERIFICATION_FAILED_OR_INSUFFICIENT_VERIFIED_PRICE_COVERAGE'
-    )
-    failure = failed_leg(baseline['road'], baseline_stops, fuel) if repairable else None
-    if failure:
-        index, excess, limit = failure
-        excluded = {baseline_stops[index].pk} if index < len(baseline_stops) else set()
-        repair = proposal(
-            baseline_road, stations, start, fuel,
-            excluded=excluded, prefix=baseline_stops[:index], reach=limit - excess,
-            candidates_for=candidates_for,
-        )
-        if repair is not None and repair != baseline_stops:
-            baseline = verify(baseline_road, repair)
-
-    choices = []
+    choices, seen = [], set()
     for index, road in enumerate(roads):
-        modes = ('cost',) if index == 0 else ('progress', 'cost')
-        for mode in modes:
+        for mode in ('cost', 'progress'):
             stops = proposal(road, stations, start, fuel, mode=mode, candidates_for=candidates_for)
-            if stops is None or (index == 0 and stops == baseline_stops):
+            sequence = None if stops is None else (index, tuple(s.pk for s in stops))
+            if stops is None or sequence in seen:
                 continue
+            seen.add(sequence)
             cost = estimated_cost(road, stops, stations, fuel, start, candidates_for=candidates_for)
-            choices.append((cost, index, mode, road, stops))
-    choices.sort(key=lambda c: (c[0], c[3]['duration_seconds'], c[1], c[2]))
-    alternatives = []
-    tried = {tuple(s.pk for s in baseline_stops)} if baseline_stops else set()
-    for _, _, _, road, stops in choices:
+            choices.append((cost, road['duration_seconds'], index, mode, road, stops))
+    choices.sort(key=lambda c: c[:4])
+    entries, tried, skipped = [], set(), None
+    for _, _, index, _, road, stops in choices:
+        verified = [(i, outcome) for i, outcome in entries if outcome['verified']]
+        if any(outcome['_cost'] == 0 for _, outcome in verified):
+            break
+        if verified and not any(i == 0 for i, _ in verified) and index != 0:
+            continue
+        if any(outcome.get('reason') == 'VERIFICATION_PROVIDER_FAILURE' for _, outcome in entries):
+            break
         sequence = tuple(s.pk for s in stops)
         if sequence and sequence in tried:
             continue
-        if sequence:
-            tried.add(sequence)
-        outcome = verify(road, stops)
-        alternatives.append(outcome)
-        if outcome['verified'] or outcome.get('reason') in ('VERIFICATION_BUDGET_EXHAUSTED', 'VERIFICATION_PROVIDER_FAILURE'):
+        if sequence and attempts >= 2:
+            skipped = road
             break
+        tried.add(sequence)
+        outcome = verify(road, stops)
+        failure = (
+            failed_leg(outcome['road'], stops, fuel)
+            if not outcome['verified'] and stops and attempts < 2
+            and outcome.get('reason') == 'VERIFICATION_FAILED_OR_INSUFFICIENT_VERIFIED_PRICE_COVERAGE'
+            else None
+        )
+        if failure:
+            leg, excess, limit = failure
+            repair = proposal(
+                road, stations, start, fuel,
+                excluded={stops[leg].pk} if leg < len(stops) else set(), prefix=stops[:leg], reach=limit - excess,
+                candidates_for=candidates_for,
+            )
+            repair_sequence = tuple(s.pk for s in repair) if repair else ()
+            if repair and repair_sequence not in tried:
+                tried.add(repair_sequence)
+                outcome = verify(road, repair)
+        entries.append((index, outcome))
+    road_zero = [position for position, (index, _) in enumerate(entries) if index == 0]
+    first = next((position for position in road_zero if entries[position][1]['verified']), road_zero[0] if road_zero else None)
+    if first is not None:
+        baseline = entries[first][1]
+    elif not any(index == 0 for _, _, index, _, _, _ in choices):
+        baseline = unavailable(baseline_road, 'INSUFFICIENT_VERIFIED_PRICE_COVERAGE')
+    elif any(outcome.get('reason') == 'VERIFICATION_PROVIDER_FAILURE' for _, outcome in entries):
+        baseline = unavailable(baseline_road, 'VERIFICATION_PROVIDER_FAILURE')
+    else:
+        baseline = unavailable(baseline_road, 'VERIFICATION_BUDGET_EXHAUSTED')
+    alternatives = [outcome for position, (_, outcome) in enumerate(entries) if position != first]
+    if skipped is not None and not any(outcome['verified'] for outcome in alternatives + [baseline]) and baseline['reason'] != 'VERIFICATION_BUDGET_EXHAUSTED':
+        alternatives.append(unavailable(skipped, 'VERIFICATION_BUDGET_EXHAUSTED'))
     results = [baseline, *alternatives]
     feasible = [r for r in results if r['verified']]
     recommended = min(feasible, key=lambda r: (r['_cost'], r['road']['duration_seconds'], r['road']['distance_miles'])) if feasible else None

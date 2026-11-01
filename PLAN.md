@@ -26,7 +26,7 @@ Roles: Sol lead/review. Luna inspect. Terra implement.
 - Road snapping bounded: endpoints at most 1,000 m, fuel stops at most 100 m. Limits configurable, finite, positive, included in cache identity. Missing nearby road returns coverage error.
 - Coincident coordinates share smallest applicable snapping radius. No endpoint/stop radius mismatch at zero-fuel origin. Station coordinates and snaps do not prove physical access.
 - Native serving uses memory-mapped graph + disables unused route-step dataset. Route geometry remains enabled. This does not establish nationwide preprocessing feasibility.
-- Offline station matching reads local OSM fuel nodes; no Geoapify dependency. Ambiguous or missing identity/address evidence stays unresolved.
+- Offline station matching reads local OSM fuel features; no Geoapify dependency. Ambiguous or missing identity/address evidence stays unresolved.
 - Map: Leaflet + OSM tiles + attribution. Tile requests = browser, disclosed separate.
 
 ## Dataset facts (CSV inspected)
@@ -59,6 +59,7 @@ Roles: Sol lead/review. Luna inspect. Terra implement.
 - Baseline unavailable, alternative verified feasible: return alternative; baseline cost + savings = null.
 - Baseline feasible, alternatives unavailable: return baseline + explicit comparison status.
 - No verified feasible candidate: HTTP 422 with available route information + coverage/verification reason. No executable fuel plan claimed.
+- Coverage accepted 2026-11-01 for submission: 1,214 of 6,626 groups usable. Known limitation. Unresolved groups stay excluded. No nationwide-coverage or global-optimum claim.
 
 ## Baseline + alternatives
 - Baseline = fastest driving route returned by routing engine. Optimize fuel purchases along baseline.
@@ -106,12 +107,12 @@ Roles: Sol lead/review. Luna inspect. Terra implement.
 1. Resolve locations (0 or 1 geocoding call).
 2. Routing call 1: start → finish, request alternatives. Keep baseline + returned alternatives.
 3. Local: find priced station candidates per route (bbox prefilter + route segment grid). Rank routes/stops by estimated cost. Estimated detour factor only for ranking.
-4. Local: propose baseline stops + best alternative stops. Respect initial fuel; safety margin cannot reject already verified feasible 500-mi legs.
-5. Prioritize baseline verification, then best alternative verification. Route each chosen waypoint sequence; recompute purchases from real legs.
+4. Local: propose stops per route, cost mode + progress mode. Try 25-mi range margin first, then 0 margin. Margin = search preference only; never rejects verified feasible 500-mi legs.
+5. Verify cheapest estimated proposal first, any route. Fastest-route proposal verified next only if cheapest verified on other route and call left (comparison). Route each chosen waypoint sequence; recompute purchases from real legs.
 6. Candidate needs no refueling detour: original returned route already supplies verified distances; no extra routing call needed.
 7. Same driven waypoints, only purchases change: local optimizer only. Any driven waypoint change needs new verification.
 8. Max 3 routing calls total. Alternative verification + repair share remaining calls after initial request. Max 1 repair call, only within total budget. Same rule all input types.
-9. Baseline fails verification: use remaining call for repair or best alternative, based on known failure + coverage. Never assume enough calls for baseline, alternative, and repair together.
+9. Proposal fails verification: use remaining call for failed-leg repair on same route, else next cheapest proposal. Never assume enough calls for baseline, alternative, and repair together. Baseline verified + call remain: verify next distinct proposal by estimate; recommend lowest verified cost. Verified $0 purchase: stop search.
 10. Budget exhausted: preserve verified feasible results. Comparison status explains alternative not verified within budget; never publish estimated alternative as executable plan.
 11. Store result in `RoutePlan`; return baseline, recommendation, comparison status, map URL. No feasible result: explicit error + available route information.
 
@@ -163,7 +164,7 @@ Default public demo: max 4 external server calls (1 Census + 3 routing). Local O
 - Keep call budget above.
 
 ## Execution TODO — open work only, dependency order
-- [ ] Assess broader, multibrand source-backed station evidence and obtain coverage acceptance. Current eligible coverage: 356 Love's groups, about 5.4%. Geoapify paused.
+- [ ] Deferred scope: add station-level sources for unresolved groups. Geoapify paused.
 - [ ] Assess station snapping/access beyond the verified regional route. Do not assume all resolved stations are reachable. Preserve zero-fuel no-driving rule and zero arrival reserve until explicitly changed.
 - [ ] Resolve redistribution terms for operator-derived assets before public delivery. Keep local source assets.
 - [ ] Complete GitHub publishing and Loom recording when requested.

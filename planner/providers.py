@@ -9,7 +9,7 @@ import urllib.parse
 import urllib.request
 from django.conf import settings
 from planner.core import cached
-from planner.locations import STATE_NAMES
+from planner.locations import STATE_NAMES, strip_country
 
 _routing_lock = threading.Lock()
 _last_route_request = 0.0
@@ -40,9 +40,7 @@ def request(url, data=None, timeout=20):
         raise ProviderError('External provider unavailable') from exc
 
 def address_fields(address):
-    parts = [part.strip() for part in address.split(',')]
-    if parts and parts[-1].upper() in ('USA', 'US', 'UNITED STATES'):
-        parts.pop()
+    parts = strip_country([part.strip() for part in address.split(',')])
     if len(parts) == 4:
         street, city, state, postal = parts
     elif len(parts) == 3:

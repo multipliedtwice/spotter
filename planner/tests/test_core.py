@@ -121,6 +121,9 @@ class OptimizerTests(SimpleTestCase):
         self.assertIsNone(optimize([501], [], 50))
         self.assertIsNone(optimize([20, 10], [3], 1))
         self.assertAlmostEqual(optimize([0, 12.5], [3], 0)['purchase_cost_usd'], 3.75)
+        self.assertIsNotNone(optimize([0, 480], [3], 0))
+        self.assertIsNone(optimize([0, 480], [3], 0, 47.5))
+        self.assertIsNotNone(optimize([0, 470], [3], 0, 47.5))
 
     def test_polygon_and_hole(self):
         geo = {'type': 'Polygon', 'coordinates': [[[0,0],[5,0],[5,5],[0,5],[0,0]], [[1,1],[2,1],[2,2],[1,2],[1,1]]]}

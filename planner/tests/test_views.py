@@ -110,7 +110,10 @@ class ViewsTests(TestCase):
         self.assertEqual(self.client.get(response.json()['map_url']).status_code, 200)
 
     def test_bad_json_and_nonfinite_coordinates(self):
-        self.assertEqual(self.client.post('/api/routes', '{', content_type='application/json').status_code, 400)
+        for body in ('{', b'\xff\xfe'):
+            response = self.client.post('/api/routes', body, content_type='application/json')
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(response.json()['code'], 'INVALID_REQUEST')
         response = self.post({'start':{'latitude':float('nan'),'longitude':-100},'finish':{'latitude':40,'longitude':-99},'start_fuel_gallons':10})
         self.assertEqual(response.json()['code'], 'INVALID_LOCATION')
         response = self.post({'start':'1 Main, Boston','finish':'Dallas, TX','start_fuel_gallons':10})
@@ -187,13 +190,16 @@ class PlanningTests(TestCase):
         station = self.station('1')
         verified = {**ROAD, 'legs_miles':[30,30]}
         other = self.station('2', lon=-99.4)
+        other.price = 2
         routing.side_effect = [[ROAD, ROAD, ROAD], [verified], [verified]]
         propose.side_effect = [[station], [station], [other], [other], [other], [other]]
-        result = plan([40,-100], [40,-99], 5, [station])
+        result = plan([40,-100], [40,-99], 5, [station, other])
         self.assertEqual(routing.call_count, 3)
         self.assertTrue(result['baseline']['verified'])
         self.assertTrue(result['alternatives'][0]['verified'])
+        self.assertEqual(result['recommended'], result['alternatives'][0])
         self.assertEqual(result['comparison']['status'], 'compared')
+        self.assertGreater(result['comparison']['savings_usd'], 0)
 
     @patch('planner.planning.proposal')
     @patch('planner.planning.route')
@@ -233,18 +239,36 @@ class PlanningTests(TestCase):
         response = self.client.post('/api/routes', json.dumps({'start':'Chicago, Illinois','finish':'Dallas, Texas','start_fuel_gallons':10}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
+    @patch('planner.planning.load_boundary', return_value=BOUNDARY)
+    @patch('planner.planning.census')
+    @patch('planner.planning.route', return_value=[ROAD])
+    def test_trailing_country_is_ignored_for_cities_only(self, routing, geocode, boundary):
+        post = lambda body: self.client.post('/api/routes', json.dumps(body), content_type='application/json')
+        City.objects.create(name='Chicago', state='IL', latitude=40, longitude=-100)
+        City.objects.create(name='Dallas', state='TX', latitude=40, longitude=-99)
+        for start, finish in (('Chicago, IL, U.S.A.', 'Dallas, Texas, United States'), ('Chicago, Illinois, us', 'Dallas, TX, USA')):
+            response = post({'start': start, 'finish': finish, 'start_fuel_gallons': 10})
+            self.assertEqual(response.status_code, 200)
+        City.objects.create(name='Dallas', state='OR', latitude=41, longitude=-99)
+        City.objects.create(name='Chicago', state='MO', latitude=41, longitude=-100)
+        self.assertEqual(post({'start': 'Chicago, USA', 'finish': 'Dallas, TX, USA'}).json()['code'], 'AMBIGUOUS_LOCATION')
+        geocode.return_value = [[40, -100], [40, -99]]
+        response = post({'start': '1 Main St, Chicago, IL 60601, USA', 'finish': '2 Elm St, Dallas, TX, USA', 'start_fuel_gallons': 10})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(geocode.call_args.args[0], ['1 Main St, Chicago, IL 60601, USA', '2 Elm St, Dallas, TX, USA'])
+
     @patch('planner.planning.proposal')
     @patch('planner.planning.route')
     def test_repair_consumes_remaining_budget(self, routing, propose):
         first = self.station('1')
         second = self.station('2', lon=-99.4)
         bad = {**ROAD, 'legs_miles':[510, 10], 'distance_miles':520}
-        good = {**ROAD, 'legs_miles':[30, 30]}
-        routing.side_effect = [[ROAD, ROAD], [bad], [good]]
-        propose.side_effect = [[first], [second], [first], [first, second], [first, second]]
+        still_bad = {**ROAD, 'legs_miles':[510, 10, 10], 'distance_miles':530}
+        routing.side_effect = [[ROAD, ROAD], [bad], [still_bad]]
+        propose.side_effect = [[first], [first], [second], [second], [first, second]]
         result = plan([40,-100], [40,-99], 50, [first, second])
         self.assertEqual(routing.call_count, 3)
-        self.assertTrue(result['baseline']['verified'])
+        self.assertFalse(result['baseline']['verified'])
         self.assertEqual(result['alternatives'][0]['reason'], 'VERIFICATION_BUDGET_EXHAUSTED')
         self.assertIn('VERIFICATION_BUDGET_EXHAUSTED', result['reasons'])
 

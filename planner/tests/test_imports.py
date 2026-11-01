@@ -101,6 +101,9 @@ class ImportTests(TestCase):
             with override_settings(BASE_DIR=Path(directory)):
                 write(row); call_command('load_data', 'evidence', str(path), verbosity=0)
                 station.refresh_from_db(); self.assertEqual(station.latitude, 40)
+                row[8] = 'https://www.openstreetmap.org/node/123'
+                write(row); call_command('load_data', 'evidence', str(path), verbosity=0)
+                station.refresh_from_db(); self.assertEqual(station.latitude, 40)
                 row[7] = 'US 44 EXIT 283'
                 write(row); call_command('load_data', 'evidence', str(path), verbosity=0)
                 station.refresh_from_db(); self.assertIsNone(station.latitude)
