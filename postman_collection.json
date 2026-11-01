@@ -20,7 +20,7 @@
             "value": "application/json"
           }
         ],
-        "description": "Primary demo. City inputs, starting fuel 20 gallons (valued at $0). Live check 2026-11-01 on public OSRM with bundled evidence: 1,452.8 miles, three purchases, 125.28 gallons, $417.56 fuel purchased. Baseline verified; alternative unavailable within routing budget, so savings are null. Import bundled station evidence first; rerun before recording.",
+        "description": "Primary demo. City inputs, starting fuel 20 gallons (valued at $0). Show distance_miles, purchase_cost_usd, fuel_stops, recommended, comparison and map_url. Import bundled station evidence first; results depend on live road and station data.",
         "url": "{{baseUrl}}/api/routes",
         "body": {
           "mode": "raw",

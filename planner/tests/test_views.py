@@ -519,6 +519,45 @@ class PlanningTests(TestCase):
         self.assertEqual(hash_data.call_count, 1)
         self.assertEqual(routing.call_count, 1)
 
+    @patch('planner.planning.load_boundary', return_value=BOUNDARY)
+    @patch('planner.planning.route', return_value=[ROAD])
+    def test_plan_cache_hit_does_not_load_all_stations(self, routing, boundary):
+        from django.db import connection
+        from django.test.utils import CaptureQueriesContext
+        self.station('1')
+        self.station('2', lat=41)
+        body = {'start': {'latitude': 40, 'longitude': -100}, 'finish': {'latitude': 40, 'longitude': -99}, 'start_fuel_gallons': 10}
+        first = self.client.post('/api/routes', json.dumps(body), content_type='application/json')
+        with CaptureQueriesContext(connection) as queries:
+            second = self.client.post('/api/routes', json.dumps(body), content_type='application/json')
+        self.assertEqual(second.json()['plan_id'], first.json()['plan_id'])
+        self.assertEqual(routing.call_count, 1)
+        unbounded = [q['sql'] for q in queries if 'planner_station' in q['sql'] and 'BETWEEN' not in q['sql'] and 'source_id" =' not in q['sql']]
+        self.assertEqual(unbounded, [])
+
+    @patch('planner.planning.load_boundary', return_value=BOUNDARY)
+    @patch('planner.planning.route', side_effect=lambda points, alternatives=False: [{**ROAD, 'legs_miles': [0.0] * (len(points) - 2) + [60]}])
+    def test_station_id_zero_fuel_cache_hit_keeps_normalization_without_full_station_load(self, routing, boundary):
+        from django.db import connection
+        from django.test.utils import CaptureQueriesContext
+        self.station('1')
+        self.station('2', lat=41)
+        body = {'start': {'station_id': '1'}, 'finish': {'latitude': 40, 'longitude': -99}, 'start_fuel_gallons': 0}
+        first = self.client.post('/api/routes', json.dumps(body), content_type='application/json')
+        self.assertEqual(first.status_code, 200)
+        self.assertEqual(first.json()['fuel_stops'][0]['station_id'], '1')
+        calls = routing.call_count
+        with CaptureQueriesContext(connection) as queries:
+            second = self.client.post('/api/routes', json.dumps(body), content_type='application/json')
+        self.assertEqual(second.status_code, 200)
+        self.assertEqual(second.json()['plan_id'], first.json()['plan_id'])
+        self.assertEqual(routing.call_count, calls)
+        station_sql = [q['sql'] for q in queries if 'planner_station' in q['sql']]
+        unbounded = [sql for sql in station_sql if 'BETWEEN' not in sql and 'source_id" =' not in sql]
+        self.assertEqual(unbounded, [])
+        self.assertTrue(any('source_id" =' in sql for sql in station_sql))
+        self.assertTrue(any('BETWEEN' in sql for sql in station_sql))
+
     @patch('planner.views.plan')
     @patch('planner.views.resolve_locations')
     def test_station_id_is_refreshed_from_same_snapshot_as_dataset(self, resolve, planning):

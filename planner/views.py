@@ -34,34 +34,35 @@ def create_route(request):
             raise InputError('INVALID_FUEL', 'Starting fuel must be between 0 and 50 gallons.')
         value = float(value)
         start, finish = resolve_locations([body['start'], body['finish']])
+        located = Station.objects.filter(latitude__isnull=False, longitude__isnull=False)
         with transaction.atomic():
             dataset = station_dataset_digest()
-            stations = list(Station.objects.filter(latitude__isnull=False, longitude__isnull=False).order_by('pk'))
             resolved = [start, finish]
             for index, location in enumerate((body['start'], body['finish'])):
                 if isinstance(location, dict) and 'station_id' in location:
-                    matches = [station for station in stations if station.source_id == str(location['station_id'])]
+                    matches = list(located.filter(source_id=str(location['station_id'])))
                     if len(matches) != 1:
                         raise InputError('UNRESOLVABLE_LOCATION', 'Station ID must identify one verified station.')
                     point = [matches[0].latitude, matches[0].longitude]
                     if point != resolved[index]:
                         resolved[index] = resolve_locations([location, location])[0]
             start, finish = resolved
-        if value == 0:
-            matches = [(distance(start, [station.latitude, station.longitude]), station) for station in stations]
-            matches = [(miles, station) for miles, station in matches if miles < 1e-6]
-            if not matches:
-                raise InputError('ZERO_FUEL_ORIGIN_NOT_STATION', 'Zero starting fuel requires a verified station at the origin.')
-            nearest = min(miles for miles, _ in matches)
-            closest = [station for miles, station in matches if miles == nearest]
-            locations = {(station.latitude, station.longitude) for station in closest}
-            if len(locations) > 1:
-                raise InputError('AMBIGUOUS_ZERO_FUEL_ORIGIN', 'Choose a station at the origin.', candidates=[{'station_id': station.source_id, 'location': {'latitude': station.latitude, 'longitude': station.longitude}} for station in closest])
-            start = list(next(iter(locations)))
-        cache_key = key([start, finish, value, dataset, planning_settings()])
-        previous = RoutePlan.objects.filter(cache_key=cache_key, created__gt=timezone.now()-timedelta(hours=24)).order_by('-created').first()
-        if previous and cacheable_plan(previous.result):
-            return JsonResponse(previous.result, status=200 if previous.result['recommended'] else 422)
+            if value == 0:
+                matches = [(distance(start, [station.latitude, station.longitude]), station) for station in located.filter(latitude__range=(start[0] - 0.01, start[0] + 0.01)).order_by('pk')]
+                matches = [(miles, station) for miles, station in matches if miles < 1e-6]
+                if not matches:
+                    raise InputError('ZERO_FUEL_ORIGIN_NOT_STATION', 'Zero starting fuel requires a verified station at the origin.')
+                nearest = min(miles for miles, _ in matches)
+                closest = [station for miles, station in matches if miles == nearest]
+                locations = {(station.latitude, station.longitude) for station in closest}
+                if len(locations) > 1:
+                    raise InputError('AMBIGUOUS_ZERO_FUEL_ORIGIN', 'Choose a station at the origin.', candidates=[{'station_id': station.source_id, 'location': {'latitude': station.latitude, 'longitude': station.longitude}} for station in closest])
+                start = list(next(iter(locations)))
+            cache_key = key([start, finish, value, dataset, planning_settings()])
+            previous = RoutePlan.objects.filter(cache_key=cache_key, created__gt=timezone.now()-timedelta(hours=24)).order_by('-created').first()
+            if previous and cacheable_plan(previous.result):
+                return JsonResponse(previous.result, status=200 if previous.result['recommended'] else 422)
+            stations = list(located.order_by('pk'))
         result = plan(start, finish, value, stations)
         plan_id = uuid.uuid4()
         result['plan_id'] = str(plan_id)
