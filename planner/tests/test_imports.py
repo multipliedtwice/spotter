@@ -172,15 +172,18 @@ class ImportTests(TestCase):
         station.refresh_from_db()
         self.assertEqual((station.latitude, station.longitude), (40, -100))
 
-    def test_bundled_gazetteer_points_for_boston_and_san_francisco_are_in_us(self):
+    def test_bundled_gazetteer_overrides_are_in_us(self):
         from django.conf import settings
         from planner.core import in_us, load_boundary
         from planner.planning import resolve_locations
+        places = {('Boston', 'MA'), ('San Francisco', 'CA'), ('Chignik', 'AK'), ('Klawock', 'AK'), ('Valdez', 'AK'), ('Coronado', 'CA'), ('Manhattan Beach', 'CA'), ('Monterey', 'CA'), ('Santa Monica', 'CA'), ('South San Francisco', 'CA'), ('Niantic', 'CT'), ('Stonington', 'CT'), ('Tokeneke', 'CT'), ('Atlantic Beach', 'FL'), ('Dunedin', 'FL'), ('Neptune Beach', 'FL'), ('Yankeetown', 'FL'), ('Portland', 'ME'), ('Grand Marais', 'MI'), ('Keansburg', 'NJ'), ('Ocracoke', 'NC')}
         boundary = load_boundary(settings.BASE_DIR / 'data/us_boundary.geojson')
         with (settings.BASE_DIR / 'data/gazetteer.csv').open(newline='') as stream:
-            rows = [r for r in csv.DictReader(stream) if (r['name'], r['state']) in {('Boston', 'MA'), ('San Francisco', 'CA')}]
-        self.assertEqual(len(rows), 2)
+            rows = [r for r in csv.DictReader(stream) if (r['name'], r['state']) in places]
+        self.assertEqual({(r['name'], r['state']) for r in rows}, places)
+        self.assertEqual(len(rows), len(places))
         for row in rows:
             self.assertTrue(in_us([float(row['latitude']), float(row['longitude'])], boundary), row['name'])
         City.objects.bulk_create([City(name=r['name'], state=r['state'], latitude=float(r['latitude']), longitude=float(r['longitude'])) for r in rows])
-        self.assertEqual(len(resolve_locations(['Boston, MA', 'San Francisco, CA'])[0]), 2)
+        for name, state in places:
+            self.assertEqual(resolve_locations([f'{name}, {state}', 'Boston, MA'])[0], next([float(r['latitude']), float(r['longitude'])] for r in rows if (r['name'], r['state']) == (name, state)))

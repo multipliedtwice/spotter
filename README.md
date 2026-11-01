@@ -63,7 +63,7 @@ Dallas, TX to Los Angeles, CA, starting fuel 20 gallons, public OSRM, bundled ev
 - Prices are a snapshot (the source has no date): median per station ID and location, USD per gallon. Each stop charge rounds half up to cents.
 - Station coverage: only 356 of 6,626 US station groups (all Love's, 41 states) have verified coordinates and take part in planning. Missing coverage does not mean no station exists. Provenance: [data/SOURCES.md](data/SOURCES.md).
 - Stop search is a bounded heuristic with no global-optimum claim; waypoint routes are verified with the returned road legs.
-- City lookup uses Census gazetteer points. Boston and San Francisco points were replaced with Census Geocoder city hall matches. 19 other coastal places (for example Portland ME, Santa Monica CA, Monterey CA) still have points outside the boundary and return `OUTSIDE_USA`; use coordinates or a street address.
+- City lookup uses Census gazetteer points. 21 coastal places whose Census point lies in water use Census Geocoder (Boston, San Francisco) or USGS GNIS points instead; see [data/SOURCES.md](data/SOURCES.md).
 - Calls per uncached request: 1 to 3 OSRM routing requests, plus 1 Census batch call for street addresses. Coordinates and local city lookups make no geocoding call.
 - The plan cache expires and is invalidated by station-data and settings changes; see [docs/routing.md](docs/routing.md). OSRM settings are documented there too.
 
