@@ -1,6 +1,7 @@
 # Source assets
 
 - `gazetteer.csv`: US Census 2026 National Places Gazetteer. Representative city points; never station points. Puerto Rico excluded. Geographic-name suffixes removed for city lookup.
+  Override: Boston MA and San Francisco CA. Census points (42.332735,-71.013513 and 37.727239,-123.032229) sit in water outside cartographic boundary. Replaced with Census Geocoder city hall address matches (Public_AR_Current, checked 2026-11-01): 1 CITY HALL AVE Boston -> 42.357793,-71.059196; 1 DR CARLTON P GOODLETT PL San Francisco -> 37.778536,-122.41831.
   Source: https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2026_Gazetteer/2026_Gaz_place_national.zip
 - `us_boundary.geojson`: US Census 2025 state cartographic boundaries, 1:500,000 KML converted to GeoJSON. 50 states + DC. Territory features excluded. Generalized boundary; near-border/coast precision limited.
   Source: https://www2.census.gov/geo/tiger/GENZ2025/kml/cb_2025_us_state_500k.zip

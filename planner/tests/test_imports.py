@@ -137,3 +137,50 @@ class ImportTests(TestCase):
                 station.refresh_from_db()
                 self.assertEqual(station.evidence, {'source': 'old'})
                 self.assertEqual(station.latitude, 30.5)
+
+    def evidence_setup(self, directory, rows):
+        import json
+        from pathlib import Path
+        root = Path(directory)
+        (root / 'data').mkdir()
+        (root / 'data/us_boundary.geojson').write_text(json.dumps({'type': 'FeatureCollection', 'features': [{'type': 'Feature', 'properties': {'STUSPS': 'TX'}, 'geometry': {'type': 'Polygon', 'coordinates': [[[-125, 24], [-66, 24], [-66, 50], [-125, 50], [-125, 24]]]}}]}))
+        path = root / 'evidence.csv'
+        with path.open('w', newline='') as stream:
+            writer = csv.writer(stream)
+            writer.writerow(['station_id', 'address', 'city', 'state', 'latitude', 'longitude', 'matched_name', 'matched_address', 'source'])
+            writer.writerows([['1', '10 MAIN ST', 'TOWN', 'TX', lat, lon, 'PILOT #12', '10 MAIN ST', 'https://example.test'] for lat, lon in rows])
+        return root, path
+
+    def test_conflicting_duplicate_evidence_rows_rejected(self):
+        from django.core.management.base import CommandError
+        from django.test import override_settings
+        station = Station.objects.create(source_id='1', name='PILOT #12', address='10 MAIN ST', city='TOWN', state='TX', rows=[{'Truckstop Name': 'PILOT #12'}], price=3, price_min=3, price_max=3, latitude=30.5, longitude=-100.5, evidence={'source': 'old'})
+        with tempfile.TemporaryDirectory() as directory:
+            root, path = self.evidence_setup(directory, [(40, -100), (41, -101)])
+            with override_settings(BASE_DIR=root), self.assertRaisesMessage(CommandError, '1|10 MAIN ST|TOWN|TX'):
+                call_command('load_data', 'evidence', str(path), verbosity=0)
+        station.refresh_from_db()
+        self.assertEqual((station.latitude, station.longitude, station.evidence), (30.5, -100.5, {'source': 'old'}))
+
+    def test_identical_duplicate_evidence_rows_import(self):
+        from django.test import override_settings
+        station = Station.objects.create(source_id='1', name='PILOT #12', address='10 MAIN ST', city='TOWN', state='TX', rows=[{'Truckstop Name': 'PILOT #12'}], price=3, price_min=3, price_max=3)
+        with tempfile.TemporaryDirectory() as directory:
+            root, path = self.evidence_setup(directory, [(40, -100), ('40.0', '-100.0')])
+            with override_settings(BASE_DIR=root):
+                call_command('load_data', 'evidence', str(path), verbosity=0)
+        station.refresh_from_db()
+        self.assertEqual((station.latitude, station.longitude), (40, -100))
+
+    def test_bundled_gazetteer_points_for_boston_and_san_francisco_are_in_us(self):
+        from django.conf import settings
+        from planner.core import in_us, load_boundary
+        from planner.planning import resolve_locations
+        boundary = load_boundary(settings.BASE_DIR / 'data/us_boundary.geojson')
+        with (settings.BASE_DIR / 'data/gazetteer.csv').open(newline='') as stream:
+            rows = [r for r in csv.DictReader(stream) if (r['name'], r['state']) in {('Boston', 'MA'), ('San Francisco', 'CA')}]
+        self.assertEqual(len(rows), 2)
+        for row in rows:
+            self.assertTrue(in_us([float(row['latitude']), float(row['longitude'])], boundary), row['name'])
+        City.objects.bulk_create([City(name=r['name'], state=r['state'], latitude=float(r['latitude']), longitude=float(r['longitude'])) for r in rows])
+        self.assertEqual(len(resolve_locations(['Boston, MA', 'San Francisco, CA'])[0]), 2)

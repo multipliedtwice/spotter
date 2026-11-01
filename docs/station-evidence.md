@@ -47,7 +47,7 @@ Requires operator Love's store flag, source Love's name and store number, matchi
 
 ## Offline OSM station evidence
 
-Optional dependency: `python -m pip install --only-binary=:all: -r requirements-osm.txt`. Import source stations first. Supply an existing local PBF; no network requests. Run only after resource and disk preflight.
+Install OSM resolver requirements, including `osmium==4.3.2`, with `python -m pip install --only-binary=:all: -r requirements-osm.txt`. Import source stations first. Supply an existing local PBF; no network requests. Run only after resource and disk preflight.
 
 ```sh
 python manage.py resolve_osm --pbf local/osrm/region.osm.pbf --output local/osm/evidence.csv --unresolved local/osrm/unresolved.csv

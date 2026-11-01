@@ -14,11 +14,35 @@ class SearchTests(SimpleTestCase):
     def test_coverage_is_distributed_over_route(self):
         stations = [self.make_station(i+1, i*5, 3) for i in range(201)]
         results = nearby(self.road(), stations)
-        self.assertLessEqual(len(results), 150)
+        self.assertEqual(len(results), 201)
         self.assertGreater(max(c[0] for c in results), 990)
         stops = proposal(self.road(), stations, [0,0], 50)
         self.assertIsNotNone(stops)
         self.assertTrue(any(s.longitude > 5 for s in stops))
+
+    def pruning_case(self):
+        stations = [self.make_station(1, 99, 4.0), self.make_station(2, 103, 2.0)]
+        stations += [self.make_station(i + 3, 140 + i * 2.8, 3.0) for i in range(160)]
+        return stations
+
+    def test_only_reachable_station_survives_with_many_candidates(self):
+        road, stations = self.road(600), self.pruning_case()
+        self.assertGreater(len(stations), 150)
+        for mode in ('progress', 'cost'):
+            stops = proposal(road, stations, [0, 0], 10, mode=mode)
+            self.assertIsNotNone(stops)
+            self.assertEqual(stops[0].source_id, '1' if mode == 'cost' else '2')
+
+    def test_plan_feasible_with_many_candidates(self):
+        stations = self.pruning_case()
+        def routing(points, alternatives=False):
+            if alternatives:
+                return [self.road(600)]
+            legs = [(abs(b[1]-a[1]) + abs(b[0]-a[0]))*100 for a,b in zip(points,points[1:])]
+            return [{**self.road(sum(legs)), 'legs_miles': legs, 'duration_seconds': sum(legs)*60}]
+        with patch('planner.planning.route', side_effect=routing):
+            result = plan([0,0],[0,6],10,stations)
+        self.assertIsNotNone(result['recommended']['purchase_cost_usd'])
 
     def test_longer_cheaper_verified_alternative(self):
         stations = [self.make_station(1, 490, 5), self.make_station(2, 350, 2), self.make_station(3, 840, 5), self.make_station(4, 700, 2)]

@@ -104,6 +104,16 @@ class Command(BaseCommand):
                     raise ValueError('Missing state feature')
             except (OSError, UnicodeError, ValueError, KeyError, TypeError) as exc:
                 raise CommandError('Valid state boundary features required for evidence import.') from exc
+            coordinates = defaultdict(set)
+            for row in rows:
+                try:
+                    point = (float(row['latitude']), float(row['longitude']))
+                except (ValueError, TypeError, KeyError):
+                    point = (str(row.get('latitude', '')).strip(), str(row.get('longitude', '')).strip())
+                coordinates[(row['station_id'].strip(), norm(row['address']), norm(row['city']), norm(row['state']))].add(point)
+            conflicts = sorted(key for key, points in coordinates.items() if len(points) > 1)
+            if conflicts:
+                raise CommandError('Conflicting evidence coordinates for station groups: ' + '; '.join('|'.join(key) for key in conflicts))
             Station.objects.update(latitude=None, longitude=None, evidence={})
             accepted = 0
             for row in rows:

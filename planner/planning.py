@@ -13,10 +13,9 @@ from planner.providers import census, route, route_settings, ProviderError, Rout
 OPTIONS = {
     'tank': TANK,
     'mpg': MPG,
-    'candidate_limit': 150,
     'repair_limit': 1,
     'comparison': 'cost-duration-distance-v1',
-    'strategy': 'progress-cost-v9',
+    'strategy': 'progress-cost-v10',
     'simplify_tolerance': SIMPLIFY_TOLERANCE,
     'response': 'start-fuel-cost-basis-v2',
 }
@@ -186,21 +185,7 @@ def nearby(road, stations):
             position = (best[1]/length * road['distance_miles']) if length else 0
             candidates.append(Candidate(position, best[0], station))
     candidates.sort(key=lambda item: (item.position, item.station.source_id))
-    limit = OPTIONS['candidate_limit']
-    if len(candidates) <= limit:
-        return candidates
-    buckets = {}
-    width = max(road['distance_miles'] / (limit // 2), 0.001)
-    for candidate in candidates:
-        bucket = min(limit // 2 - 1, int(candidate.position / width))
-        buckets.setdefault(bucket, []).append(candidate)
-    selected = []
-    for group in buckets.values():
-        selected.append(min(group, key=lambda c: (c.station.price, c.position, c.station.source_id)))
-        furthest = max(group, key=lambda c: (c.position, c.station.source_id))
-        if furthest != selected[-1]:
-            selected.append(furthest)
-    return sorted(selected, key=lambda c: (c.position, c.station.source_id))
+    return candidates
 
 
 def is_origin(station, start, fuel):
