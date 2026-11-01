@@ -107,7 +107,7 @@ Roles: Sol lead/review. Luna inspect. Terra implement.
 1. Resolve locations (0 or 1 geocoding call).
 2. Routing call 1: start → finish, request alternatives. Keep baseline + returned alternatives.
 3. Local: find priced station candidates per route (bbox prefilter + route segment grid). Rank routes/stops by estimated cost. Estimated detour factor only for ranking.
-4. Local: propose stops per route, cost mode + progress mode. Try 25-mi range margin first, then 0 margin. Margin = search preference only; never rejects verified feasible 500-mi legs.
+4. Local: propose stops per route, cost mode + progress mode. Each margin (25 mi, 0 mi) yields own variant; distinct variants all ranked by estimate. Repair uses first feasible margin. Margin = search preference only; never rejects verified feasible 500-mi legs.
 5. Verify cheapest estimated proposal first, any route. Fastest-route proposal verified next only if cheapest verified on other route and call left (comparison). Route each chosen waypoint sequence; recompute purchases from real legs.
 6. Candidate needs no refueling detour: original returned route already supplies verified distances; no extra routing call needed.
 7. Same driven waypoints, only purchases change: local optimizer only. Any driven waypoint change needs new verification.

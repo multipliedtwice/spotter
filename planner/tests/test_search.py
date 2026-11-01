@@ -2,7 +2,8 @@ from unittest.mock import patch
 from django.test import SimpleTestCase
 from planner.models import Station
 from planner.core import simplify
-from planner.planning import estimated_cost, evaluate, nearby, plan, proposal
+from planner.tests.helpers import variants
+from planner.planning import estimated_cost, evaluate, nearby, plan, proposal, proposals
 
 class SearchTests(SimpleTestCase):
     def make_station(self, number, mile, price):
@@ -63,7 +64,9 @@ class SearchTests(SimpleTestCase):
         self.assertEqual([stop['station_id'] for stop in result['baseline']['stops']], ['2', '4'])
         self.assertGreater(result['baseline']['road']['distance_miles'], 1000)
         self.assertEqual(result['recommended'], result['baseline'])
-        self.assertEqual(result['alternatives'], [])
+        self.assertEqual([(item['verified'], [stop['station_id'] for stop in item['stops']]) for item in result['alternatives']], [(True, ['1', '3'])])
+        self.assertGreater(result['alternatives'][0]['purchase_cost_usd'], result['baseline']['purchase_cost_usd'])
+        self.assertEqual(result['comparison']['savings_usd'], 0.0)
 
     def test_nearby_scan_skipped_when_starting_fuel_suffices(self):
         stations = [self.make_station(1, 50, 3)]
@@ -99,6 +102,27 @@ class SearchTests(SimpleTestCase):
         self.assertEqual(result['recommended'], baseline)
         self.assertEqual([item['purchase_cost_usd'] > baseline['purchase_cost_usd'] for item in result['alternatives'] if item['verified']], [True])
         self.assertEqual(result['comparison']['savings_usd'], 0.0)
+
+    def test_zero_margin_variant_avoids_extra_detour_stop(self):
+        cheap = self.make_station(1, 100, 2)
+        detour = self.make_station(2, 200, 5)
+        detour.latitude = 0.045
+        stations = [cheap, detour]
+        road = self.road(600)
+        variants = proposals(road, stations, [0, 0], 50, mode='cost')
+        self.assertEqual([[s.source_id for s in stops] for stops in variants], [['1', '2'], ['1']])
+        calls = []
+        def routing(points, alternatives=False):
+            calls.append(points)
+            if alternatives:
+                return [road]
+            legs = [(abs(b[1] - a[1]) + abs(b[0] - a[0])) * 100 for a, b in zip(points, points[1:])]
+            return [{**self.road(sum(legs)), 'legs_miles': legs}]
+        with patch('planner.planning.route', side_effect=routing):
+            result = plan([0, 0], [0, 6], 50, stations)
+        self.assertLessEqual(len(calls), 3)
+        self.assertEqual([stop['station_id'] for stop in result['recommended']['stops']], ['1'])
+        self.assertEqual(result['recommended']['purchase_cost_usd'], 20.0)
 
     def test_origin_station_and_exact_range(self):
         origin = self.make_station(1, 0, 3)
@@ -158,7 +182,7 @@ class SearchTests(SimpleTestCase):
         by_id = {s.pk: s for s in stations}
         outcomes = [None if p is None else [by_id[i] for i in p] for p in proposals]
         costs = costs or [index + 1 for index, p in enumerate(proposals[:4]) if p is not None]
-        with patch('planner.planning.proposal', side_effect=outcomes), patch('planner.planning.estimated_cost', side_effect=costs), patch('planner.planning.route', side_effect=[roads, *routes]) as routing:
+        with patch('planner.planning.proposals', side_effect=variants(outcomes)), patch('planner.planning.estimated_cost', side_effect=costs), patch('planner.planning.route', side_effect=[roads, *routes]) as routing:
             result = plan([0, 0], [0, 1], fuel, stations)
         return result, routing
 

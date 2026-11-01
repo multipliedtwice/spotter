@@ -5,6 +5,7 @@ from django.test import TestCase
 from planner.models import City, RoutePlan, Station
 from planner.planning import plan
 from planner.providers import ProviderError
+from planner.tests.helpers import variants
 
 ROAD = {'geometry': {'type':'LineString', 'coordinates':[[-100, 40], [-99,40]]}, 'distance_miles': 60, 'duration_seconds': 3600, 'legs_miles': [60]}
 BOUNDARY = {'type':'Polygon', 'coordinates': [[[-125,24],[-66,24],[-66,50],[-125,50],[-125,24]]]}
@@ -184,7 +185,7 @@ class PlanningTests(TestCase):
     def station(self, source_id, lat=40, lon=-99.5):
         return Station.objects.create(source_id=source_id, name='EXAMPLE #1', address='10 MAIN', city='TOWN', state='TX', rows=[], price=3, price_min=3, price_max=3, latitude=lat, longitude=lon, evidence={'source':'test'})
 
-    @patch('planner.planning.proposal')
+    @patch('planner.planning.proposals')
     @patch('planner.planning.route')
     def test_two_verifications_share_three_call_budget(self, routing, propose):
         station = self.station('1')
@@ -192,7 +193,7 @@ class PlanningTests(TestCase):
         other = self.station('2', lon=-99.4)
         other.price = 2
         routing.side_effect = [[ROAD, ROAD, ROAD], [verified], [verified]]
-        propose.side_effect = [[station], [station], [other], [other], [other], [other]]
+        propose.side_effect = variants([[station], [station], [other], [other], [other], [other]])
         result = plan([40,-100], [40,-99], 5, [station, other])
         self.assertEqual(routing.call_count, 3)
         self.assertTrue(result['baseline']['verified'])
@@ -201,13 +202,13 @@ class PlanningTests(TestCase):
         self.assertEqual(result['comparison']['status'], 'compared')
         self.assertGreater(result['comparison']['savings_usd'], 0)
 
-    @patch('planner.planning.proposal')
+    @patch('planner.planning.proposals')
     @patch('planner.planning.route')
     def test_unavailable_baseline_and_feasible_alternative(self, routing, propose):
         station = self.station('1')
         verified = {**ROAD, 'legs_miles':[30,30]}
         routing.side_effect = [[ROAD, ROAD], [verified]]
-        propose.side_effect = [None, None, [station], [station]]
+        propose.side_effect = variants([None, None, [station], [station]])
         result = plan([40,-100], [40,-99], 5, [station])
         self.assertFalse(result['baseline']['verified'])
         self.assertTrue(result['recommended']['verified'])
@@ -257,7 +258,7 @@ class PlanningTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(geocode.call_args.args[0], ['1 Main St, Chicago, IL 60601, USA', '2 Elm St, Dallas, TX, USA'])
 
-    @patch('planner.planning.proposal')
+    @patch('planner.planning.proposals')
     @patch('planner.planning.route')
     def test_repair_consumes_remaining_budget(self, routing, propose):
         first = self.station('1')
@@ -265,19 +266,19 @@ class PlanningTests(TestCase):
         bad = {**ROAD, 'legs_miles':[510, 10], 'distance_miles':520}
         still_bad = {**ROAD, 'legs_miles':[510, 10, 10], 'distance_miles':530}
         routing.side_effect = [[ROAD, ROAD], [bad], [still_bad]]
-        propose.side_effect = [[first], [first], [second], [second], [first, second]]
+        propose.side_effect = variants([[first], [first], [second], [second], [first, second]])
         result = plan([40,-100], [40,-99], 50, [first, second])
         self.assertEqual(routing.call_count, 3)
         self.assertFalse(result['baseline']['verified'])
         self.assertEqual(result['alternatives'][0]['reason'], 'VERIFICATION_BUDGET_EXHAUSTED')
         self.assertIn('VERIFICATION_BUDGET_EXHAUSTED', result['reasons'])
 
-    @patch('planner.planning.proposal')
+    @patch('planner.planning.proposals')
     @patch('planner.planning.route')
     def test_waypoint_provider_failure(self, routing, propose):
         first = self.station('1')
         routing.side_effect = [[ROAD], ProviderError('failed')]
-        propose.side_effect = [[first], None, [first]]
+        propose.side_effect = variants([[first], None, [first]])
         result = plan([40,-100], [40,-99], 1, [first])
         self.assertEqual(result['status'], 'PROVIDER_FAILURE')
         self.assertEqual(result['baseline']['reason'], 'VERIFICATION_PROVIDER_FAILURE')
@@ -300,13 +301,13 @@ class PlanningTests(TestCase):
         self.assertEqual(response.json()['code'], 'ROUTING_COVERAGE_UNAVAILABLE')
         self.assertEqual(response.json()['message'], 'No drivable route found in loaded road data')
 
-    @patch('planner.planning.proposal')
+    @patch('planner.planning.proposals')
     @patch('planner.planning.route')
     def test_waypoint_coverage_retains_road(self, routing, propose):
         from planner.providers import RouteCoverageError
         station = self.station('1')
         routing.side_effect = [[ROAD], RouteCoverageError('No drivable route found in loaded road data')]
-        propose.side_effect = [[station], None, [station]]
+        propose.side_effect = variants([[station], None, [station]])
         result = plan([40,-100], [40,-99], 1, [station])
         self.assertEqual(result['status'], 'ROUTING_COVERAGE_UNAVAILABLE')
         self.assertEqual(result['code'], 'ROUTING_COVERAGE_UNAVAILABLE')
@@ -314,7 +315,7 @@ class PlanningTests(TestCase):
         self.assertEqual(result['geometries'][result['baseline']['road']['geometry_id']]['coordinates'], ROAD['geometry']['coordinates'])
         self.assertIsNone(result['baseline']['purchase_cost_usd'])
 
-    @patch('planner.planning.proposal')
+    @patch('planner.planning.proposals')
     @patch('planner.planning.route')
     def test_waypoint_coverage_allows_verified_alternative(self, routing, propose):
         from planner.providers import RouteCoverageError
@@ -322,7 +323,7 @@ class PlanningTests(TestCase):
         verified = {**ROAD, 'legs_miles':[30,30]}
         other = self.station('2', lon=-99.4)
         routing.side_effect = [[ROAD, ROAD], RouteCoverageError('No drivable route found in loaded road data'), [verified]]
-        propose.side_effect = [[station], None, [other], [other], [other]]
+        propose.side_effect = variants([[station], None, [other], [other], [other]])
         result = plan([40,-100], [40,-99], 5, [station])
         self.assertEqual(result['baseline']['reason'], 'ROUTING_COVERAGE_UNAVAILABLE')
         self.assertTrue(result['recommended']['verified'])

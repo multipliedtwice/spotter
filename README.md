@@ -55,7 +55,7 @@ Status codes:
 
 ## Example
 
-Dallas, TX to Los Angeles, CA, starting fuel 20 gallons, public OSRM, bundled evidence imported. Live check on 2026-11-01: 1,453.6 miles, about 25.3 hours, four purchase stops (QuikTrip Abilene TX, Circle K El Paso TX, QuikTrip Tucson AZ, Flyers Phoenix AZ), 125.36 gallons, $368.39 of fuel purchased. The remaining routing call verified a second proposal at $386.38, so the fastest-road plan stays recommended; comparison is `compared` with savings $0. Three routing calls; about 6.4 s uncached, 0.3 s cached. Results change with road and station data.
+Dallas, TX to Los Angeles, CA, starting fuel 20 gallons, public OSRM, bundled evidence imported. Live check on 2026-11-01: the fastest-road plan verified at 1,453.6 miles and $368.39. The remaining routing call verified a second proposal with the same four purchase stops (QuikTrip Abilene TX, Circle K El Paso TX, QuikTrip Tucson AZ, Flyers Phoenix AZ) and one fewer pass-through waypoint: 1,453.4 miles, about 25.3 hours, 125.34 gallons, $368.34. It is recommended; comparison is `compared` with savings $0.05. Up to three routing calls; uncached time depends on OSRM latency and the 1 request/second throttle. Results change with road and station data.
 
 ## Limits and assumptions
 

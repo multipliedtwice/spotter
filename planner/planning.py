@@ -16,7 +16,7 @@ OPTIONS = {
     'repair_limit': 1,
     'range_margins_miles': [25.0, 0.0],
     'comparison': 'cost-duration-distance-v1',
-    'strategy': 'progress-cost-v12',
+    'strategy': 'progress-cost-v13',
     'simplify_tolerance': SIMPLIFY_TOLERANCE,
     'response': 'start-fuel-cost-basis-v2',
 }
@@ -283,19 +283,26 @@ def progress_proposal(road, candidates, origins, start, fuel, excluded, prefix, 
     return None
 
 
-def proposal(road, stations, start, fuel, excluded=frozenset(), mode='progress', prefix=(), reach=None, candidates_for=None):
+def proposals(road, stations, start, fuel, excluded=frozenset(), mode='progress', prefix=(), reach=None, candidates_for=None):
     inputs = proposal_inputs(road, stations, start, fuel, candidates_for)
     if inputs is None:
-        return []
+        return [[]]
     candidates, origins = inputs
+    variants, seen = [], set()
     for margin in OPTIONS['range_margins_miles']:
         if mode == 'cost':
             stops = cost_proposal(road, candidates, origins, start, fuel, excluded, margin)
         else:
             stops = progress_proposal(road, candidates, origins, start, fuel, excluded, prefix, reach, margin)
-        if stops is not None:
-            return stops
-    return None
+        sequence = None if stops is None else tuple(s.pk for s in stops)
+        if stops is not None and sequence not in seen:
+            seen.add(sequence)
+            variants.append(stops)
+    return variants
+
+
+def proposal(*args, **kwargs):
+    return next(iter(proposals(*args, **kwargs)), None)
 
 
 def unavailable(road, reason):
@@ -451,13 +458,13 @@ def plan(start, finish, fuel, stations):
     choices, seen = [], set()
     for index, road in enumerate(roads):
         for mode in ('cost', 'progress'):
-            stops = proposal(road, stations, start, fuel, mode=mode, candidates_for=candidates_for)
-            sequence = None if stops is None else (index, tuple(s.pk for s in stops))
-            if stops is None or sequence in seen:
-                continue
-            seen.add(sequence)
-            cost = estimated_cost(road, stops, stations, fuel, start, candidates_for=candidates_for)
-            choices.append((cost, road['duration_seconds'], index, mode, road, stops))
+            for stops in proposals(road, stations, start, fuel, mode=mode, candidates_for=candidates_for):
+                sequence = (index, tuple(s.pk for s in stops))
+                if sequence in seen:
+                    continue
+                seen.add(sequence)
+                cost = estimated_cost(road, stops, stations, fuel, start, candidates_for=candidates_for)
+                choices.append((cost, road['duration_seconds'], index, mode, road, stops))
     choices.sort(key=lambda c: c[:4])
     entries, tried, skipped = [], set(), None
     for _, _, index, _, road, stops in choices:
