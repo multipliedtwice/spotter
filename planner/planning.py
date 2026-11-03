@@ -113,7 +113,7 @@ def resolve_locations(values):
 
 
 def station_data(s):
-    return {
+    data = {
         'station_id': s.source_id,
         'name': s.name,
         'address': s.address,
@@ -127,6 +127,13 @@ def station_data(s):
         'source_row_count': len(s.rows),
         'evidence': s.evidence,
     }
+    if 'unverified_source_address_details' in s.evidence:
+        data.update({'address': s.evidence['matched_address'], 'source_address': s.address, 'verification_scope': s.evidence['verification_scope']})
+    if s.evidence.get('verification_scope') == 'operator_branch_and_address':
+        data.update({'address': s.evidence['matched_address'], 'source_address': s.address, 'verification_scope': s.evidence['verification_scope']})
+    if s.evidence.get('verification_scope') == 'operator_identity_and_named_plaza':
+        data.update({'address': s.evidence['matched_address'], 'source_address': s.address, 'verification_scope': s.evidence['verification_scope'], 'operator_postal_city': s.evidence['operator_postal_city'], 'operator_location_label': s.evidence['operator_location_label']})
+    return data
 
 
 def nearby(road, stations):
@@ -424,7 +431,7 @@ def flat_fields(compacted):
     return {
         'distance_miles': road.get('distance_miles'),
         'purchase_cost_usd': recommended['purchase_cost_usd'] if recommended else None,
-        'fuel_stops': [{k: stop[k] for k in keys} for stop in recommended['stops'] if stop['purchase']] if recommended else None,
+        'fuel_stops': [{**{k: stop[k] for k in keys}, **{k: stop[k] for k in ('source_address', 'verification_scope', 'operator_postal_city', 'operator_location_label') if k in stop}} for stop in recommended['stops'] if stop['purchase']] if recommended else None,
     }
 
 

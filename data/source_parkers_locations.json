@@ -1,0 +1,106 @@
+{
+  "source": "https://parkerskitchen.com/locations/",
+  "field_notes": "publisher_label is the visible heading shown in the official locations-page search result. Detail-page excerpt records the same numbered page's visible number, name, street, city, and state. directions_href is that detail page's Get Directions link, as exposed by the web tool when clicked.",
+  "stores": [
+    {
+      "publisher_label": "Ellabell Parker's ^{#31}",
+      "detail_page_excerpt": "#31 | Ellabell Parker's | 4480 Hwy 80 | Ellabell, Georgia 31308",
+      "page_url": "https://parkerskitchen.com/locations/parkers-31/",
+      "directions_href": "https://maps.google.com/?daddr=32.196906+-81.439461&saddr=Current+Location",
+      "point": {
+        "latitude": 32.196906,
+        "longitude": -81.439461
+      }
+    },
+    {
+      "publisher_label": "Jesup Parker's ^{#63}",
+      "detail_page_excerpt": "#63 | Jesup Parker's | 4501 Savannah Hwy | Jesup, Georgia 31545",
+      "page_url": "https://parkerskitchen.com/locations/parkers-63/",
+      "directions_href": "https://maps.google.com/?daddr=31.661734+-81.849021&saddr=Current+Location",
+      "point": {
+        "latitude": 31.661734,
+        "longitude": -81.849021
+      }
+    },
+    {
+      "publisher_label": "Dean Forest Parker's ^{#64}",
+      "detail_page_excerpt": "#64 | Dean Forest Parker's | 1601 Dean Forest Road | Pooler, Georgia 31322",
+      "page_url": "https://parkerskitchen.com/locations/parkers-64/",
+      "directions_href": "https://maps.google.com/?daddr=32.074075+-81.199004&saddr=Current+Location",
+      "point": {
+        "latitude": 32.074075,
+        "longitude": -81.199004
+      }
+    },
+    {
+      "publisher_label": "Pooler Parker's ^{#69}",
+      "detail_page_excerpt": "#69 | Pooler Parker's | 1275 Highway 80 East | Pooler, Georgia 31322",
+      "page_url": "https://parkerskitchen.com/locations/parkers-69/",
+      "directions_href": "https://maps.google.com/?daddr=32.099316+-81.222166&saddr=Current+Location",
+      "point": {
+        "latitude": 32.099316,
+        "longitude": -81.222166
+      }
+    },
+    {
+      "publisher_label": "Blue Jay Parker's ^{#92}",
+      "detail_page_excerpt": "#92 | Blue Jay Parker's | 4440 S Highway 17 | Guyton, Georgia 31312",
+      "page_url": "https://parkerskitchen.com/locations/parkers-92/",
+      "directions_href": "https://maps.google.com/?daddr=32.217361+-81.368884&saddr=Current+Location",
+      "point": {
+        "latitude": 32.217361,
+        "longitude": -81.368884
+      }
+    },
+    {
+      "publisher_label": "North Highway 52 Parker's ^{#72}",
+      "detail_page_excerpt": "#72 | North Highway 52 Parker's | 1105 N HWY 52 | Monck's Corner, South Carolina 29461",
+      "page_url": "https://parkerskitchen.com/locations/parkers-72/",
+      "directions_href": "https://maps.google.com/?daddr=33.219292+-79.968403&saddr=Current+Location",
+      "point": {
+        "latitude": 33.219292,
+        "longitude": -79.968403
+      }
+    },
+    {
+      "publisher_label": "Port Wentworth Parker's ^{#16}",
+      "detail_page_excerpt": "#16 | Port Wentworth Parker's | 6000 Hwy 21 | Pt. Wentworth, Georgia 31407",
+      "page_url": "https://parkerskitchen.com/locations/parkers-16/",
+      "directions_href": "https://maps.google.com/?daddr=32.146916+-81.177310&saddr=Current+Location",
+      "point": {
+        "latitude": 32.146916,
+        "longitude": -81.17731
+      }
+    },
+    {
+      "publisher_label": "Ocean Parker's ^{#94}",
+      "detail_page_excerpt": "#94 | Ocean Parker's | 230 Church St | Georgetown, South Carolina 29440",
+      "page_url": "https://parkerskitchen.com/locations/parkers-94/",
+      "directions_href": "https://maps.google.com/?daddr=33.36697565354502+-79.27155647116392&saddr=Current+Location",
+      "point": {
+        "latitude": 33.36697565354502,
+        "longitude": -79.27155647116392
+      }
+    },
+    {
+      "publisher_label": "Palmetto Commerce Parker's ^{#103}",
+      "detail_page_excerpt": "#103 | Palmetto Commerce Parker's | 8251 Palmetto Commerce Pkwy | North Charleston, South Carolina 29456",
+      "page_url": "https://parkerskitchen.com/locations/parkers-103/",
+      "directions_href": "https://maps.google.com/?daddr=32.9580530697133+-80.09401054232788&saddr=Current+Location",
+      "point": {
+        "latitude": 32.9580530697133,
+        "longitude": -80.09401054232788
+      }
+    },
+    {
+      "publisher_label": "Mike Padgett Parker's ^{#110}",
+      "detail_page_excerpt": "#110 | Mike Padgett Parker's | 3661 Mike Padgett Hwy | Augusta, Georgia 30906",
+      "page_url": "https://parkerskitchen.com/locations/parkers-110/",
+      "directions_href": "https://maps.google.com/?daddr=33.36922+-81.99758&saddr=Current+Location",
+      "point": {
+        "latitude": 33.36922,
+        "longitude": -81.99758
+      }
+    }
+  ]
+}

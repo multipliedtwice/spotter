@@ -1,7 +1,7 @@
 # Fuel Route API — Plan
 
 Scope: execute complete local assignment. User authorizes gates + implementation. GitHub publishing + Loom recording deferred by user.
-Geoapify work paused by user. No new requests, batch jobs, or polling until user resumes.
+Geoapify coverage geocoding enabled. Use bounded requests and cache; preserve accepted station evidence.
 Roles: Sol lead/review. Luna inspect. Terra implement.
 
 ## Assignment
@@ -27,6 +27,7 @@ Roles: Sol lead/review. Luna inspect. Terra implement.
 - Coincident coordinates share smallest applicable snapping radius. No endpoint/stop radius mismatch at zero-fuel origin. Station coordinates and snaps do not prove physical access.
 - Native serving uses memory-mapped graph + disables unused route-step dataset. Route geometry remains enabled. This does not establish nationwide preprocessing feasibility.
 - Offline station matching reads local OSM fuel features; no Geoapify dependency. Ambiguous or missing identity/address evidence stays unresolved.
+- Road proof covers every source route, marker and location qualifier. Unknown legs stay unresolved unless an approved primary identity-only scope discloses them. Wisconsin explicit county-letter references may use CR/CTH notation.
 - Map: Leaflet + OSM tiles + attribution. Tile requests = browser, disclosed separate.
 
 ## Dataset facts (CSV inspected)
@@ -45,9 +46,16 @@ Roles: Sol lead/review. Luna inspect. Terra implement.
 - Keep all source rows + distinct prices.
 - Station price = median of source rows, exact duplicate rows excluded from calculation (kept in storage). Label "derived snapshot price". Not current, not newest. Return source min/max/row count as metadata.
 - Planning use only stations with `precision=station`.
+- Primary-operator exception for source address lacking street number/exit: accept published station coordinates only with exact chain and explicit store number, matching city/state, every supplied typed highway independently confirmed, unique ownership, and point inside state. Preserve operator source fields. No generic brand, closest-site choice, inferred road type, or partial intersection match. Third-party directory alone cannot use exception.
+- User-approved primary-operator identity fallback: exact chain and explicit store number, matching city/state, unique ownership, valid published point inside state. Prefer independent address/road proof. If absent, retain raw operator record and source address as unverified; display operator street. No unnumbered, third-party, OSM, or EPA fallback.
+- User-approved Pilot/Flying J Dealer descriptor: same chain, exact number and city/state only. One9 and Express stay distinct. Keep unverified CSV roads disclosed.
+- User-approved shared Kwik Trip #748 Barron point: only exact groups 72812 and 73096 in `data/approved_shared_operator_locations.json`. Preserve separate rows and prices; recheck both owners and published point.
+- Approved ten existing Love's groups in `data/approved_operator_locations.json`: retain unchanged operator points with exact store number/city/state and confirmed primary highway/exit. Extra source-road names and directional qualifiers stay explicitly unverified. Import rechecks exact approved group, point, raw operator highway/exit, identity, boundary and ownership. No automatic extension to other records; no generic road-marker relaxation.
+- Approved Love's #176 Matfield Green named plaza in `data/approved_named_plazas.json`: exact source group, operator record, I-35 mile 97 and point only. Show published Cassoday postal city and operator plaza label. No general city alias.
 - Full import: every station accepted only by per-station evidence rule (Gate A section), checked automatically per record. Gate A manual sample validates method, not every station. Store evidence fields per station (matched name/number, matched address/exit, source).
 - Evidence point must fall inside its source state boundary. Import consistency checks do not independently prove physical station identity; source evidence still required.
 - City-only / unresolved stations: keep source record, exclude from planning.
+- Joined OSM fuel/site: validate every explicit city/state on both. Conflict rejects. Gazetteer fallback only when both omit city.
 - No station found on corridor: report "insufficient verified station coverage", not "no station exists".
 
 ## Coverage rules
@@ -59,7 +67,7 @@ Roles: Sol lead/review. Luna inspect. Terra implement.
 - Baseline unavailable, alternative verified feasible: return alternative; baseline cost + savings = null.
 - Baseline feasible, alternatives unavailable: return baseline + explicit comparison status.
 - No verified feasible candidate: HTTP 422 with available route information + coverage/verification reason. No executable fuel plan claimed.
-- Coverage accepted 2026-11-01 for submission: 1,214 of 6,626 groups usable. Known limitation. Unresolved groups stay excluded. No nationwide-coverage or global-optimum claim.
+- Target: all 6,626 US source groups independently located. Retain valid evidence; correct or remove contradicted points. Revalidate affected evidence when matching rules change. No inferred station points, city-centroid substitutes, or silent exclusions from denominator. Unresolved groups stay excluded from planning until evidence passes. No nationwide-coverage claim before full import verification.
 
 ## Baseline + alternatives
 - Baseline = fastest driving route returned by routing engine. Optimize fuel purchases along baseline.
@@ -147,24 +155,25 @@ Default public demo: max 4 external server calls (1 Census + 3 routing). Local O
 ## Gates before scaffold
 ### Gate A — station location quality
 - Sample ≥100 US stations. Deliberate coverage, not only random: address formats (exit form, street form, intersections), regions, chains (Pilot, Love's, TA, independents).
-- Methods: independent operator locator records, local OSM `amenity=fuel` data. Geoapify branch paused. Nominatim sample only, rules below.
+- Methods: independent operator locator records, local OSM `amenity=fuel` data. Geoapify coverage geocoding enabled with bounded requests and cache. Nominatim sample only, rules below.
 - `precision=station` require evidence identifying this particular station:
   - name or store number match (e.g. "#1243"), AND
   - address or highway/exit match.
   - Fuel tag or brand alone = insufficient. Other fuel station nearby cannot satisfy it.
+- Primary-operator identity fallback above permits unverified source road details only with exact numbered operator identity. Keep source address and verification scope visible.
 - City centroid distance = plausibility check only. Not proof.
 - Provider confidence alone ≠ verified.
 - Independent manual check on sample subset.
 - Nominatim public use: single thread, cache results, identify app (User-Agent), ≤1 req/s. Sample lookups only. No fuel station enumeration. No full dataset run without separate permission.
 - Output: coverage %, failure classes, chosen method. User decide if coverage enough.
-- Geoapify branch requires explicit user resume; not prerequisite for offline matching.
+- Geoapify coverage geocoding is optional for offline matching; use bounded requests and cache.
 
 ### Gate B — endpoint geocoding + call budget
 - Census batch: at most one request for both street addresses. Provider failure stays explicit.
 - Keep call budget above.
 
 ## Execution TODO — open work only, dependency order
-- [ ] Deferred scope: add station-level sources for unresolved groups. Geoapify paused.
+- [ ] Resolve remaining US source groups with independent station-level sources. Target 6,626 accepted groups. Use bounded Geoapify requests and cache; preserve accepted evidence.
 - [ ] Assess station snapping/access beyond the verified regional route. Do not assume all resolved stations are reachable. Preserve zero-fuel no-driving rule and zero arrival reserve until explicitly changed.
 - [ ] Resolve redistribution terms for operator-derived assets before public delivery. Keep local source assets.
 - [ ] Complete GitHub publishing and Loom recording when requested.

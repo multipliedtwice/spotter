@@ -1,0 +1,475 @@
+{
+  "records": [
+    {
+      "source_url": "https://tryonvo.com/location/onvo-avis/",
+      "page_title": "Onvo Avis | Truck Stop & Travel Plaza in Avis, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Avis",
+      "street_address_literal": "3163 Woodward Avenue, Avis, PA 17721, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 41.1808913,
+      "longitude": -77.32625039999999,
+      "map_marker_latitude": "41.1808913",
+      "map_marker_longitude": "-77.32625039999999",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=41.1808913%2C-77.32625039999999",
+      "literal_route_labels": [],
+      "literal_road_mentions": [
+        "PA Route 220",
+        "Route 220"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-bethel/",
+      "page_title": "Onvo Bethel | Truck Stop & Convenience Store in Bethel, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Bethel",
+      "street_address_literal": "8602 Lancaster Ave, Bethel, PA 19507, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 40.4801337,
+      "longitude": -76.29684089999999,
+      "map_marker_latitude": "40.4801337",
+      "map_marker_longitude": "-76.29684089999999",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=40.4801337%2C-76.29684089999999",
+      "literal_route_labels": [],
+      "literal_road_mentions": []
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-blakeslee/",
+      "page_title": "Onvo Blakeslee | Truck Stop & Travel Plaza in Blakeslee, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Blakeslee",
+      "street_address_literal": "100 Commercial Blvd, Blakeslee, PA 18610, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 41.07884119999999,
+      "longitude": -75.5796585,
+      "map_marker_latitude": "41.07884119999999",
+      "map_marker_longitude": "-75.5796585",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=41.07884119999999%2C-75.5796585",
+      "literal_route_labels": [],
+      "literal_road_mentions": []
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-canaan/",
+      "page_title": "Onvo Canaan | Truck Stop & Travel Plaza in Canaan, NY",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Canaan",
+      "street_address_literal": "12816 New York 22, Canaan, NY 12029, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 42.3610457,
+      "longitude": -73.42736649999999,
+      "map_marker_latitude": "42.3610457",
+      "map_marker_longitude": "-73.42736649999999",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=42.3610457%2C-73.42736649999999",
+      "literal_route_labels": [],
+      "literal_road_mentions": [
+        "New York Route 22",
+        "Route 22"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-dorrance/",
+      "page_title": "Onvo Dorrance | Truck Stop & Travel Plaza in Mountain Top, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Dorrance",
+      "street_address_literal": "7018 State Route 3007, Mountain Top, PA 18707, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 41.0830102,
+      "longitude": -75.9607386,
+      "map_marker_latitude": "41.0830102",
+      "map_marker_longitude": "-75.9607386",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=41.0830102%2C-75.9607386",
+      "literal_route_labels": [
+        "Exit 155 I-81"
+      ],
+      "literal_road_mentions": [
+        "Exit 155 I-81",
+        "I-81 Exit 155",
+        "Interstate 81 at Exit 155",
+        "Route 3007",
+        "State Route 3007"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-duncannon-north/",
+      "page_title": "Onvo | Truck Stop & Travel Plaza in Duncannon, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Duncannon North",
+      "street_address_literal": "3151 Susquehanna Trail, Duncannon, PA 17020, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 40.461877,
+      "longitude": -76.95456899999999,
+      "map_marker_latitude": "40.461877",
+      "map_marker_longitude": "-76.95456899999999",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=40.461877%2C-76.95456899999999",
+      "literal_route_labels": [],
+      "literal_road_mentions": []
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-duncannon/",
+      "page_title": "Onvo Duncannon | Truck Stop & Travel Plaza in Duncannon, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Duncannon",
+      "street_address_literal": "3298 Susquehanna Trail, Duncannon, PA 17020, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 40.4477266,
+      "longitude": -76.9825327,
+      "map_marker_latitude": "40.4477266",
+      "map_marker_longitude": "-76.9825327",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=40.4477266%2C-76.9825327",
+      "literal_route_labels": [
+        "Route 11/15 North"
+      ],
+      "literal_road_mentions": [
+        "Route 11/15 North"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-fultonville/",
+      "page_title": "Onvo Fulltonville | Truck Stop & Travel Plaza in Fultonville, NY",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Fultonville",
+      "street_address_literal": "128 Riverside Dr, Fultonville, NY 12072, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 42.94693469999999,
+      "longitude": -74.35786689999999,
+      "map_marker_latitude": "42.94693469999999",
+      "map_marker_longitude": "-74.35786689999999",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=42.94693469999999%2C-74.35786689999999",
+      "literal_route_labels": [],
+      "literal_road_mentions": []
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-gibson/",
+      "page_title": "Onvo Gibson | Truck Stop & Travel Plaza in New Milford, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Gibson",
+      "street_address_literal": "2174 State Route 848, New Milford, PA 18834, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 41.8241325,
+      "longitude": -75.67871769999999,
+      "map_marker_latitude": "41.8241325",
+      "map_marker_longitude": "-75.67871769999999",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=41.8241325%2C-75.67871769999999",
+      "literal_route_labels": [
+        "Exit 219 I-81"
+      ],
+      "literal_road_mentions": [
+        "Exit 219 I-81",
+        "I-81 Exit 219",
+        "Interstate 81 at Exit 219",
+        "Route 848",
+        "State Route 848"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-gouldsboro/",
+      "page_title": "Onvo Gouldsboro | Truck Stop & Travel Plaza in Gouldsboro, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Gouldsboro",
+      "street_address_literal": "17 Main Street, Gouldsboro, PA 18424, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 41.2331816,
+      "longitude": -75.49584469999999,
+      "map_marker_latitude": "41.2331816",
+      "map_marker_longitude": "-75.49584469999999",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=41.2331816%2C-75.49584469999999",
+      "literal_route_labels": [
+        "Exit 13 I-380"
+      ],
+      "literal_road_mentions": [
+        "Exit 13 I-380",
+        "I-380 Exit 13",
+        "Interstate 380 at Exit 13"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-harford/",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Harford",
+      "street_address_literal": "5085 State Route 547, Harford, PA 18834, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 41.790287,
+      "longitude": -75.6800372,
+      "map_marker_latitude": "41.790287",
+      "map_marker_longitude": "-75.6800372",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=41.790287%2C-75.6800372",
+      "page_title": "Onvo Harford | Truck Stop & Travel Plaza in Harford, PA",
+      "literal_route_labels": [
+        "Exit 217 I-81"
+      ],
+      "literal_road_mentions": [
+        "Interstate 81 at Exit 217",
+        "State Route 547"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-hickory-run/",
+      "page_title": "Onvo Hickory Run | Truck Stop & Travel Plaza in White Haven, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Hickory Run",
+      "street_address_literal": "2550 Pennsylvania 534, White Haven, PA 18661, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 41.0624775,
+      "longitude": -75.7490662,
+      "map_marker_latitude": "41.0624775",
+      "map_marker_longitude": "-75.7490662",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=41.0624775%2C-75.7490662",
+      "literal_route_labels": [
+        "Exit 274 I-80"
+      ],
+      "literal_road_mentions": [
+        "Exit 274 I-80",
+        "I-80 Exit 274",
+        "Interstate 80 at Exit 274",
+        "Pennsylvania Route 534",
+        "Route 534"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-lake-ariel/",
+      "page_title": "Onvo Lake Ariel | Truck Stop & Travel Plaza in Lake Ariel, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Lake Ariel",
+      "street_address_literal": "151 Twin Rocks Road, Lake Ariel, PA 18436, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 41.35677450000001,
+      "longitude": -75.3754919,
+      "map_marker_latitude": "41.35677450000001",
+      "map_marker_longitude": "-75.3754919",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=41.35677450000001%2C-75.3754919",
+      "literal_route_labels": [
+        "Exit 17 I-84"
+      ],
+      "literal_road_mentions": [
+        "Exit 17 I-84",
+        "I-84 Exit 17",
+        "Interstate 84 at Exit 17"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-lakewood/",
+      "page_title": "Onvo Lakewood | Truck Stop & Travel Plaza in Greentown, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Lakewood",
+      "street_address_literal": "1414 State Route 507, Greentown, PA 18426, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 41.3438155,
+      "longitude": -75.3124213,
+      "map_marker_latitude": "41.3438155",
+      "map_marker_longitude": "-75.3124213",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=41.3438155%2C-75.3124213",
+      "literal_route_labels": [
+        "Exit 20 I-84"
+      ],
+      "literal_road_mentions": [
+        "Exit 20 I-84",
+        "I-84 Exit 20",
+        "Interstate 84 at Exit 20",
+        "Route 507",
+        "State Route 507"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-lounsberry/",
+      "page_title": "Onvo Lounsberry | Truck Stop & Travel Plaza in Nichols, NY",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Lounsberry",
+      "street_address_literal": "305 Stanton Hill Rd, Nichols, NY 13812, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 42.0635956,
+      "longitude": -76.3237475,
+      "map_marker_latitude": "42.0635956",
+      "map_marker_longitude": "-76.3237475",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=42.0635956%2C-76.3237475",
+      "literal_route_labels": [
+        "Exit 63 I-86"
+      ],
+      "literal_road_mentions": [
+        "Exit 63 I-86",
+        "I-86 at Exit 63",
+        "Interstate 86 at Exit 63"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-mcgraw/",
+      "page_title": "Onvo McGraw | Truck Stop & Travel Plaza in McGraw, NY",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 McGraw",
+      "street_address_literal": "3742 U.S. 11, McGraw, NY 13101, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 42.5878798,
+      "longitude": -76.1302286,
+      "map_marker_latitude": "42.5878798",
+      "map_marker_longitude": "-76.1302286",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=42.5878798%2C-76.1302286",
+      "literal_route_labels": [],
+      "literal_road_mentions": [
+        "Route 11",
+        "U.S. 11",
+        "U.S. Route 11"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-mifflintown/",
+      "page_title": "Onvo Mifflintown | Truck Stop & Travel Plaza in Mifflintown, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Mifflintown",
+      "street_address_literal": "9 Stop Plaza Dr, Mifflintown, PA 17059, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 40.57869,
+      "longitude": -77.37523,
+      "map_marker_latitude": "40.57869",
+      "map_marker_longitude": "-77.37523",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=40.57869%2C-77.37523",
+      "literal_route_labels": [
+        "Exit 224 I-80"
+      ],
+      "literal_road_mentions": [
+        "Exit 224 I-80",
+        "I-80 Exit 224",
+        "Interstate 80 at Exit 224"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-mifflinville/",
+      "page_title": "Onvo Mifflinville | Truck Stop & Travel Plaza in Mifflinville, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Mifflinville",
+      "street_address_literal": "451 West 3rd Street, Mifflinville, PA 18631, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 41.02542460000001,
+      "longitude": -76.31780239999999,
+      "map_marker_latitude": "41.02542460000001",
+      "map_marker_longitude": "-76.31780239999999",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=41.02542460000001%2C-76.31780239999999",
+      "literal_route_labels": [
+        "Exit 242  I-80"
+      ],
+      "literal_road_mentions": [
+        "Exit 242 I-80",
+        "I-80 Exit 242",
+        "Interstate 80 at Exit 242"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-mt-cobb/",
+      "page_title": "Onvo Mt. Cobb | Truck Stop & Travel Plaza in Lake Ariel, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Mt. Cobb",
+      "street_address_literal": "1174 Mt Cobb Rd, Lake Ariel, PA 18436, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 41.4095325,
+      "longitude": -75.5054693,
+      "map_marker_latitude": "41.4095325",
+      "map_marker_longitude": "-75.5054693",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=41.4095325%2C-75.5054693",
+      "literal_route_labels": [
+        "Exit 8 I-84"
+      ],
+      "literal_road_mentions": [
+        "Exit 8 I-84",
+        "I-84 Exit 8",
+        "Interstate 84 at Exit 8"
+      ]
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-new-smithville/",
+      "page_title": "Onvo New Smithville | Truck Stop in Kutztown, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 New Smithville",
+      "street_address_literal": "2277 Golden Key Rd, Kutztown, PA 19530, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 40.58127150000001,
+      "longitude": -75.7072094,
+      "map_marker_latitude": "40.58127150000001",
+      "map_marker_longitude": "-75.7072094",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=40.58127150000001%2C-75.7072094",
+      "literal_route_labels": [],
+      "literal_road_mentions": []
+    },
+    {
+      "source_url": "https://tryonvo.com/location/onvo-pine-grove/",
+      "page_title": "Onvo Pine Grove | Truck Stop & Travel Plaza in Pine Grove, PA",
+      "schema_type": "GasStation",
+      "name": "Onvo \u2013 Pine Grove",
+      "street_address_literal": "10 Molleystown Road, Pine Grove, PA 17963, USA",
+      "address_locality_literal": "",
+      "address_region_literal": "",
+      "address_postal_code_literal": "",
+      "address_country_literal": "US",
+      "latitude": 40.5925372,
+      "longitude": -76.410698,
+      "map_marker_latitude": "40.5925372",
+      "map_marker_longitude": "-76.410698",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=40.5925372%2C-76.410698",
+      "literal_route_labels": [
+        "Exit 104 I-81"
+      ],
+      "literal_road_mentions": [
+        "Exit 104 I-81",
+        "I-81 Exit 104",
+        "Interstate 81 at Exit 104"
+      ]
+    }
+  ]
+}

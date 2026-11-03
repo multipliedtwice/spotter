@@ -1,0 +1,2985 @@
+{
+  "source": "https://kentkwik.com/locations-2/",
+  "map": "https://fortress.maptive.com/ver4/408701b11ce6c0adbf9cd6908c4613f5/156428",
+  "marker_request": {
+    "endpoint": "https://fortress.maptive.com/ver4/data.php?operation=get_map_markers&data_id=182459&map_id=182317&bounds=31.83%2C-102.4%2C31.93%2C-102.29&zoom=10&shared_map=1&lat_col=10&lng_col=11&name_col=0&pie_chart=1&aggregation=-1&cluster=true&snapshot_id=156428&group=all&group_col=7",
+    "parameters": {
+      "data_id": "182459",
+      "map_id": "182317",
+      "bounds": "31.83,-102.4,31.93,-102.29",
+      "zoom": "10",
+      "shared_map": "1",
+      "lat_col": "10",
+      "lng_col": "11",
+      "name_col": "0",
+      "snapshot_id": "156428",
+      "group": "all",
+      "group_col": "7"
+    },
+    "body": "post_data=1&boundary_groups_list=%5B%5D"
+  },
+  "markers": [
+    [
+      40,
+      36.6984807,
+      -101.4828579,
+      "Kent Kwik Location #801",
+      5
+    ],
+    [
+      41,
+      36.3746427,
+      -100.8031706,
+      "Kent Kwik Location #804",
+      5
+    ],
+    [
+      74,
+      35.1573868,
+      -86.5951384,
+      "Kent Kwik #903",
+      5
+    ],
+    [
+      71,
+      35.1485765,
+      -86.5610895,
+      "Kent Kwik #902",
+      5
+    ],
+    [
+      72,
+      35.12359170000001,
+      -86.5654664,
+      "Kent Kwik #904",
+      5
+    ],
+    [
+      73,
+      35.0835665,
+      -86.8827501,
+      "Kent Kwik #905",
+      5
+    ],
+    [
+      70,
+      35.0638564,
+      -86.57222809999999,
+      "Kent Kwik #901",
+      5
+    ],
+    [
+      87,
+      35.0550369,
+      -83.2027847,
+      "Bountyland #711",
+      2
+    ],
+    [
+      85,
+      35.0543604,
+      -83.20255449999999,
+      "Bountyland #709",
+      2
+    ],
+    [
+      79,
+      34.7648164,
+      -83.0629211,
+      "Bountyland #702",
+      2
+    ],
+    [
+      78,
+      34.7072838,
+      -82.9921066,
+      "Bountyland #701",
+      2
+    ],
+    [
+      82,
+      34.6941921,
+      -82.8748091,
+      "Bountyland #705",
+      2
+    ],
+    [
+      83,
+      34.688753,
+      -83.0452729,
+      "Bountyland #706",
+      2
+    ],
+    [
+      86,
+      34.6694407,
+      -83.0997751,
+      "Bountyland #710",
+      2
+    ],
+    [
+      80,
+      34.658774,
+      -82.93344370000001,
+      "Bountyland #703",
+      2
+    ],
+    [
+      88,
+      34.6527376,
+      -82.86093389999999,
+      "Bountyland #716",
+      2
+    ],
+    [
+      81,
+      34.5344462,
+      -83.0538826,
+      "Bountyland #704",
+      2
+    ],
+    [
+      84,
+      34.5251179,
+      -82.8417221,
+      "Bountyland #707",
+      2
+    ],
+    [
+      69,
+      33.5339216,
+      -101.9577877,
+      "Huddle House",
+      3
+    ],
+    [
+      139,
+      33.526461,
+      -86.66420099999999,
+      "Kent Kwik #933",
+      5
+    ],
+    [
+      134,
+      33.4654731,
+      -87.6279122,
+      "Kent Kwik #927",
+      5
+    ],
+    [
+      136,
+      33.439839,
+      -86.8664739,
+      "Kent Kwik #929",
+      5
+    ],
+    [
+      137,
+      33.4054655,
+      -86.6317815,
+      "Kent Kwik #931",
+      5
+    ],
+    [
+      127,
+      33.257741,
+      -86.80071129999999,
+      "Kent Kwik #920",
+      5
+    ],
+    [
+      131,
+      33.2369311,
+      -87.1444962,
+      "Kent Kwik #924",
+      5
+    ],
+    [
+      138,
+      33.1783839,
+      -86.6050573,
+      "Kent Kwik #932",
+      5
+    ],
+    [
+      67,
+      "33.15725966608415",
+      "-99.72913384437561",
+      "Rustic Cafe",
+      9
+    ],
+    [
+      68,
+      "33.15723608862777",
+      "-99.72928807139397",
+      "Kent Kwik",
+      5
+    ],
+    [
+      129,
+      33.1428105,
+      -87.5166023,
+      "Kent Kwik #922",
+      11
+    ],
+    [
+      128,
+      33.1173157,
+      -87.4778664,
+      "Kent Kwik #921",
+      5
+    ],
+    [
+      130,
+      32.9626506,
+      -87.1701594,
+      "Kent Kwik #923",
+      5
+    ],
+    [
+      135,
+      32.9587235,
+      -87.17152229999999,
+      "Kent Kwik #928",
+      5
+    ],
+    [
+      133,
+      32.9449444,
+      -87.14375059999999,
+      "Kent Kwik #926",
+      5
+    ],
+    [
+      132,
+      32.9417991,
+      -87.1369708,
+      "Kent Kwik #925",
+      5
+    ],
+    [
+      11,
+      32.9370385,
+      -105.9638215,
+      "Rustic Cafe #501",
+      9
+    ],
+    [
+      39,
+      32.9370385,
+      -105.9638215,
+      "Kent Kwik Location #501",
+      5
+    ],
+    [
+      171,
+      32.9356262,
+      -97.2588725,
+      "Kent Kwik #471",
+      5
+    ],
+    [
+      98,
+      32.9033865,
+      -98.434466,
+      "Kent Kwik #468",
+      5
+    ],
+    [
+      103,
+      32.8110767,
+      -98.08324449999999,
+      "Kent Kwik #467",
+      5
+    ],
+    [
+      97,
+      32.8109269,
+      -98.06115969999999,
+      "Kent Kwik #466",
+      5
+    ],
+    [
+      95,
+      32.8083759,
+      -98.1051085,
+      "Kent Kwik #642",
+      5
+    ],
+    [
+      94,
+      32.7543997,
+      -97.78985740000002,
+      "Kent Kwik #461",
+      5
+    ],
+    [
+      96,
+      32.7522671,
+      -97.7905758,
+      "Kent Kwik #665",
+      5
+    ],
+    [
+      170,
+      32.586874,
+      -97.3504617,
+      "Kent Kwik #470",
+      5
+    ],
+    [
+      35,
+      32.4070247,
+      -100.8601629,
+      "Kent Kwik Location #410",
+      5
+    ],
+    [
+      62,
+      32.4070247,
+      -100.8601629,
+      "Kent Car Wash #6",
+      4
+    ],
+    [
+      146,
+      32.4006318,
+      -99.75908229999999,
+      "Kent Kwik #436",
+      5
+    ],
+    [
+      176,
+      32.3248228,
+      -102.5476327,
+      "Kent Lube #127",
+      6
+    ],
+    [
+      140,
+      32.3248161,
+      -102.5476288,
+      "WesTex 9108",
+      12
+    ],
+    [
+      37,
+      32.2625676,
+      -101.4886704,
+      "Kent Kwik Location #412",
+      5
+    ],
+    [
+      36,
+      32.2513728,
+      -101.4790195,
+      "Kent Kwik Location #411",
+      5
+    ],
+    [
+      63,
+      32.2513728,
+      -101.4790195,
+      "Kent Car Wash #7",
+      4
+    ],
+    [
+      122,
+      32.0808213,
+      -102.0906343,
+      "Kent Kwik #326",
+      5
+    ],
+    [
+      155,
+      32.0578789,
+      -102.0831037,
+      "WesTex Urgent Care",
+      12
+    ],
+    [
+      145,
+      32.0558702,
+      -102.082226,
+      "Kent Kwik #354",
+      5
+    ],
+    [
+      10,
+      32.0472052,
+      -102.2757834,
+      "Rustic Cafe #315",
+      9
+    ],
+    [
+      28,
+      32.0472052,
+      -102.2757834,
+      "Kent Kwik Location #315",
+      5
+    ],
+    [
+      31,
+      32.0356389,
+      -102.1307625,
+      "Kent Kwik Location #318",
+      5
+    ],
+    [
+      57,
+      32.0356389,
+      -102.1307625,
+      "Kent Car Wash #1",
+      4
+    ],
+    [
+      104,
+      32.0354238,
+      -102.1312266,
+      "Mr. Payroll #2318",
+      8
+    ],
+    [
+      101,
+      32.029696,
+      -102.1506536,
+      "WesTex Urgent Care",
+      12
+    ],
+    [
+      106,
+      32.0295474,
+      -101.9880093,
+      "Kent Kwik #321",
+      5
+    ],
+    [
+      107,
+      32.0295474,
+      -101.9880093,
+      "Rustic Cafe #321",
+      9
+    ],
+    [
+      77,
+      32.0294048,
+      -102.1576588,
+      "Kent Car Wash 317",
+      4
+    ],
+    [
+      153,
+      "32.027825",
+      "-102.1548394",
+      "Kent Kwik Location #309",
+      5
+    ],
+    [
+      9,
+      32.0264228,
+      -102.1632831,
+      "Baskin-Robbins #1493",
+      1
+    ],
+    [
+      30,
+      32.0264228,
+      -102.1632831,
+      "Kent Kwik Location #317",
+      5
+    ],
+    [
+      142,
+      32.023353,
+      -102.1075769,
+      "Kent Kwik #351",
+      5
+    ],
+    [
+      7,
+      32.0224199,
+      -102.107276,
+      "Baskin-Robbind #1491",
+      1
+    ],
+    [
+      24,
+      32.0220206,
+      -102.0804578,
+      "Kent Kwik Location #306",
+      5
+    ],
+    [
+      53,
+      32.0220206,
+      -102.0804578,
+      "Mr. Payroll Location #2306",
+      8
+    ],
+    [
+      144,
+      32.0219726,
+      -102.080415,
+      "Kent Kwik #306",
+      5
+    ],
+    [
+      25,
+      32.0202366,
+      -102.1246219,
+      "Kent Kwik Location #308",
+      5
+    ],
+    [
+      105,
+      32.0165655,
+      -102.141029,
+      "Mr. Payroll #2319",
+      8
+    ],
+    [
+      152,
+      32.0165385,
+      -102.1409252,
+      "Kent Kwik #319",
+      5
+    ],
+    [
+      23,
+      32.0140418,
+      -102.1575923,
+      "Kent Kwik Location #305",
+      5
+    ],
+    [
+      26,
+      32.0116452,
+      -102.1572875,
+      "Kent Kwik Location #311",
+      5
+    ],
+    [
+      27,
+      32.008374,
+      -102.050641,
+      "Kent Kwik Location #312",
+      5
+    ],
+    [
+      141,
+      32.0004988,
+      -102.1121225,
+      "Kent Kwik #350",
+      5
+    ],
+    [
+      58,
+      31.9972337,
+      -102.1559849,
+      "Kent Car Wash #2",
+      4
+    ],
+    [
+      102,
+      "31.993118009328676",
+      "-102.16886043548584",
+      "Kent Kwik #320",
+      5
+    ],
+    [
+      22,
+      31.9895795,
+      -102.0873616,
+      "Kent Kwik Location #304",
+      5
+    ],
+    [
+      21,
+      31.9890394,
+      -102.0652356,
+      "Kent Kwik Location #303",
+      5
+    ],
+    [
+      52,
+      31.9890394,
+      -102.0652356,
+      "Mr. Payroll Location #2303",
+      8
+    ],
+    [
+      29,
+      31.9879282,
+      -102.1332254,
+      "Kent Kwik Location #316",
+      5
+    ],
+    [
+      54,
+      31.9879282,
+      -102.1332254,
+      "Mr. Payroll Location #2316",
+      8
+    ],
+    [
+      19,
+      31.9839664,
+      -102.1086453,
+      "Kent Kwik Location #301",
+      5
+    ],
+    [
+      50,
+      31.9839664,
+      -102.1086453,
+      "Mr. Payroll Location #2301",
+      8
+    ],
+    [
+      93,
+      31.9834314,
+      -102.0427008,
+      "Kent Kwik #325",
+      5
+    ],
+    [
+      90,
+      31.981269,
+      -102.076448,
+      "Kent Lube 126",
+      6
+    ],
+    [
+      154,
+      31.981139,
+      -102.1498265,
+      "Kent Kwik #327",
+      5
+    ],
+    [
+      173,
+      31.981139,
+      -102.1498265,
+      "Kent Lube Fast Oil Change Center",
+      6
+    ],
+    [
+      91,
+      31.9809324,
+      -102.0763359,
+      "Kent Car Wash",
+      4
+    ],
+    [
+      20,
+      31.9802245,
+      -102.0761849,
+      "Kent Kwik Location #302",
+      5
+    ],
+    [
+      51,
+      31.9802245,
+      -102.0761849,
+      "Mr. Payroll Location #2302",
+      8
+    ],
+    [
+      143,
+      31.9795247,
+      -102.1119489,
+      "Kent Kwik #352",
+      5
+    ],
+    [
+      100,
+      31.975866,
+      -102.0725868,
+      "WesTex Urgent Care",
+      12
+    ],
+    [
+      75,
+      31.94248799999999,
+      -102.3714099,
+      "Kent Kwik #219",
+      5
+    ],
+    [
+      92,
+      31.93471,
+      -102.3989605,
+      "Rustic Cafe 219",
+      9
+    ],
+    [
+      150,
+      31.9175366,
+      -102.3617875,
+      "WesTex Urgent Care",
+      12
+    ],
+    [
+      151,
+      31.9174371,
+      -102.3609824,
+      "Kent Kwik #222",
+      5
+    ],
+    [
+      175,
+      31.9157934,
+      -102.3605099,
+      "Kent Lube",
+      6
+    ],
+    [
+      13,
+      31.9144214,
+      -102.2864203,
+      "Kent Kwik Location #215",
+      5
+    ],
+    [
+      49,
+      31.9144214,
+      -102.2864203,
+      "Mr. Payroll Location #2215",
+      8
+    ],
+    [
+      76,
+      31.899556,
+      -102.3178006,
+      "Kent Kwik #220",
+      5
+    ],
+    [
+      99,
+      31.8983821,
+      -102.2991709,
+      "WesTex Urgent Care",
+      12
+    ],
+    [
+      8,
+      31.8981296,
+      -102.2995893,
+      "Baskin-Robbins #1492",
+      1
+    ],
+    [
+      12,
+      31.8981296,
+      -102.2995893,
+      "Kent Kwik Location #214",
+      5
+    ],
+    [
+      42,
+      31.8902844,
+      -102.3526854,
+      "Avis Lube Location #109",
+      0
+    ],
+    [
+      1,
+      31.8900909,
+      -102.3523695,
+      "Kent Kwik #203",
+      5
+    ],
+    [
+      45,
+      31.8900909,
+      -102.3523695,
+      "Mr. Payroll Location #2203",
+      8
+    ],
+    [
+      14,
+      31.8819626,
+      -102.3850538,
+      "Kent Kwik Location #216",
+      5
+    ],
+    [
+      60,
+      31.8819626,
+      -102.3850538,
+      "Kent Car Wash #4",
+      4
+    ],
+    [
+      6,
+      31.878719,
+      -102.383272,
+      "Kent Kwik #212",
+      5
+    ],
+    [
+      48,
+      31.878719,
+      -102.383272,
+      "Mr. Payroll Location #2212",
+      8
+    ],
+    [
+      4,
+      31.8647895,
+      -102.3460348,
+      "Kent Kwik #208",
+      5
+    ],
+    [
+      47,
+      31.8638126,
+      -102.3358502,
+      "Mr. Payroll Location #2211",
+      8
+    ],
+    [
+      5,
+      31.8636704,
+      -102.3357864,
+      "Kent Kwik #211",
+      5
+    ],
+    [
+      18,
+      31.847899,
+      -103.0851,
+      "Kent Kwik Location #273",
+      5
+    ],
+    [
+      56,
+      31.8475372,
+      -103.0849645,
+      "Kent Tire #119",
+      7
+    ],
+    [
+      3,
+      31.844172,
+      -102.4853699,
+      "Kent Kwik #206",
+      5
+    ],
+    [
+      46,
+      31.844172,
+      -102.4853699,
+      "Mr. Payroll Location #2206",
+      8
+    ],
+    [
+      15,
+      31.843286,
+      -102.389755,
+      "Kent Kwik Location #217",
+      5
+    ],
+    [
+      61,
+      31.843286,
+      -102.389755,
+      "Kent Car Wash #5",
+      4
+    ],
+    [
+      2,
+      31.8417653,
+      -102.4953856,
+      "Kent Kwik #204",
+      5
+    ],
+    [
+      0,
+      31.8399073,
+      -102.3892387,
+      "Kent Kwik #202",
+      5
+    ],
+    [
+      44,
+      31.8399073,
+      -102.3892387,
+      "Mr. Payroll Location #2202",
+      8
+    ],
+    [
+      123,
+      31.8363991,
+      -102.4087537,
+      "Kent Kwik #221",
+      5
+    ],
+    [
+      16,
+      31.8292887,
+      -102.3555451,
+      "Kent Kwik Location #218",
+      5
+    ],
+    [
+      64,
+      31.6089153,
+      -97.2004523,
+      "Kent Car Wash #8",
+      4
+    ],
+    [
+      65,
+      31.607949,
+      -97.1110819,
+      "Kent Kwik 615",
+      5
+    ],
+    [
+      125,
+      31.6032109,
+      -97.19505579999999,
+      "Kent Kwik #601",
+      5
+    ],
+    [
+      55,
+      31.592169,
+      -102.901759,
+      "Kent Tire #118",
+      7
+    ],
+    [
+      43,
+      31.5796065,
+      -102.8918471,
+      "Avis Lube Location #124",
+      0
+    ],
+    [
+      59,
+      31.5796065,
+      -102.8918471,
+      "Kent Car Wash #3",
+      4
+    ],
+    [
+      124,
+      31.575985,
+      -102.8921602,
+      "Kent Kwik 265",
+      5
+    ],
+    [
+      17,
+      31.5738049,
+      -102.8929409,
+      "Kent Kwik Location #262",
+      5
+    ],
+    [
+      66,
+      31.5565511,
+      -97.17904809999999,
+      "Kent Kwik 616",
+      5
+    ],
+    [
+      89,
+      31.48844949999999,
+      -100.4692061,
+      "Kent Kwik #433",
+      5
+    ],
+    [
+      126,
+      31.47733809999999,
+      -97.30906859999999,
+      "Kent Kwik #610",
+      5
+    ],
+    [
+      174,
+      31.46316899999999,
+      -100.4428174,
+      "Kent Lube #128",
+      6
+    ],
+    [
+      147,
+      31.4625087,
+      -100.4425536,
+      "Kent Kwik #437",
+      5
+    ],
+    [
+      148,
+      31.4151463,
+      -100.4749493,
+      "Kent Kwik #438",
+      5
+    ],
+    [
+      38,
+      31.19168,
+      -101.4532185,
+      "Kent Kwik Location #431",
+      5
+    ],
+    [
+      32,
+      30.908341,
+      -102.883519,
+      "Kent Kwik Location #401",
+      5
+    ],
+    [
+      149,
+      30.9053207,
+      -102.9164614,
+      "Kent Kwik #404",
+      5
+    ],
+    [
+      163,
+      30.8951322,
+      -89.8345071,
+      "Kent Kwik #987",
+      5
+    ],
+    [
+      34,
+      30.8937227,
+      -102.9171791,
+      "Kent Kwik Location #403",
+      5
+    ],
+    [
+      33,
+      30.8936988,
+      -102.884776,
+      "Kent Kwik Location #402",
+      5
+    ],
+    [
+      167,
+      30.827923,
+      -90.663816,
+      "Kent Kwik #992",
+      5
+    ],
+    [
+      162,
+      30.7946175,
+      -89.882916,
+      "Kent Kwik #986",
+      5
+    ],
+    [
+      164,
+      30.7928859,
+      -89.830163,
+      "Kent Kwik #988",
+      5
+    ],
+    [
+      161,
+      30.7581877,
+      -89.869732,
+      "Kent Kwik #985",
+      5
+    ],
+    [
+      157,
+      30.5167927,
+      -90.4753481,
+      "Kent Kwik #981",
+      5
+    ],
+    [
+      166,
+      30.4889365,
+      -91.2527327,
+      "Kent Kwik #991",
+      5
+    ],
+    [
+      169,
+      30.468343,
+      -90.9176952,
+      "Kent Kwik #994",
+      5
+    ],
+    [
+      168,
+      30.4428398,
+      -90.3225359,
+      "Kent Kwik #993",
+      5
+    ],
+    [
+      160,
+      30.4164013,
+      -90.0404561,
+      "Kent Kwik #984",
+      5
+    ],
+    [
+      158,
+      30.39548559999999,
+      -90.0925652,
+      "Kent Kwik #982",
+      5
+    ],
+    [
+      159,
+      30.302171,
+      -89.82606489999999,
+      "Kent Kwik #983",
+      5
+    ],
+    [
+      156,
+      30.2846503,
+      -89.7471637,
+      "Kent Kwik #980",
+      5
+    ],
+    [
+      165,
+      30.0871673,
+      -90.4448567,
+      "Kent Kwik #990",
+      5
+    ],
+    [
+      172,
+      29.7762598,
+      -95.4279153,
+      "Kent Kwik #485",
+      13
+    ],
+    [
+      120,
+      26.087785,
+      -80.2357691,
+      "Tom Thumb #952",
+      10
+    ],
+    [
+      121,
+      26.0620563,
+      -80.3618025,
+      "Tom Thumb #953",
+      10
+    ],
+    [
+      108,
+      25.825104,
+      -80.28279719999999,
+      "Tom Thumb #950",
+      10
+    ],
+    [
+      109,
+      25.6961219,
+      -80.30085299999999,
+      "Tom Thumb #951",
+      10
+    ],
+    [
+      110,
+      25.593633,
+      -80.47895869999999,
+      "Tom Thumb #952",
+      10
+    ],
+    [
+      111,
+      25.536097,
+      -80.4787544,
+      "Tom Thumb #953",
+      10
+    ],
+    [
+      118,
+      25.1515308,
+      -80.39006839999999,
+      "Tom Thumb #960",
+      10
+    ],
+    [
+      112,
+      25.1278258,
+      -80.4113304,
+      "Kent Kwik #954",
+      10
+    ],
+    [
+      117,
+      25.0774842,
+      -80.459226,
+      "Tom Thumb #959",
+      10
+    ],
+    [
+      116,
+      24.9735654,
+      -80.55480419999999,
+      "Tom Thumb #958",
+      10
+    ],
+    [
+      119,
+      24.7160808,
+      -81.0753147,
+      "Tom Thumb #961",
+      10
+    ],
+    [
+      113,
+      24.7094128,
+      -81.1000183,
+      "Tom Thumb #955",
+      10
+    ],
+    [
+      114,
+      24.669348,
+      -81.35310059999999,
+      "Tom Thumb #956",
+      10
+    ],
+    [
+      115,
+      24.5723455,
+      -81.7362458,
+      "Tom Thumb #957",
+      10
+    ]
+  ],
+  "stores": [
+    {
+      "marker": [
+        41,
+        36.3746427,
+        -100.8031706,
+        "Kent Kwik Location #804",
+        5
+      ],
+      "popup": {
+        "request": {
+          "is_grouped": "0",
+          "map_id": "182317",
+          "data_id": "182459",
+          "id": "41",
+          "lt": "36.3746427",
+          "ln": "-100.8031706"
+        },
+        "response_fields": {
+          "response": true,
+          "description.html.heading": "<h1 class='small title_header'>Kent Kwik Location #804</h1>",
+          "description.html.address_block": "<p class=\"p_description\" style=\"z-index:1;\">2600 South Main <br />\nPerryton, TX 79070-5430 <br />\nUSA <br /></p>"
+        }
+      }
+    },
+    {
+      "marker": [
+        39,
+        32.9370385,
+        -105.9638215,
+        "Kent Kwik Location #501",
+        5
+      ],
+      "popup": {
+        "request": {
+          "is_grouped": "0",
+          "map_id": "182317",
+          "data_id": "182459",
+          "id": "39",
+          "lt": "32.9370385",
+          "ln": "-105.9638215"
+        },
+        "response_fields": {
+          "response": true,
+          "description.html.heading": "<h1 class='small title_header'>Kent Kwik Location #501</h1>",
+          "description.html.address_block": "<p class=\"p_description\" style=\"z-index:1;\">3500 N. White Sands Blvd. <br />\nAlamogordo, NM 88310-9744 <br />\nUSA <br /></p>"
+        }
+      }
+    },
+    {
+      "marker": [
+        135,
+        32.9587235,
+        -87.17152229999999,
+        "Kent Kwik #928",
+        5
+      ],
+      "popup": {
+        "request": {
+          "is_grouped": "0",
+          "map_id": "182317",
+          "data_id": "182459",
+          "id": "135",
+          "lt": "32.9587235",
+          "ln": "-87.17152229999999"
+        },
+        "response_fields": {
+          "response": true,
+          "description.html.heading": "<h1 class='title_header'>Kent Kwik #928</h1>",
+          "description.html.address_block": "<p class=\"p_description\" style=\"z-index:1;\">10395 AL-5 <br />\nBrent, AL 35034 <br />\nUS <br /></p>"
+        }
+      }
+    },
+    {
+      "marker": [
+        18,
+        31.847899,
+        -103.0851,
+        "Kent Kwik Location #273",
+        5
+      ],
+      "popup": {
+        "request": {
+          "is_grouped": "0",
+          "map_id": "182317",
+          "data_id": "182459",
+          "id": "18",
+          "lt": "31.847899",
+          "ln": "-103.0851"
+        },
+        "response_fields": {
+          "response": true,
+          "description.html.heading": "<h1 class='small title_header'>Kent Kwik Location #273</h1>",
+          "description.html.address_block": "<p class=\"p_description\" style=\"z-index:1;\">240 E Jim Sharp Blvd. <br />\nKermit, TX 79745 <br />\nUSA <br /></p>"
+        }
+      }
+    },
+    {
+      "marker": [
+        17,
+        31.5738049,
+        -102.8929409,
+        "Kent Kwik Location #262",
+        5
+      ],
+      "popup": {
+        "request": {
+          "is_grouped": "0",
+          "map_id": "182317",
+          "data_id": "182459",
+          "id": "17",
+          "lt": "31.5738049",
+          "ln": "-102.8929409"
+        },
+        "response_fields": {
+          "response": true,
+          "description.html.heading": "<h1 class='small title_header'>Kent Kwik Location #262</h1>",
+          "description.html.address_block": "<p class=\"p_description\" style=\"z-index:1;\">2113 S. Stockton Ave. <br />\nMonahans, TX 79756-7514 <br />\nUSA <br /></p>"
+        }
+      }
+    },
+    {
+      "marker": [
+        28,
+        32.0472052,
+        -102.2757834,
+        "Kent Kwik Location #315",
+        5
+      ],
+      "popup": {
+        "request": {
+          "is_grouped": "0",
+          "map_id": "182317",
+          "data_id": "182459",
+          "id": "28",
+          "lt": "32.0472052",
+          "ln": "-102.2757834"
+        },
+        "response_fields": {
+          "response": true,
+          "description.html.heading": "<h1 class='small title_header'>Kent Kwik Location #315</h1>",
+          "description.html.address_block": "<p class=\"p_description\" style=\"z-index:1;\">11400 W. State Hwy 158 <br />\nMidland, TX 79707-8994 <br />\nUSA <br /></p>"
+        }
+      }
+    },
+    {
+      "marker": [
+        75,
+        31.94248799999999,
+        -102.3714099,
+        "Kent Kwik #219",
+        5
+      ],
+      "popup": {
+        "request": {
+          "is_grouped": "0",
+          "map_id": "182317",
+          "data_id": "182459",
+          "id": "75",
+          "lt": "31.94248799999999",
+          "ln": "-102.3714099"
+        },
+        "response_fields": {
+          "response": true,
+          "description.html.heading": "<h1 class='title_header'>Kent Kwik #219</h1>",
+          "description.html.address_block": "<p class=\"p_description\" style=\"z-index:1;\">8701 nE Loop 338 <br />\nOdessa, TX 79762 <br /></p>"
+        }
+      }
+    },
+    {
+      "marker": [
+        89,
+        31.48844949999999,
+        -100.4692061,
+        "Kent Kwik #433",
+        5
+      ],
+      "popup": {
+        "request": {
+          "is_grouped": "0",
+          "map_id": "182317",
+          "data_id": "182459",
+          "id": "89",
+          "lt": "31.48844949999999",
+          "ln": "-100.4692061"
+        },
+        "response_fields": {
+          "response": true,
+          "description.html.heading": "<h1 class='title_header'>Kent Kwik #433</h1>",
+          "description.html.address_block": "<p class=\"p_description\" style=\"z-index:1;\">3251 N Bryant Blvd <br />\nSan Angelo, TX 76903 <br />\nUS <br /></p>"
+        }
+      }
+    },
+    {
+      "marker": [
+        123,
+        31.8363991,
+        -102.4087537,
+        "Kent Kwik #221",
+        5
+      ],
+      "popup": {
+        "request": {
+          "is_grouped": "0",
+          "map_id": "182317",
+          "data_id": "182459",
+          "id": "123",
+          "lt": "31.8363991",
+          "ln": "-102.4087537"
+        },
+        "response_fields": {
+          "response": true,
+          "description.html.heading": "<h1 class='title_header'>Kent Kwik #221</h1>",
+          "description.html.address_block": "<p class=\"p_description\" style=\"z-index:1;\">3600 W 8th St <br />\nOdessa, TX 79763 <br /></p>"
+        }
+      }
+    },
+    {
+      "marker": [
+        3,
+        31.844172,
+        -102.4853699,
+        "Kent Kwik #206",
+        5
+      ],
+      "popup": {
+        "request": {
+          "is_grouped": "0",
+          "map_id": "182317",
+          "data_id": "182459",
+          "id": "3",
+          "lt": "31.844172",
+          "ln": "-102.4853699"
+        },
+        "response_fields": {
+          "response": true,
+          "description.html.heading": "<h1 class='title_header'>Kent Kwik #206</h1>",
+          "description.html.address_block": "<p class=\"p_description\" style=\"z-index:1;\">9413 W University Blvd. <br />\nOdessa, TX 79764 <br />\nUnited States <br /></p>"
+        }
+      }
+    }
+  ],
+  "popup_request": {
+    "source_endpoint": "https://fortress.maptive.com/ver4/data.php?operation=get_bubble_info",
+    "linked_js": "https://fortress.maptive.com/ver4/new_ui/js/easy_markers.js",
+    "linked_js_operation": "POST /ver4/data.php?operation=get_bubble_info; clicked marker uses marker key as id and sends map_id, data_id, lt, ln, per, is_grouped.",
+    "shared_request": {
+      "method": "POST",
+      "content_type": "application/x-www-form-urlencoded",
+      "fields": {
+        "is_grouped": "0",
+        "map_id": "182317",
+        "data_id": "182459",
+        "id": "each record marker_key",
+        "lt": "each record marker latitude",
+        "ln": "each record marker longitude",
+        "per": "compact JSON serialization of publisher per configuration"
+      },
+      "per_publisher_config": {
+        "dist_sel": 0,
+        "dist_cb_status": false,
+        "field_cb_status": true,
+        "clustering_cb_status": "1",
+        "country_sel": "",
+        "locale": "us",
+        "map_type": "TERRAIN",
+        "view_sel": "0",
+        "groups": null,
+        "groups_mode": 1,
+        "mb_style": "1",
+        "mb_over": 0,
+        "mb_piechart": 0,
+        "mb_detail": 0,
+        "markers_set": "14",
+        "max_lat": 36.6984807,
+        "max_lon": -80.2357691,
+        "min_lat": 24.5723455,
+        "min_lon": -105.9638215,
+        "color_col": null,
+        "postal_col": 11,
+        "accuracy_col": 12,
+        "locator": "1",
+        "render_method": 0,
+        "groups_settings": [
+          {
+            "pos": 0,
+            "show": true
+          },
+          {
+            "pos": 1,
+            "show": true
+          },
+          {
+            "pos": 2,
+            "show": true
+          },
+          {
+            "pos": 3,
+            "show": true
+          },
+          {
+            "pos": 4,
+            "show": true
+          },
+          {
+            "pos": 5,
+            "show": true
+          },
+          {
+            "pos": 6,
+            "show": true
+          },
+          {
+            "pos": 7,
+            "show": true
+          },
+          {
+            "pos": 8,
+            "show": true
+          },
+          {
+            "pos": 9,
+            "show": true
+          },
+          {
+            "pos": 10,
+            "show": true
+          },
+          {
+            "pos": 11,
+            "show": true
+          },
+          {
+            "pos": 12,
+            "show": true
+          },
+          {
+            "pos": 13,
+            "show": true
+          }
+        ],
+        "title_display": "1",
+        "enable_printing": "1",
+        "address_col": -1,
+        "city_col": -1,
+        "state_col": -1,
+        "zip_col": -1,
+        "title_col": -1,
+        "desc_col": -1,
+        "descURL_col": -1,
+        "descIMG_col": -1,
+        "email_col": -1,
+        "country_column": -1,
+        "search_col": -1,
+        "title": "Kent Locations",
+        "description": "",
+        "group_header": null,
+        "clustering_lock": 0,
+        "open_menu": 0,
+        "mb_override_cluster": 0,
+        "show_info_directions": 0,
+        "web_target": 0,
+        "not_normal_group": 0,
+        "dont_bold_description_headers": 0,
+        "limit_search": 0,
+        "show_all_addresses": 0,
+        "map_password": 0,
+        "mb_markers_set": "14",
+        "min_lng": -122.6778424,
+        "max_lng": -73.4119925,
+        "enable_filtering": 0,
+        "enable_proximity": 0,
+        "enable_directions": "1",
+        "map_style": [
+          {
+            "featureType": "road.arterial",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "road.local",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "road.arterial",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "road.local",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "road.highway",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "road.highway",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "water",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "water",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "administrative",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "administrative",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "poi",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "poi",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "transit",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "transit",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "landscape",
+            "elementType": "geometry",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          },
+          {
+            "featureType": "landscape",
+            "elementType": "labels",
+            "stylers": [
+              {
+                "visibility": "on"
+              }
+            ]
+          }
+        ],
+        "title_description_bar": 1,
+        "enable_street_view": "1",
+        "enable_satellite_view": "1",
+        "remove_roads": 0,
+        "map_states": [],
+        "aggregation": -1,
+        "enable_grouping_tool": "1",
+        "hide_popup_edit": 0,
+        "hide_popup_delete": 0,
+        "hide_popup_street_view": 0,
+        "hide_popup_directions": 0,
+        "hide_popup_proximity": 0,
+        "presentation_mode": "1",
+        "map_ver": 1,
+        "enable_show_location": "1",
+        "show_all_when_zoomed": "1",
+        "enable_distance_calc": "1",
+        "custom_individual_markers": {
+          "0": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "1": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "2": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "3": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "4": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "5": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "6": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "7": {
+            "style_type": "custom",
+            "style_id": 9023,
+            "label": ""
+          },
+          "8": {
+            "style_type": "custom",
+            "style_id": 9023,
+            "label": ""
+          },
+          "9": {
+            "style_type": "custom",
+            "style_id": 9023,
+            "label": ""
+          },
+          "10": {
+            "style_type": "custom",
+            "style_id": 9027,
+            "label": ""
+          },
+          "11": {
+            "style_type": "custom",
+            "style_id": 9027,
+            "label": ""
+          },
+          "12": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "13": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "14": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "15": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "16": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "17": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "18": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "19": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "20": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "21": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "22": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "23": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "24": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "25": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "26": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "27": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "28": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "29": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "30": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "31": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "32": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "33": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "34": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "35": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "36": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "37": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "38": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "39": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "40": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "41": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "65": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "66": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "67": {
+            "style_type": "custom",
+            "style_id": 9027,
+            "label": ""
+          },
+          "68": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "69": {
+            "style_type": "custom",
+            "style_id": 9025,
+            "label": ""
+          },
+          "70": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "71": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "72": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "73": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "74": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "75": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "76": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "77": {
+            "style_type": "custom",
+            "style_id": 9358,
+            "label": ""
+          },
+          "78": {
+            "style_type": "custom",
+            "style_id": 26313,
+            "label": ""
+          },
+          "79": {
+            "style_type": "custom",
+            "style_id": 26313,
+            "label": ""
+          },
+          "80": {
+            "style_type": "custom",
+            "style_id": 26313,
+            "label": ""
+          },
+          "81": {
+            "style_type": "custom",
+            "style_id": 26313,
+            "label": ""
+          },
+          "82": {
+            "style_type": "custom",
+            "style_id": 26313,
+            "label": ""
+          },
+          "83": {
+            "style_type": "custom",
+            "style_id": 26313,
+            "label": ""
+          },
+          "84": {
+            "style_type": "custom",
+            "style_id": 26313,
+            "label": ""
+          },
+          "85": {
+            "style_type": "custom",
+            "style_id": 26313,
+            "label": ""
+          },
+          "86": {
+            "style_type": "custom",
+            "style_id": 26313,
+            "label": ""
+          },
+          "87": {
+            "style_type": "custom",
+            "style_id": 26313,
+            "label": ""
+          },
+          "88": {
+            "style_type": "custom",
+            "style_id": 26313,
+            "label": ""
+          },
+          "89": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "90": {
+            "style_type": "custom",
+            "style_id": 27676,
+            "label": ""
+          },
+          "91": {
+            "style_type": "custom",
+            "style_id": 9358,
+            "label": ""
+          },
+          "92": {
+            "style_type": "custom",
+            "style_id": 9027,
+            "label": ""
+          },
+          "93": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "94": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "95": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "96": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "97": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "98": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "99": {
+            "style_type": "custom",
+            "style_id": 29632,
+            "label": ""
+          },
+          "100": {
+            "style_type": "custom",
+            "style_id": 29632,
+            "label": ""
+          },
+          "101": {
+            "style_type": "custom",
+            "style_id": 29632,
+            "label": ""
+          },
+          "102": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "105": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "106": {
+            "style_type": "custom",
+            "style_id": 9021,
+            "label": ""
+          },
+          "108": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "109": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "110": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "111": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "112": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "113": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "114": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "115": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "116": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "117": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "118": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "119": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "120": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "121": {
+            "style_type": "custom",
+            "style_id": 32796,
+            "label": ""
+          },
+          "122": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "123": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "124": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "125": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "126": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "127": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "128": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "129": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "130": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "131": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "132": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "133": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "134": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "135": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "136": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "137": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "138": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "139": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "140": {
+            "style_type": "custom",
+            "style_id": 29632,
+            "label": ""
+          },
+          "141": {
+            "style_type": "custom",
+            "style_id": 9021,
+            "label": ""
+          },
+          "142": {
+            "style_type": "custom",
+            "style_id": 9021,
+            "label": ""
+          },
+          "143": {
+            "style_type": "custom",
+            "style_id": 9021,
+            "label": ""
+          },
+          "144": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "145": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "146": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "147": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "148": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "149": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "150": {
+            "style_type": "custom",
+            "style_id": 29632,
+            "label": ""
+          },
+          "151": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "152": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "153": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "154": {
+            "style_type": "custom",
+            "style_id": 9021,
+            "label": ""
+          },
+          "155": {
+            "style_type": "custom",
+            "style_id": 29632,
+            "label": ""
+          },
+          "156": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "157": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "158": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "159": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "160": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "161": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "162": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "163": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "164": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "165": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "166": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "167": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "168": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "169": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "170": {
+            "style_type": "custom",
+            "style_id": 9021,
+            "label": ""
+          },
+          "171": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "172": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "173": {
+            "style_type": "custom",
+            "style_id": 27676,
+            "label": ""
+          },
+          "174": {
+            "style_type": "custom",
+            "style_id": 27676,
+            "label": ""
+          },
+          "175": {
+            "style_type": "custom",
+            "style_id": 27676,
+            "label": ""
+          },
+          "176": {
+            "style_type": "custom",
+            "style_id": 27676,
+            "label": ""
+          }
+        },
+        "custom_group_markers": {},
+        "custom_group_text_markers": {},
+        "custom_all_marker": {},
+        "numeric_columns": {},
+        "subgroup_cols": {},
+        "boundary_group_settings": {},
+        "advanced_reference_data": [
+          [
+            "Avis Lube",
+            "Baskin-Robbins",
+            "Bountyland",
+            "Huddle House",
+            "Kent Car Wash",
+            "Kent Kwik",
+            "Kent Lube",
+            "Kent Tire",
+            "Mr Payroll",
+            "Rustic Cafe",
+            "Tom Thumb",
+            "US",
+            "WesTex",
+            "%?%"
+          ]
+        ],
+        "advanced_reference_columns": [
+          7
+        ],
+        "additional_columns": [],
+        "legend_not_grouping": 0,
+        "remove_highways": 0,
+        "remove_highway_labels": 0,
+        "remove_road_labels": 0,
+        "enable_map_zoom": "1",
+        "enable_restrict_bounds": 0,
+        "search_just_zoom": 0,
+        "split_grouped_markers": 0,
+        "add_directions_at_start": 0,
+        "zoom_to_user_on_load": 0,
+        "territories_on": "1",
+        "enable_territories": 0,
+        "boundaries_on": "1",
+        "enable_location_finder": 0,
+        "start_location_finder": 0,
+        "group_marker_pie_charts": 1,
+        "hide_all_markers": 0,
+        "unit_system": 0,
+        "heatmaps": {},
+        "enable_heatmaps": 0,
+        "enable_boundaries": 0,
+        "boundary_to_group": {},
+        "hide_boundary_labels": 0,
+        "combine_group_totals": 0,
+        "filters_unaffect_boundaries": 0,
+        "hide_no_fill_b": 0,
+        "hide_territory_labels": 0,
+        "marker_label_fs": 10,
+        "text_markers_on": 0,
+        "text_marker_col": -1,
+        "text_marker_c": "e5e5ff",
+        "ss_type": 3,
+        "ss_zoom": 0,
+        "ss_exact_word": 0,
+        "remove_water": 0,
+        "remove_water_label": 0,
+        "remove_administrative": 0,
+        "remove_administrative_label": 0,
+        "remove_poi": 0,
+        "remove_poi_label": 0,
+        "remove_transit": 0,
+        "remove_transit_label": 0,
+        "map_font_bold": 0,
+        "view_sel_last": 0,
+        "zoom_to_on_load_admin": 0,
+        "search_always_on": 0,
+        "proximities_on": "1",
+        "hm_on": "1",
+        "only_display_legend": 0,
+        "address_key_open": 0,
+        "group_col": "7",
+        "unique_groups_7": [
+          "Avis Lube",
+          "Baskin-Robbins",
+          "Bountyland",
+          "Huddle House",
+          "Kent Car Wash",
+          "Kent Kwik",
+          "Kent Lube",
+          "Kent Tire",
+          "Mr Payroll",
+          "Rustic Cafe",
+          "Tom Thumb",
+          "US",
+          "WesTex",
+          "%?%"
+        ],
+        "mb_settings": {
+          "resize_mode": "0",
+          "width": "325",
+          "content_height": "210",
+          "min_auto_width": "318",
+          "header_fs": "22",
+          "header_fc": "#428BCA",
+          "body_c": "#FFF",
+          "footer_c": "#5e99d5",
+          "footer_fc": "#FFF"
+        },
+        "use_image_markers": 0,
+        "gt_whole_names": 0,
+        "enable_lasso": 0,
+        "legend_not_boundary": 0,
+        "custom_individual_text_markers": {},
+        "remove_ls": 0,
+        "remove_ls_label": 0,
+        "label_above_no_num": 0,
+        "pub_map_hidden_filter_cols": {},
+        "individual_markers": {
+          "31": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "32": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "34": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "35": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "36": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "37": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "38": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "39": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "40": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "41": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "42": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "43": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "44": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "45": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "46": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "47": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "48": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "49": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "50": {
+            "style_type": "custom",
+            "style_id": 9024,
+            "label": ""
+          },
+          "51": {
+            "style_type": "custom",
+            "style_id": 9024,
+            "label": ""
+          },
+          "52": {
+            "style_type": "custom",
+            "style_id": 9024,
+            "label": ""
+          },
+          "53": {
+            "style_type": "custom",
+            "style_id": 9024,
+            "label": ""
+          },
+          "54": {
+            "style_type": "custom",
+            "style_id": 9024,
+            "label": ""
+          },
+          "55": {
+            "style_type": "custom",
+            "style_id": 9024,
+            "label": ""
+          },
+          "56": {
+            "style_type": "custom",
+            "style_id": 9024,
+            "label": ""
+          },
+          "57": {
+            "style_type": "custom",
+            "style_id": 9024,
+            "label": ""
+          },
+          "58": {
+            "style_type": "custom",
+            "style_id": 9024,
+            "label": ""
+          },
+          "59": {
+            "style_type": "custom",
+            "style_id": 9024,
+            "label": ""
+          },
+          "60": {
+            "style_type": "custom",
+            "style_id": 9024,
+            "label": ""
+          },
+          "61": {
+            "style_type": "custom",
+            "style_id": 9024,
+            "label": ""
+          },
+          "62": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "63": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "64": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "65": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "66": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "67": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "68": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "69": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "70": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "71": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "72": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "73": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "74": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "75": {
+            "style_type": "custom",
+            "style_id": 9079,
+            "label": ""
+          },
+          "76": {
+            "style_type": "custom",
+            "style_id": 9356,
+            "label": ""
+          },
+          "77": {
+            "style_type": "custom",
+            "style_id": 9356,
+            "label": ""
+          },
+          "79": {
+            "style_type": "custom",
+            "style_id": 9358,
+            "label": ""
+          },
+          "80": {
+            "style_type": "custom",
+            "style_id": 9358,
+            "label": ""
+          },
+          "81": {
+            "style_type": "custom",
+            "style_id": 9358,
+            "label": ""
+          },
+          "82": {
+            "style_type": "custom",
+            "style_id": 9358,
+            "label": ""
+          },
+          "83": {
+            "style_type": "custom",
+            "style_id": 9358,
+            "label": ""
+          },
+          "84": {
+            "style_type": "custom",
+            "style_id": 9358,
+            "label": ""
+          },
+          "85": {
+            "style_type": "custom",
+            "style_id": 9358,
+            "label": ""
+          },
+          "86": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "87": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "88": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "89": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "90": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "91": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "92": {
+            "style_type": "custom",
+            "style_id": 9027,
+            "label": ""
+          },
+          "93": {
+            "style_type": "custom",
+            "style_id": 9022,
+            "label": ""
+          },
+          "94": {
+            "style_type": "custom",
+            "style_id": 9026,
+            "label": ""
+          }
+        }
+      }
+    }
+  }
+}

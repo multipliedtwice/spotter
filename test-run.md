@@ -1,8 +1,12 @@
 # Latest full suite
 
-- Date: 2026-11-02.
-- Command: `taskpolicy -b nice -n 19 env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python manage.py test`
-- Result: PASS. 140 tests; 0 failures, 0 errors, 0 skips. Includes two cache-hit regressions: coordinate input, and station_id input with zero starting fuel (plan reused, no new routing call, no unbounded station query, station_id revalidation and zero-fuel normalization still run).
+- Date: 2026-11-03.
+- Command: `taskpolicy -b nice -n 19 env PYTHONDONTWRITEBYTECODE=1 .venv/bin/python manage.py test --parallel=1`
+- Result: PASS. 280 tests; 0 failures, 0 errors, 0 skips. Exit code 0.
 - Scope: complete Django discovery; no filters or fail-fast.
-- Source: `/Users/danilt/spotter.ai`; Git `4758c9e43f75443d36bc763869146d597419862e` plus uncommitted changes in `planner/views.py`, `planner/tests/test_views.py`, `postman_collection.json`. Requirements and test settings unchanged.
-- Configuration: `fuelroute.settings`; Django 6.1.2; Python 3.13.2; osmium 4.3.2; SQLite test database; providers mocked; tiny local OSM fixtures; gazetteer regression reads bundled `data/gazetteer.csv` and `data/us_boundary.geojson`.
+- Source: `/Users/danilt/spotter.ai`, branch `master`, Git `544adad9f65b0b1472452ea59e731ed1b31047c1` plus all uncommitted work present at run time: 26 modified tracked files and 93 untracked files.
+- Modified planner code: `evidence.py`, `osm_evidence.py`, `planning.py`, `road.py`, `templates/planner/map.html`; commands `load_data.py`, `resolve_geoapify.py`, `resolve_loves.py`, `resolve_osm.py`; tests `test_geoapify.py`, `test_imports.py`, `test_loves.py`, `test_osm.py`, `test_views.py`.
+- Untracked planner code: `ambest_evidence.py`, `directory_evidence.py`, `kwiktrip_evidence.py`, `onvo_evidence.py`, `operator_approval.py`, `operator_evidence.py`, `operator_roads.py`, `raw_operator_evidence.py`, `roadranger_evidence.py`, `shared_operator_approval.py`, `wex_evidence.py`; commands `resolve_ambest`, `resolve_asap`, `resolve_circlek`, `resolve_dandy`, `resolve_directory`, `resolve_duckthru`, `resolve_good2go`, `resolve_hucks`, `resolve_jetfood`, `resolve_kentkwik`, `resolve_kwiktrip`, `resolve_onvo`, `resolve_operator`, `resolve_parkers`, `resolve_petes`, `resolve_pilot`, `resolve_pump_pantry`, `resolve_racetrac`, `resolve_roadranger`, `resolve_royalfarms`, `resolve_rutters`, `resolve_sevenfleet`, `resolve_spinx`, `resolve_sunstop`, `resolve_ta`, `resolve_texbest`, `resolve_thorntons`, `resolve_tootntotum`, `resolve_wex`, `resolve_yesway`; tests `test_ambest`, `test_circlek`, `test_directory`, `test_kwiktrip`, `test_onvo`, `test_operator`, `test_primary_city_formats`, `test_raw_operators`, `test_roadranger`, `test_ta`, `test_wex`, `test_yesway`.
+- Covered changes: Geoapify `--unresolved-only` (excludes groups with both coordinates, keeps one-coordinate groups) and keyless cache replay when no request occurs; junction search filtered by haversine distance with a search window scaled to the limit, five-mile default for Kwik Trip and Love's, one-mile limit for WEX, AMBEST and directory, inclusive boundary regression.
+- Data at run time: `data/station_evidence.csv` 3,392 accepted groups; `data/station_unresolved.csv` 3,234 groups; `data/source_wex_locations.json` 4,247 records.
+- Configuration: `fuelroute.settings`; Django 6.1.2; Python 3.13.2; osmium 4.3.2; SQLite test database; serial run (`--parallel=1`); providers mocked; no live network calls; tiny local OSM fixtures; gazetteer regression reads bundled `data/gazetteer.csv` and `data/us_boundary.geojson`.

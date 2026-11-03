@@ -85,7 +85,7 @@ def evidence(station, results, boundary, source):
             continue
         street = ' '.join(str(item.get(k, '')).strip() for k in ('housenumber', 'street')).strip()
         addresses = (street, item.get('address_line1', ''), item.get('formatted', ''))
-        matched = next((address for address in addresses if isinstance(address, str) and station_match(names, station.address, name, address)), None)
+        matched = next((address for address in addresses if isinstance(address, str) and station_match(names, station.address, name, address, station.state)), None)
         if matched:
             datasource = item.get('datasource', {})
             return {'station_id': station.source_id, 'address': station.address, 'city': station.city, 'state': station.state, 'latitude': latitude, 'longitude': longitude, 'matched_name': name, 'matched_address': matched, 'source': source, 'source_row_ids': '|'.join(f'{station.source_id}:{i+1}' for i in range(len(station.rows))), 'place_id': item.get('place_id', ''), 'datasource_name': datasource.get('sourcename', datasource.get('sourceName', '')), 'datasource_license': datasource.get('license', ''), 'datasource_attribution': datasource.get('attribution', ''), 'datasource_url': datasource.get('url', datasource.get('sourceURL', ''))} 
@@ -101,13 +101,12 @@ class Command(BaseCommand):
         parser.add_argument('--max-requests', type=int, required=True)
         parser.add_argument('--credit-budget', type=int, required=True)
         parser.add_argument('--replace-output', action='store_true')
+        parser.add_argument('--unresolved-only', action='store_true', help='Exclude stations with both coordinates')
 
-    def handle(self, sample, cache, output, max_requests, credit_budget, replace_output, **options):
+    def handle(self, sample, cache, output, max_requests, credit_budget, replace_output, unresolved_only, **options):
         if max_requests < 0 or credit_budget < 0:
             raise CommandError('Request and credit budgets must be nonnegative.')
         secret = os.environ.get('GEOAPIFY_API_KEY', '').strip()
-        if not secret:
-            raise CommandError('Set GEOAPIFY_API_KEY in the environment.')
         cache_path, output_path = Path(cache), Path(output)
         if cache_path.resolve() == output_path.resolve():
             raise CommandError('Cache and evidence output must be different files.')
@@ -135,18 +134,22 @@ class Command(BaseCommand):
             found_keys = {(s.source_id, norm(s.address), norm(s.city), norm(s.state)) for s in stations}
             if found_keys != sample_keys:
                 raise CommandError('Sample contains station groups absent from the current import.')
+        if unresolved_only:
+            stations = [s for s in stations if s.latitude is None or s.longitude is None]
         rows, used, remaining, last_request = [], 0, 0, None
         for station in stations:
             found = None
             for with_address in (True, False):
                 source = source_query(station, with_address=with_address)
-                if secret in source:
+                if secret and secret in source:
                     raise CommandError('Source query could not be stored safely.')
                 identity = hashlib.sha256(source.encode()).hexdigest()
                 if identity not in asset:
                     if used >= min(max_requests, credit_budget):
                         remaining += 1
                         break
+                    if not secret:
+                        raise CommandError('Set GEOAPIFY_API_KEY in the environment for uncached requests.')
                     if last_request is not None:
                         delay = 0.5 - (time.monotonic() - last_request)
                         if delay > 0:

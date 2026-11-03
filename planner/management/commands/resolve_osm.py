@@ -23,7 +23,7 @@ class Command(BaseCommand):
     def handle(self, pbf, output, unresolved, **options):
         import json
         from planner.models import City
-        from planner.osm_evidence import area_point, canonical_name, canonical_source_name, distance_miles, exact_ref, identities, identity_tags, intersection_constraint, is_business, junction_exit_keys, junction_markers, matched_values, street_key, supported_exit_keys, supported_street_address, typed_roads, valid_context
+        from planner.osm_evidence import JUNCTION_LINK_ROADS, JUNCTION_MAIN_ROADS, area_point, canonical_name, canonical_source_name, distance_miles, evidence_city_key, exact_ref, identities, identity_tags, intersection_constraint, is_business, junction_exit_keys, junction_markers, matched_values, street_key, supported_exit_keys, supported_street_address, typed_roads, valid_context
 
         try:
             import osmium
@@ -53,15 +53,15 @@ class Command(BaseCommand):
         stations = list(Station.objects.order_by('pk'))
         cities = defaultdict(list)
         for city in City.objects.all():
-            cities[(norm(city.name), norm(city.state))].append([city.latitude, city.longitude])
+            cities[(evidence_city_key(city.name), norm(city.state))].append([city.latitude, city.longitude])
         streets, exits, intersections = defaultdict(list), defaultdict(list), defaultdict(list)
         constraints = {}
         for station in stations:
             streets[street_key(station.address)].append(station)
-            for key in supported_exit_keys(station.address):
+            for key in supported_exit_keys(station.address, station.state):
                 if key[2] == 'exit':
                     exits[key].append(station)
-            constraint = intersection_constraint(station.address)
+            constraint = intersection_constraint(station.address, station.state)
             if constraint:
                 constraints[station.pk] = constraint
                 for kind, number in constraint[0]:
@@ -85,13 +85,13 @@ class Command(BaseCommand):
                     if tags.get('amenity') == 'fuel' or is_business(tags):
                         feature = {'type': 'node', 'id': obj.id, 'tags': {k: v for k, v in tags.items() if k in evidence_fields}, 'geometry': {'type': 'Point', 'coordinates': [point[1], point[0]]}, 'point': point}
                         (features if tags.get('amenity') == 'fuel' else sites).append(feature)
-                elif obj.is_way() and tags.get('highway') in ('motorway', 'motorway_link') and (tags.get('ref') or tags.get('destination:ref')):
+                elif obj.is_way() and tags.get('highway') in JUNCTION_MAIN_ROADS | JUNCTION_LINK_ROADS and (tags.get('ref') or tags.get('destination:ref')):
                     nodes = [n.ref for n in obj.nodes]
                     if any(node in junctions for node in nodes):
                         base = {'id': obj.id, 'highway': tags['highway'], 'nodes': nodes, 'url': f'https://www.openstreetmap.org/way/{obj.id}'}
-                        if tags['highway'] == 'motorway' and tags.get('ref'):
+                        if tags['highway'] in JUNCTION_MAIN_ROADS and tags.get('ref'):
                             roads.append({**base, 'ref': tags['ref']})
-                        if tags['highway'] == 'motorway_link' and tags.get('destination:ref'):
+                        if tags['highway'] in JUNCTION_LINK_ROADS and tags.get('destination:ref'):
                             ramps.append({**base, 'destination:ref': tags['destination:ref']})
                 elif obj.is_area() and (tags.get('amenity') == 'fuel' or is_business(tags)):
                     try:
@@ -157,7 +157,11 @@ class Command(BaseCommand):
                     for junction, main_refs, interchange_refs in grid.get((cell[0] + dy, cell[1] + dx), ()):
                         if distance_miles(point, junction['point']) > 1:
                             continue
-                        for key in junction_exit_keys(junction['road']['ref'], junction):
+                        keys = junction_exit_keys(junction['road']['ref'], junction)
+                        for kind, _ in typed_roads(junction['road']['ref']):
+                            if kind.startswith('STATE:') and kind[6:] in states:
+                                keys.update(junction_exit_keys(junction['road']['ref'], junction, kind[6:]))
+                        for key in keys:
                             possibilities.extend((station, junction) for station in exits.get(key, ()))
                         for key in main_refs:
                             for station in intersections.get(key, ()):
@@ -174,7 +178,7 @@ class Command(BaseCommand):
                     context['site']['url'] = f"https://www.openstreetmap.org/{site['type']}/{site['id']}"
                 if junction:
                     context['junction'] = junction
-                if station.state not in states or not valid_context(station, context, point, states[station.state], cities[(norm(station.city), norm(station.state))]):
+                if station.state not in states or not valid_context(station, context, point, states[station.state], cities[(evidence_city_key(station.city), norm(station.state))]):
                     continue
                 key = (feature['type'], feature['id'], site['type'] if site else '', site['id'] if site else 0)
                 candidates[station.pk][key] = (feature, context)
@@ -230,7 +234,7 @@ class Command(BaseCommand):
             else:
                 if values:
                     reason = 'ambiguous_match'
-                elif not supported_exit_keys(station.address) and not intersection_constraint(station.address) and not supported_street_address(station.address):
+                elif not supported_exit_keys(station.address, station.state) and not intersection_constraint(station.address, station.state) and not supported_street_address(station.address):
                     reason = 'unsupported_source_address'
                 elif not any(canonical_source_name(row['Truckstop Name']) in input_names for row in station.rows):
                     reason = 'no_matching_osm_identity'

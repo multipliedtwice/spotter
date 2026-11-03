@@ -1,0 +1,226 @@
+{
+  "source": "https://duckthru.com/",
+  "stores": [
+    {
+      "source_page_uri": "https://duckthru.com/stores/duck-thru-3/",
+      "published_page_title": "Duck Thru #03 in Ahoskie, NC 27910 | Gas, Food & Rewards Near You",
+      "location": {
+        "store": "Duck Thru #03",
+        "address": "401 West NC-561",
+        "address2": "",
+        "city": "Ahoskie",
+        "state": "NC",
+        "zip": "27910",
+        "country": "United States",
+        "lat": "36.306333",
+        "lng": "-77.024634",
+        "id": 487,
+        "mapShortcode": true
+      }
+    },
+    {
+      "source_page_uri": "https://duckthru.com/stores/duck-thru-5/",
+      "published_page_title": "Duck Thru #05 in Franklin, VA | Gas, Food & Rewards Near You",
+      "location": {
+        "store": "Duck Thru #05",
+        "address": "30001 Smith Ferry Rd",
+        "address2": "",
+        "city": "Franklin",
+        "state": "VA",
+        "zip": "23851",
+        "country": "United States",
+        "lat": "36.612540",
+        "lng": "-76.929059",
+        "id": 600,
+        "mapShortcode": true
+      }
+    },
+    {
+      "source_page_uri": "https://duckthru.com/stores/duck-thru-7/",
+      "published_page_title": "Duck Thru #07 in Rich Square, NC | Gas, Food & Rewards Near You",
+      "location": {
+        "store": "Duck Thru #07",
+        "address": "117 N. Main Street",
+        "address2": "",
+        "city": "Rich Square",
+        "state": "NC",
+        "zip": "27869",
+        "country": "United States",
+        "lat": "36.274171",
+        "lng": "-77.284670",
+        "id": 596,
+        "mapShortcode": true
+      }
+    },
+    {
+      "source_page_uri": "https://duckthru.com/stores/duck-thru-18/",
+      "published_page_title": "Duck Thru #18 in Winton, NC | Gas, Food & Rewards Near You",
+      "location": {
+        "store": "Duck Thru #18",
+        "address": "100 South Main St",
+        "address2": "",
+        "city": "Winton",
+        "state": "NC",
+        "zip": "27986",
+        "country": "United States",
+        "lat": "36.390651",
+        "lng": "-76.936720",
+        "id": 578,
+        "mapShortcode": true
+      }
+    },
+    {
+      "source_page_uri": "https://duckthru.com/stores/duck-thru-34/",
+      "published_page_title": "Duck Thru #34 in Elizabeth City | Gas, Food & Rewards Near You",
+      "location": {
+        "store": "Duck Thru #34",
+        "address": "1052 US 158",
+        "address2": "",
+        "city": "Elizabeth City",
+        "state": "NC",
+        "zip": "27909",
+        "country": "United States",
+        "lat": "36.415477",
+        "lng": "-76.342140",
+        "id": 546,
+        "mapShortcode": true
+      }
+    },
+    {
+      "source_page_uri": "https://duckthru.com/stores/duck-thru-41/",
+      "published_page_title": "Duck Thru #41 in Hertford, NC | Gas, Food & Rewards Near You",
+      "location": {
+        "store": "Duck Thru #41",
+        "address": "964 Ocean Hwy South",
+        "address2": "",
+        "city": "Hertford",
+        "state": "NC",
+        "zip": "27944",
+        "country": "United States",
+        "lat": "36.143577",
+        "lng": "-76.489887",
+        "id": 532,
+        "mapShortcode": true
+      }
+    },
+    {
+      "source_page_uri": "https://duckthru.com/stores/duck-thru-42/",
+      "published_page_title": "Duck Thru #42 in Seaboard, NC | Gas, Food & Rewards Near You",
+      "location": {
+        "store": "Duck Thru #42",
+        "address": "116 W. Central Street",
+        "address2": "",
+        "city": "Seaboard",
+        "state": "NC",
+        "zip": "27876",
+        "country": "United States",
+        "lat": "36.490203",
+        "lng": "-77.443443",
+        "id": 530,
+        "mapShortcode": true
+      }
+    },
+    {
+      "source_page_uri": "https://duckthru.com/stores/duck-thru-54/",
+      "published_page_title": "Duck Thru #54 in Columbia, NC 27925 | Gas, Food & Rewards Near You",
+      "location": {
+        "store": "Duck Thru #54",
+        "address": "775 US Highway 64 E",
+        "address2": "",
+        "city": "Columbia",
+        "state": "NC",
+        "zip": "27925",
+        "country": "US",
+        "lat": "35.919414",
+        "lng": "-76.239387",
+        "id": 55,
+        "mapShortcode": true
+      }
+    },
+    {
+      "source_page_uri": "https://duckthru.com/stores/duck-thru-55/",
+      "published_page_title": "Duck Thru #55 in Windsor, NC 27983 | Gas, Food & Rewards Near You",
+      "location": {
+        "store": "Duck Thru #55",
+        "address": "211 US 13 Bypass",
+        "address2": "",
+        "city": "Windsor",
+        "state": "NC",
+        "zip": "27983",
+        "country": "United States",
+        "lat": "36.003507",
+        "lng": "-76.960802",
+        "id": 508,
+        "mapShortcode": true
+      }
+    },
+    {
+      "source_page_uri": "https://duckthru.com/stores/duck-thru-57/",
+      "published_page_title": "Duck Thru #57 in Pinetops, NC | Gas, Food & Rewards Near You",
+      "location": {
+        "store": "Duck Thru #57",
+        "address": "316 E. Hamlet St.",
+        "address2": "",
+        "city": "Pinetops",
+        "state": "NC",
+        "zip": "27864",
+        "country": "United States",
+        "lat": "35.789184",
+        "lng": "-77.633721",
+        "id": 1297,
+        "mapShortcode": true
+      }
+    },
+    {
+      "source_page_uri": "https://duckthru.com/stores/duck-thru-58/",
+      "published_page_title": "Duck Thru #58 in Suffolk, VA | Gas, Food & Rewards Near You",
+      "location": {
+        "store": "Duck Thru #58",
+        "address": "6125 Whaleyville Boulevard",
+        "address2": "",
+        "city": "Suffolk",
+        "state": "VA",
+        "zip": "23438",
+        "country": "USA",
+        "lat": "36.595747",
+        "lng": "-76.675886",
+        "id": 1863,
+        "mapShortcode": true
+      }
+    },
+    {
+      "source_page_uri": "https://duckthru.com/stores/duck-thru-59/",
+      "published_page_title": "Duck Thru #59 in Greenville, NC | Gas, Food & Rewards Near You",
+      "location": {
+        "store": "Duck Thru #59",
+        "address": "3921 Bell Arthur Road",
+        "address2": "",
+        "city": "Greenville",
+        "state": "NC",
+        "zip": "27834",
+        "country": "United States",
+        "lat": "35.561192",
+        "lng": "-77.469931",
+        "id": 2021,
+        "mapShortcode": true
+      }
+    },
+    {
+      "source_page_uri": "https://duckthru.com/stores/duck-thru-60/",
+      "published_page_title": "Duck Thru #60 in Spring Hope, NC | Gas, Food & Rewards Near You",
+      "location": {
+        "store": "Duck Thru #60",
+        "address": "1100 S NC 581",
+        "address2": "",
+        "city": "Spring Hope",
+        "state": "NC",
+        "zip": "27882",
+        "country": "United States",
+        "lat": "35.933077",
+        "lng": "-78.099456",
+        "id": 1983,
+        "mapShortcode": true
+      }
+    }
+  ]
+}

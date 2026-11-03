@@ -1,0 +1,32 @@
+{
+  "records": [
+    {
+      "owners": [
+        {
+          "station_id": "72812",
+          "address": "US 8",
+          "city": "Barron",
+          "state": "WI"
+        },
+        {
+          "station_id": "73096",
+          "address": "US 8",
+          "city": "Barron",
+          "state": "WI"
+        }
+      ],
+      "store": {
+        "source": "https://www.kwiktrip.com/Maps-Downloads/Store-List",
+        "number": "748",
+        "name": "KWIK TRIP #748",
+        "address": "1456 E LA SALLE AVE",
+        "city": "BARRON",
+        "state": "WI",
+        "latitude": 45.40061,
+        "longitude": -91.83492,
+        "sells_gas": true,
+        "sells_diesel": true
+      }
+    }
+  ]
+}

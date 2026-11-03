@@ -8,7 +8,7 @@ from unittest.mock import patch
 from django.core.management import call_command
 from django.test import SimpleTestCase, TestCase
 
-from planner.osm_evidence import area_point, identity_matches, supported_exit_keys, valid_area, valid_context
+from planner.osm_evidence import area_point, exact_ref, identity_matches, supported_exit_keys, typed_roads, valid_area, valid_context
 from planner.models import City, Station
 
 
@@ -34,6 +34,24 @@ class OsmValidationTests(SimpleTestCase):
         self.assertFalse(self.check({**self.context, 'tags': {**self.context['tags'], 'addr:state': 'Texas'}}))
         self.assertFalse(self.check({**self.context, 'tags': {**self.context['tags'], 'addr:state': 'Unknown'}}))
 
+    def test_joined_site_validates_both_localities(self):
+        site = {'type': 'way', 'id': 10, 'url': 'https://www.openstreetmap.org/way/10', 'geometry': {'type': 'Polygon', 'coordinates': [[[-77.01, 38.89], [-76.99, 38.89], [-76.99, 38.91], [-77.01, 38.91], [-77.01, 38.89]]]}, 'tags': {'landuse': 'retail', 'brand': 'Pilot', 'ref': '42', 'addr:housenumber': '123', 'addr:street': 'N. Main St.', 'addr:city': 'Washington', 'addr:state': 'DC'}}
+        context = {**self.context, 'tags': {**self.context['tags'], 'addr:city': 'WASHINGTON', 'addr:state': 'District of Columbia'}, 'site': site}
+        self.assertTrue(valid_context(self.station, context, self.point, BOUNDARY, []))
+        for side in ('fuel', 'site'):
+            for field, value in (('addr:city', 'Other'), ('addr:state', 'Texas')):
+                with self.subTest(side=side, field=field):
+                    fuel_tags, site_tags = dict(context['tags']), dict(site['tags'])
+                    (fuel_tags if side == 'fuel' else site_tags)[field] = value
+                    self.assertFalse(self.check({**context, 'tags': fuel_tags, 'site': {**site, 'tags': site_tags}}))
+        no_city_site = {**site, 'tags': {k: v for k, v in site['tags'].items() if k != 'addr:city'}}
+        self.assertTrue(valid_context(self.station, {**context, 'site': no_city_site}, self.point, BOUNDARY, []))
+        no_city_fuel = {k: v for k, v in context['tags'].items() if k != 'addr:city'}
+        self.assertTrue(valid_context(self.station, {**context, 'tags': no_city_fuel}, self.point, BOUNDARY, []))
+        neither = {**context, 'tags': no_city_fuel, 'site': no_city_site}
+        self.assertFalse(valid_context(self.station, neither, self.point, BOUNDARY, []))
+        self.assertTrue(self.check(neither))
+
     def test_identity_requires_canonical_name(self):
         self.assertFalse(identity_matches(['BIG CABIN TRUCK STOP'], {'name': 'Big Red Fuel'}))
         self.assertTrue(identity_matches(['BIG CABIN TRUCK STOP #42'], {'name': 'Big Cabin', 'ref': '42'}))
@@ -48,6 +66,35 @@ class OsmValidationTests(SimpleTestCase):
         self.assertTrue(identity_matches(['TA BINGHAMTON TRAVELCENTER'], {'brand': 'TA'}))
         self.assertTrue(identity_matches(['TA SAGINAW I 75 TRAVEL CENTER'], {'brand': 'TravelCenters of America'}))
         self.assertFalse(identity_matches(['BIG CABIN TRUCK STOP'], {'name': 'Big Cabin East'}))
+
+    def test_circlek_website_identifier_namespace(self):
+        name = 'CIRCLE K #2721592'
+        station = SimpleNamespace(rows=[{'Truckstop Name': name}])
+        legacy = 'https://www.circlek.com/store-locator/US/pensacola/1905-e-olive-rd/2709080'
+        current = 'https://store-locator.circlek.com/en/station/2721592'
+        self.assertFalse(identity_matches([name], {'brand': 'Circle K', 'website': legacy}))
+        self.assertFalse(exact_ref(station, {'brand': 'Circle K', 'website': legacy}))
+        self.assertTrue(identity_matches([name], {'brand': 'Circle K', 'website': current}))
+        self.assertTrue(exact_ref(station, {'brand': 'Circle K', 'website': current}))
+        self.assertTrue(identity_matches([name], {'brand': 'Circle K', 'website': 'https://example.com/store-locator/US/pensacola/st/2709080'}))
+        short = 'CIRCLE K #9068'
+        self.assertTrue(identity_matches([short], {'brand': 'Circle K', 'website': legacy}))
+        self.assertFalse(exact_ref(SimpleNamespace(rows=[{'Truckstop Name': short}]), {'brand': 'Circle K', 'website': legacy}))
+        self.assertTrue(identity_matches(['SHELL #2721592'], {'brand': 'Shell', 'operator': 'Circle K', 'website': legacy}))
+
+    def test_kwik_website_identifier_namespace(self):
+        name = 'KWIK TRIP #827'
+        station = SimpleNamespace(rows=[{'Truckstop Name': name}])
+        wrong = 'https://www.kwiktrip.com/locator/store?id=114'
+        right = 'https://www.kwiktrip.com/locator/store?id=827'
+        self.assertFalse(identity_matches([name], {'brand': 'Kwik Trip', 'website': wrong}))
+        self.assertFalse(exact_ref(station, {'brand': 'Kwik Trip', 'website': wrong}))
+        self.assertTrue(identity_matches([name], {'brand': 'Kwik Trip', 'website': right}))
+        self.assertTrue(exact_ref(station, {'brand': 'Kwik Trip', 'website': right}))
+        self.assertTrue(identity_matches([name], {'brand': 'Kwik Trip', 'website': 'https://example.com/locator/store?id=114'}))
+        self.assertTrue(identity_matches([name], {'brand': 'Kwik Trip', 'website': 'https://www.kwiktrip.com/locator/store?id=114&id=827'}))
+        self.assertTrue(identity_matches(['SHELL #827'], {'brand': 'Shell', 'operator': 'Kwik Trip', 'website': wrong}))
+        self.assertFalse(identity_matches(['KWIK STAR #597'], {'brand': 'Kwik Star', 'website': 'https://www.kwiktrip.com/locator/store?id=938'}))
 
     def test_rejects_malformed_context(self):
         for context in (None, [], {'tags': []}, {**self.context, 'tags': 'fuel'}, {**self.context, 'geometry': []}, {**self.context, 'junction': []}):
@@ -69,6 +116,21 @@ class OsmValidationTests(SimpleTestCase):
         self.assertEqual(supported_exit_keys('I-35 & I-44, EXIT 137'), set())
         self.assertEqual(supported_exit_keys('I-40 EXIT 280 & I-55 EXIT 4'), {('I', '40', 'exit', '280'), ('I', '55', 'exit', '4')})
         self.assertEqual(supported_exit_keys('I-40/85 EXIT 152'), set())
+        self.assertEqual(supported_exit_keys('I-75 EXIT 144-B'), {('I', '75', 'exit', '144B')})
+        self.assertNotEqual(supported_exit_keys('I-75 EXIT 144-146'), {('I', '75', 'exit', '144B')})
+        self.assertNotEqual(supported_exit_keys('I-75 EXIT 144A-B'), {('I', '75', 'exit', '144B')})
+
+    def test_parenthesized_road_requires_complete_unqualified_proof(self):
+        from planner.osm_evidence import compound_routes_match, complete_source_road_description
+        self.assertTrue(complete_source_road_description('I-80 EXIT 40 (US-59)', 'IA'))
+        self.assertTrue(compound_routes_match('I-80 EXIT 40 (US-59)', 'I-80 EXIT 40 & US-59', 'IA'))
+        self.assertFalse(compound_routes_match('I-80 EXIT 40 (US-59)', 'I-80 EXIT 40', 'IA'))
+        self.assertTrue(compound_routes_match('I-78 EXIT 10 (PA 645)', 'I-78 EXIT 10 & PA 645', 'PA'))
+        for text in ('I-80 EXIT 40 (MEMPHIS ROAD)', 'I-80 EXIT 40 (US-59', 'I-80 EXIT 40 US-59)', 'I-80 EXIT 40 (US-59 ALT)'):
+            self.assertFalse(complete_source_road_description(text, 'IA'))
+        self.assertNotIn(('US', '220'), typed_roads('US-220 (BUSINESS)', 'PA'))
+        self.assertFalse(compound_routes_match('US-220 EXIT 15', 'US-220 (BUSINESS) EXIT 15', 'PA'))
+        self.assertFalse(compound_routes_match('I-99 EXIT 15 & US-220 (BUSINESS)', 'I-99 EXIT 15 & US-220', 'PA'))
 
     def test_exit_requires_member_road_and_proximity(self):
         self.station.address = 'I-40 EXIT 42'
@@ -80,6 +142,117 @@ class OsmValidationTests(SimpleTestCase):
         self.assertFalse(self.check(context))
         self.station.address = 'I-40 MILE 42'
         self.assertFalse(self.check(context))
+
+    def test_state_prefixed_mainway_exit_uses_matching_station_state(self):
+        self.station.state = 'IA'
+        self.station.address = 'SR-163 EXIT 42'
+        road = {'id': 9, 'ref': 'IA 163', 'highway': 'motorway', 'nodes': [7, 8], 'url': 'https://www.openstreetmap.org/way/9'}
+        junction = {'id': 8, 'ref': '42', 'point': self.point, 'highway': 'motorway_junction', 'url': 'https://www.openstreetmap.org/node/8', 'road': road}
+        context = {**self.context, 'tags': {'amenity': 'fuel', 'brand': 'Pilot', 'ref': '42'}, 'junction': junction}
+        self.assertTrue(self.check(context))
+        self.station.address = 'IA-163 EXIT 42'
+        self.assertTrue(self.check(context))
+        for ref in ('IL 163', 'IA 163 BUS', 'IA 163 ALT', 'HWY 163', 'IA 164'):
+            self.assertFalse(self.check({**context, 'junction': {**junction, 'road': {**road, 'ref': ref}}}))
+        self.assertFalse(self.check({**context, 'junction': {**junction, 'road': {**road, 'highway': 'primary'}}}))
+
+    def test_exit_never_discards_unparsed_or_state_road_legs(self):
+        from planner.osm_evidence import compound_routes_match
+        junction = {'id': 8, 'ref': '89', 'point': self.point, 'highway': 'motorway_junction', 'url': 'https://www.openstreetmap.org/node/8', 'road': {'id': 9, 'ref': 'I 35', 'highway': 'motorway', 'nodes': [8], 'url': 'https://www.openstreetmap.org/way/9'}}
+        context = {**self.context, 'tags': {'amenity': 'fuel', 'brand': 'Pilot', 'ref': '42'}, 'junction': junction}
+        for address in ('I-35 EXIT 89 & CO-R6F', 'I-35 EXIT 89 & MAIN ROAD', 'I-35 EXIT 89 & 2823', 'I-35 EXIT 89 & US-40 ALT', 'I-35 EXIT 89 & MILE 100'):
+            self.station.address = address
+            self.assertFalse(self.check(context))
+            self.assertFalse(compound_routes_match(address, 'I-35 EXIT 89', 'DC'))
+        self.station.state = 'SC'
+        self.station.address = 'I-35 EXIT 89 & SC-200'
+        self.assertFalse(self.check(context))
+        ramp = {'id': 10, 'highway': 'motorway_link', 'destination:ref': 'SC 200', 'nodes': [8], 'url': 'https://www.openstreetmap.org/way/10'}
+        self.assertTrue(self.check({**context, 'junction': {**junction, 'ramps': [ramp]}}))
+        self.assertTrue(compound_routes_match(self.station.address, 'I-35 EXIT 89 & SC-200', 'SC'))
+        self.assertFalse(compound_routes_match(self.station.address, 'I-35 EXIT 89', 'SC'))
+
+    def test_at_connector_requires_complete_roads_and_markers(self):
+        from planner.management.commands.load_data import station_match
+        self.station.state = 'TX'
+        self.station.address = 'I-40 EXIT 96 AT SR-207'
+        ramp = {'id': 10, 'highway': 'motorway_link', 'destination:ref': 'TX 207', 'nodes': [8], 'url': 'https://www.openstreetmap.org/way/10'}
+        junction = {'id': 8, 'ref': '96', 'point': self.point, 'highway': 'motorway_junction', 'url': 'https://www.openstreetmap.org/node/8', 'road': {'id': 9, 'ref': 'I 40', 'highway': 'motorway', 'nodes': [8], 'url': 'https://www.openstreetmap.org/way/9'}, 'ramps': [ramp]}
+        context = {**self.context, 'tags': {'amenity': 'fuel', 'brand': 'Pilot', 'ref': '42'}, 'junction': junction}
+        self.assertTrue(self.check(context))
+        self.assertFalse(self.check({**context, 'junction': {**junction, 'ramps': []}}))
+        self.station.address = 'I-40 EXIT 96 AT MEMPHIS RD'
+        self.assertFalse(self.check(context))
+        self.assertTrue(station_match(['PILOT #42'], 'I-10 EXIT 87 AT MILE 87', 'PILOT #42', 'I-10 EXIT 87 MM 87', 'TX'))
+        self.station.address = 'I-40 EXIT 96 AT MILE 96'
+        self.assertFalse(self.check(context))
+
+    def test_wisconsin_explicit_county_letters_only(self):
+        from planner.osm_evidence import compound_routes_match
+        self.assertEqual(typed_roads('I-39 & CR-CS', 'WI'), {('I', '39'), ('CR', 'CS')})
+        self.assertTrue(compound_routes_match('I-39 EXIT 115 & CR-CS', 'I-39 EXIT 115 & CTH CS', 'WI'))
+        self.assertFalse(compound_routes_match('I-39 EXIT 115 & CR-CS', 'I-39 EXIT 115 & CTH S', 'WI'))
+        self.assertFalse(compound_routes_match('I-39 EXIT 115 & CR-CS', 'I-39 EXIT 115', 'WI'))
+        self.assertFalse(compound_routes_match('I-39 EXIT 115 & CR-CS', 'I-39 EXIT 115 & CTH CS', 'IL'))
+        for qualified in ('CTH CS BUS', 'CR-CS ALT', 'ALT CTH CS'):
+            self.assertNotIn(('CR', 'CS'), typed_roads(qualified, 'WI'))
+            self.assertFalse(compound_routes_match('I-39 EXIT 115 & CR-CS', 'I-39 EXIT 115 & ' + qualified, 'WI'))
+            self.assertFalse(compound_routes_match('I-39 EXIT 115 & ' + qualified, 'I-39 EXIT 115 & CTH CS', 'WI'))
+        self.assertNotIn(('CR', 'EEK'), typed_roads('CREEK ROAD', 'WI'))
+        self.station.state = 'WI'
+        self.station.address = 'I-39 EXIT 115 & CR-CS'
+        ramp = {'id': 10, 'highway': 'motorway_link', 'destination:ref': 'CTH CS', 'nodes': [8], 'url': 'https://www.openstreetmap.org/way/10'}
+        junction = {'id': 8, 'ref': '115', 'point': self.point, 'highway': 'motorway_junction', 'url': 'https://www.openstreetmap.org/node/8', 'road': {'id': 9, 'ref': 'I 39', 'highway': 'motorway', 'nodes': [8], 'url': 'https://www.openstreetmap.org/way/9'}, 'ramps': [ramp]}
+        context = {**self.context, 'tags': {'amenity': 'fuel', 'brand': 'Pilot', 'ref': '42'}, 'junction': junction}
+        self.assertTrue(self.check(context))
+        self.assertFalse(self.check({**context, 'junction': {**junction, 'ramps': [{**ramp, 'destination:ref': 'CTH S'}]}}))
+        for qualified in ('CTH CS BUS', 'CR-CS ALT'):
+            self.assertFalse(self.check({**context, 'junction': {**junction, 'ramps': [{**ramp, 'destination:ref': qualified}]}}))
+
+    def test_concurrent_routes_without_exit_require_store_reference(self):
+        self.station.address = 'I-40 & US-70'
+        junction = {'id': 8, 'ref': '', 'point': self.point, 'highway': 'motorway_junction', 'url': 'https://www.openstreetmap.org/node/8', 'road': {'id': 9, 'ref': 'I 40;US 70', 'highway': 'motorway', 'nodes': [8], 'url': 'https://www.openstreetmap.org/way/9'}}
+        context = {**self.context, 'tags': {'amenity': 'fuel', 'brand': 'Pilot'}, 'junction': junction}
+        self.assertFalse(self.check(context))
+        self.assertTrue(self.check({**context, 'tags': {**context['tags'], 'ref': '42'}}))
+        ramp = {'id': 10, 'highway': 'motorway_link', 'destination:ref': 'US 70', 'nodes': [8], 'url': 'https://www.openstreetmap.org/way/10'}
+        distinct = {**junction, 'road': {**junction['road'], 'ref': 'I 40'}, 'ramps': [ramp]}
+        self.assertTrue(self.check({**context, 'junction': distinct}))
+        self.station.rows = [{'Truckstop Name': 'PILOT'}]
+        self.assertFalse(self.check({**context, 'tags': {**context['tags'], 'ref': '42'}}))
+
+    def test_alternate_ramp_does_not_prove_main_route(self):
+        self.station.address = 'I-24 EXIT 86 & US-41'
+        ramp = {'id': 10, 'highway': 'motorway_link', 'destination:ref': 'US 41 Alternate', 'nodes': [8], 'url': 'https://www.openstreetmap.org/way/10'}
+        junction = {'id': 8, 'ref': '86', 'point': self.point, 'highway': 'motorway_junction', 'url': 'https://www.openstreetmap.org/node/8', 'road': {'id': 9, 'ref': 'I 24', 'highway': 'motorway', 'nodes': [8], 'url': 'https://www.openstreetmap.org/way/9'}, 'ramps': [ramp]}
+        context = {**self.context, 'tags': {'amenity': 'fuel', 'brand': 'Pilot', 'ref': '42'}, 'junction': junction}
+        self.assertFalse(self.check(context))
+        self.assertEqual(typed_roads('I 24; US 41 Alternate'), {('I', '24')})
+        self.assertEqual(typed_roads('US 41 alternate; I 24'), {('I', '24')})
+        self.assertTrue(self.check({**context, 'junction': {**junction, 'ramps': [{**ramp, 'destination:ref': 'Us 41'}]}}))
+
+    def test_county_and_farm_route_proof_is_required(self):
+        for source, main, ramp_ref, marker in (
+            ('I-80/US-6 EXIT 93 & CR-P28', 'I 80;US 6', 'CR P28', '93'),
+            ('I-94/US-52 EXIT 135 & CR 173', 'I 94;US 52', 'CR 173', '135'),
+            ('I-20 EXIT 370 & FM 919', 'I 20', 'FM 919', '370'),
+        ):
+            self.station.address = source
+            ramp = {'id': 10, 'highway': 'motorway_link', 'destination:ref': ramp_ref, 'nodes': [8], 'url': 'https://www.openstreetmap.org/way/10'}
+            junction = {'id': 8, 'ref': marker, 'point': self.point, 'highway': 'motorway_junction', 'url': 'https://www.openstreetmap.org/node/8', 'road': {'id': 9, 'ref': main, 'highway': 'motorway', 'nodes': [8], 'url': 'https://www.openstreetmap.org/way/9'}, 'ramps': [ramp]}
+            context = {**self.context, 'tags': {'amenity': 'fuel', 'brand': 'Pilot', 'ref': '42'}, 'junction': junction}
+            with self.subTest(source=source):
+                self.assertFalse(self.check({**context, 'junction': {**junction, 'ramps': []}}))
+                self.assertTrue(self.check(context))
+
+    def test_distinct_source_exit_markers_all_need_junction_proof(self):
+        self.station.address = 'I-40 EXIT 280 & I-55 EXIT 4'
+        junction = {'id': 8, 'ref': '280', 'old_ref': '', 'point': self.point, 'highway': 'motorway_junction', 'url': 'https://www.openstreetmap.org/node/8', 'road': {'id': 9, 'ref': 'I 40;I 55', 'highway': 'motorway', 'nodes': [8], 'url': 'https://www.openstreetmap.org/way/9'}}
+        context = {**self.context, 'tags': {'amenity': 'fuel', 'brand': 'Pilot', 'ref': '42'}, 'junction': junction}
+        self.assertFalse(self.check(context))
+        self.assertTrue(self.check({**context, 'junction': {**junction, 'old_ref': '4'}}))
+        self.station.address = 'I-40 EXIT 280 & I-55 MM 4'
+        self.assertFalse(self.check({**context, 'junction': {**junction, 'old_ref': '4'}}))
 
     def test_exit_accepts_legacy_old_ref(self):
         self.station.address = 'I-90, EXIT 12'
@@ -327,12 +500,25 @@ class OsmCommandTests(TestCase):
         City.objects.create(name='WASHINGTON', state='TN', latitude=38.9, longitude=-77)
         boundary = {'type': 'FeatureCollection', 'features': [{'type': 'Feature', 'properties': {'STUSPS': 'TN'}, 'geometry': BOUNDARY}]}
         cases = (
+            ('I-75 EXIT 144-B', 'I 75', '144B', '', '', True),
+            ('I-75 EXIT 144-146', 'I 75', '144B', '', '', False),
+            ('I-80 EXIT 40 (US-59)', 'I 80', '40', 'US 59', 'motorway_link', True),
+            ('I-80 EXIT 40 (US-59)', 'I 80', '40', 'US 59 (BUSINESS)', 'motorway_link', False),
+            ('I-99 EXIT 15 & US-220 (BUSINESS)', 'I 99', '15', 'US 220', 'motorway_link', False),
+            ('I-94 EXIT 344 & SR-31', 'I 94', '344', 'TN 50', 'motorway_link', False),
+            ('I-94 EXIT 344 & SR-31', 'I 94', '344', 'TN 31', 'motorway_link', True),
+            ('I-94 EXIT 344 & SR-31', 'I 94;TN 31', '344', '', '', True),
+            ('I-70/US-40, EXIT 159 & US-183', 'I 70;US 40', '159', 'US 183', 'motorway_link', True),
+            ('I-70/US-40, EXIT 159 & US-183', 'I 70', '159', 'US 183', 'motorway_link', False),
+            ('I-70/US-40, EXIT 159 & US-183', 'I 70;US 40', '159', 'US 184', 'motorway_link', False),
+            ('I-70/40, EXIT 159 & US-183', 'I 70;US 40', '159', 'US 183', 'motorway_link', False),
             ('I-35 & I-44 EXIT 137', 'I 44', '137', '', '', False),
             ('I-35 & I-44 EXIT 137', 'I 35;I 44', '137', '', '', True),
             ('I-40 & SR-13', 'I 40', '', 'TN 13', 'motorway_link', True),
             ('I-40 & SR-13', 'I 40', '', 'KY 13', 'motorway_link', False),
             ('I-40 & US-13', 'I 40', '', 'TN 13', 'motorway_link', False),
-            ('I-40 & SR-13', 'I 40', '', 'TN 13', 'trunk_link', False),
+            ('I-40 & SR-13', 'I 40', '', 'TN 13', 'trunk_link', True),
+            ('I-40 & SR-13', 'I 40', '', 'TN 13', 'primary_link', False),
             ('I-40 & SR-13 EXIT 8', 'I 40', '9', 'TN 13', 'motorway_link', False),
             ('I-40 OR SR-13', 'I 40', '', 'TN 13', 'motorway_link', False),
             ('I-40 & SR-13 MILE 8', 'I 40', '', 'TN 13', 'motorway_link', False),
@@ -358,3 +544,24 @@ class OsmCommandTests(TestCase):
                     self.assertEqual(len(rows), int(expected), address)
                     if expected and destination:
                         self.assertEqual(json.loads(rows[0]['osm_evidence'])['junction']['ramps'][0]['destination:ref'], destination)
+
+    def test_city_alias_uses_station_point_not_city_point(self):
+        station = Station.objects.create(source_id='1', name='PILOT #42', address='123 MAIN ST', city='SAINT CLOUD', state='DC', rows=[{'Truckstop Name': 'PILOT #42'}], price=3, price_min=3, price_max=3)
+        City.objects.create(name='St. Cloud', state='DC', latitude=38.91, longitude=-77)
+        xml = '<osm version="0.6"><node id="1" lat="38.9" lon="-77"><tag k="amenity" v="fuel"/><tag k="brand" v="Pilot"/><tag k="ref" v="42"/><tag k="addr:housenumber" v="123"/><tag k="addr:street" v="Main St"/></node></osm>'
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source, out = root / 'input.osm', root / 'evidence.csv'
+            source.write_text(xml)
+            with patch('planner.management.commands.resolve_osm.load_boundary', return_value=FEATURES):
+                call_command('resolve_osm', pbf=str(source), output=str(out), unresolved=str(root / 'missing.csv'))
+            with out.open(newline='') as stream:
+                rows = list(csv.DictReader(stream))
+            self.assertEqual(len(rows), 1)
+            self.assertEqual(float(rows[0]['latitude']), 38.9)
+            station.city = 'OTHER TOWN'
+            station.save(update_fields=['city'])
+            with patch('planner.management.commands.resolve_osm.load_boundary', return_value=FEATURES):
+                call_command('resolve_osm', pbf=str(source), output=str(root / 'other.csv'), unresolved=str(root / 'other-missing.csv'))
+            with (root / 'other.csv').open(newline='') as stream:
+                self.assertEqual(list(csv.DictReader(stream)), [])

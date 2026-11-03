@@ -1,1 +1,1 @@
-COLUMNS = ('station_id', 'address', 'city', 'state', 'latitude', 'longitude', 'matched_name', 'matched_address', 'source', 'source_row_ids', 'place_id', 'datasource_name', 'datasource_license', 'datasource_attribution', 'datasource_url', 'osm_evidence')
+COLUMNS = ('station_id', 'address', 'city', 'state', 'latitude', 'longitude', 'matched_name', 'matched_address', 'source', 'source_row_ids', 'place_id', 'datasource_name', 'datasource_license', 'datasource_attribution', 'datasource_url', 'osm_evidence', 'directory_evidence', 'operator_evidence')

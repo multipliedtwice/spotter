@@ -151,6 +151,60 @@ class ViewsTests(TestCase):
         self.assertTrue(data['map_url'])
 
     @patch('planner.planning.load_boundary', return_value=BOUNDARY)
+    def test_identity_only_stop_discloses_source_address(self, boundary):
+        Station.objects.create(source_id='1', name='EXAMPLE #1', address='I-40 EXIT 99', city='TOWN', state='TX', rows=[], price=3, price_min=3, price_max=3, latitude=40, longitude=-99.5, evidence={'source': 'test', 'matched_address': '123 Main Street', 'verification_scope': 'operator_identity_only', 'unverified_source_address_details': 'I-40 EXIT 99'})
+        def routing(points, alternatives=False):
+            return [ROAD] if alternatives else [{**ROAD, 'legs_miles': [30, 30]}]
+        with patch('planner.planning.route', side_effect=routing):
+            response = self.post({'start': {'latitude': 40, 'longitude': -100}, 'finish': {'latitude': 40, 'longitude': -99}, 'start_fuel_gallons': 5})
+        self.assertEqual(response.status_code, 200)
+        stop = response.json()['recommended']['stops'][0]
+        self.assertEqual(stop['address'], '123 Main Street')
+        self.assertEqual(stop['source_address'], 'I-40 EXIT 99')
+        self.assertEqual(stop['verification_scope'], 'operator_identity_only')
+        self.assertEqual(stop['evidence']['unverified_source_address_details'], 'I-40 EXIT 99')
+        flat = response.json()['fuel_stops'][0]
+        self.assertEqual(flat['address'], '123 Main Street')
+        self.assertEqual(flat['source_address'], 'I-40 EXIT 99')
+        self.assertEqual(flat['verification_scope'], 'operator_identity_only')
+        map_response = self.client.get(response.json()['map_url'])
+        self.assertContains(map_response, 'CSV road details unverified')
+
+    @patch('planner.planning.load_boundary', return_value=BOUNDARY)
+    def test_named_plaza_discloses_operator_locality_on_api_and_map(self, boundary):
+        Station.objects.create(source_id='293', name='LOVES #176', address='I-35, MILE MARKER 97', city='MATFIELD GREEN', state='KS', rows=[], price=3, price_min=3, price_max=3, latitude=40, longitude=-99.5, evidence={'source': 'test', 'matched_address': 'Mile 97 Kansas Turnpike I-35 Mile 97', 'verification_scope': 'operator_identity_and_named_plaza', 'operator_postal_city': 'Cassoday', 'operator_location_label': 'Matfield Green Turnpike - SRI'})
+        def routing(points, alternatives=False):
+            return [ROAD] if alternatives else [{**ROAD, 'legs_miles': [30, 30]}]
+        with patch('planner.planning.route', side_effect=routing):
+            response = self.post({'start': {'latitude': 40, 'longitude': -100}, 'finish': {'latitude': 40, 'longitude': -99}, 'start_fuel_gallons': 5})
+        self.assertEqual(response.status_code, 200)
+        for stop in (response.json()['recommended']['stops'][0], response.json()['fuel_stops'][0]):
+            self.assertEqual(stop['operator_postal_city'], 'Cassoday')
+            self.assertEqual(stop['operator_location_label'], 'Matfield Green Turnpike - SRI')
+            self.assertEqual(stop['source_address'], 'I-35, MILE MARKER 97')
+            self.assertEqual(stop['verification_scope'], 'operator_identity_and_named_plaza')
+        map_response = self.client.get(response.json()['map_url'])
+        self.assertContains(map_response, 'Cassoday')
+        self.assertContains(map_response, 'Matfield Green Turnpike - SRI')
+        self.assertContains(map_response, 'Postal city:')
+
+    @patch('planner.planning.load_boundary', return_value=BOUNDARY)
+    def test_primary_exit_stop_discloses_unverified_source_details(self, boundary):
+        Station.objects.create(source_id='1', name='LOVES #1', address='I-40 & CROSS ROAD EXIT 99', city='TOWN', state='TX', rows=[], price=3, price_min=3, price_max=3, latitude=40, longitude=-99.5, evidence={'source': 'test', 'matched_address': '123 Main Street I-40 99', 'verification_scope': 'operator_identity_and_primary_exit', 'unverified_source_address_details': 'I-40 & CROSS ROAD EXIT 99'})
+        def routing(points, alternatives=False):
+            return [ROAD] if alternatives else [{**ROAD, 'legs_miles': [30, 30]}]
+        with patch('planner.planning.route', side_effect=routing):
+            response = self.post({'start': {'latitude': 40, 'longitude': -100}, 'finish': {'latitude': 40, 'longitude': -99}, 'start_fuel_gallons': 5})
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        for stop in (data['recommended']['stops'][0], data['fuel_stops'][0]):
+            self.assertEqual(stop['address'], '123 Main Street I-40 99')
+            self.assertEqual(stop['source_address'], 'I-40 & CROSS ROAD EXIT 99')
+            self.assertEqual(stop['verification_scope'], 'operator_identity_and_primary_exit')
+        self.assertEqual(data['recommended']['stops'][0]['evidence']['unverified_source_address_details'], 'I-40 & CROSS ROAD EXIT 99')
+        self.assertContains(self.client.get(data['map_url']), 'CSV road details unverified')
+
+    @patch('planner.planning.load_boundary', return_value=BOUNDARY)
     @patch('planner.planning.route', return_value=[ROAD])
     def test_flat_fields_are_null_without_recommendation(self, routing, boundary):
         response = self.post({'start':{'latitude':40,'longitude':-100},'finish':{'latitude':40,'longitude':-99},'start_fuel_gallons':1})
@@ -405,6 +459,32 @@ class PlanningTests(TestCase):
             outside = self.client.post('/api/routes', json.dumps(body), content_type='application/json')
         self.assertEqual(outside.json()['code'], 'ZERO_FUEL_ORIGIN_NOT_STATION')
         unused.assert_not_called()
+
+    @patch('planner.planning.load_boundary', return_value=BOUNDARY)
+    @patch('planner.providers.request')
+    def test_zero_fuel_same_point_chooses_lower_station_price(self, request, boundary):
+        from urllib.parse import urlsplit
+        from django.test import override_settings
+        high = self.station('72812', lat=40, lon=-100)
+        low = self.station('73096', lat=40, lon=-100)
+        high.price = high.price_min = high.price_max = 3.664
+        low.price = low.price_min = low.price_max = 3.64733333
+        high.save()
+        low.save()
+        def respond(url, timeout):
+            points = urlsplit(url).path.rsplit('/', 1)[1].split(';')
+            legs = [{'distance': 1000}] if len(points) == 2 else [{'distance': 0}, {'distance': 1000}]
+            return json.dumps({'code': 'Ok', 'routes': [{'geometry': {'type': 'LineString', 'coordinates': [[-100, 40], [-99, 40]]}, 'distance': 1000, 'duration': 90, 'legs': legs}]})
+        request.side_effect = respond
+        body = {'start': {'latitude': 40, 'longitude': -100}, 'finish': {'latitude': 40, 'longitude': -99}, 'start_fuel_gallons': 0}
+        with override_settings(OSRM_BASE_URL='http://127.0.0.1:5050', OSRM_ENDPOINT_RADIUS_METERS=1000, OSRM_STOP_RADIUS_METERS=100):
+            response = self.client.post('/api/routes', json.dumps(body), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['recommended']['stops'][0]['station_id'], '73096')
+        self.assertLessEqual(request.call_count, 3)
+        high.refresh_from_db()
+        low.refresh_from_db()
+        self.assertEqual((high.price, low.price), (3.664, 3.64733333))
 
     @patch('planner.planning.load_boundary', return_value=BOUNDARY)
     @patch('planner.views.distance', return_value=0.0000005)

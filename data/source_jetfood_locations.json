@@ -1,0 +1,60 @@
+{
+  "source": "https://www.jetfoodstores.com/locations/",
+  "stores": [
+    {
+      "location_list_record": {
+        "data-loc-id": "7218",
+        "published_address": "Store #04: 10550 U.S. 1, Wadley, GA"
+      },
+      "map_marker": {
+        "data-lat": "32.867738055166065",
+        "data-lng": "-82.39559820311047",
+        "data-loc-id": "7218"
+      }
+    },
+    {
+      "location_list_record": {
+        "data-loc-id": "7288",
+        "published_address": "Store #17: 706 North Main Street Wrens, Georgia 30833"
+      },
+      "map_marker": {
+        "data-lat": "33.2176009",
+        "data-lng": "-82.3780944",
+        "data-loc-id": "7288"
+      }
+    },
+    {
+      "location_list_record": {
+        "data-loc-id": "7361",
+        "published_address": "Store #80: 2595 U.S. 221, Douglas, GA"
+      },
+      "map_marker": {
+        "data-lat": "31.53868227166962",
+        "data-lng": "-82.81066764973747",
+        "data-loc-id": "7361"
+      }
+    },
+    {
+      "location_list_record": {
+        "data-loc-id": "7365",
+        "published_address": "Store #82: 2897 Us Hwy 441 s Douglas GA"
+      },
+      "map_marker": {
+        "data-lat": "31.466976600798386",
+        "data-lng": "-82.85024045886075",
+        "data-loc-id": "7365"
+      }
+    },
+    {
+      "location_list_record": {
+        "data-loc-id": "9780",
+        "published_address": "Store #93: 3180 US 280, Vidalia, GA"
+      },
+      "map_marker": {
+        "data-lat": "32.2112627",
+        "data-lng": "-82.4640213",
+        "data-loc-id": "9780"
+      }
+    }
+  ]
+}

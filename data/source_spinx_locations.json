@@ -1,0 +1,185 @@
+{
+  "source": "https://www.myspinx.com/locations/",
+  "stores": [
+    {
+      "data-post-id": "7190",
+      "title": "Spinx #179 \u203a",
+      "address": "2901 North Pleasantburg Dr, Greenville, SC 29609",
+      "map_record": {
+        "id": 7190,
+        "latLang": {
+          "lat": 34.8862156,
+          "lng": -82.3918975
+        }
+      }
+    },
+    {
+      "data-post-id": "7251",
+      "title": "Spinx #178 \u203a",
+      "address": "2 Tigerville Rd, Travelers Rest, SC 29690",
+      "map_record": {
+        "id": 7251,
+        "latLang": {
+          "lat": 34.9799976,
+          "lng": -82.42547640000001
+        }
+      }
+    },
+    {
+      "data-post-id": "7188",
+      "title": "Spinx #138 \u203a",
+      "address": "1519 White Horse Rd, Greenville, SC 29605",
+      "map_record": {
+        "id": 7188,
+        "latLang": {
+          "lat": 34.7890525,
+          "lng": -82.4165797
+        }
+      }
+    },
+    {
+      "data-post-id": "7203",
+      "title": "Spinx #121 \u203a",
+      "address": "2497 S. Hwy 14, Greer, SC 29651",
+      "map_record": {
+        "id": 7203,
+        "latLang": {
+          "lat": 34.8736416,
+          "lng": -82.224491
+        }
+      }
+    },
+    {
+      "data-post-id": "7228",
+      "title": "Spinx #125 \u203a",
+      "address": "7495 Augusta Rd, Piedmont, SC 29673",
+      "map_record": {
+        "id": 7228,
+        "latLang": {
+          "lat": 34.7275902,
+          "lng": -82.38816
+        }
+      }
+    },
+    {
+      "data-post-id": "7237",
+      "title": "Spinx #201 \u203a",
+      "address": "549 E. Standing Springs Rd, Simpsonville, SC 29680",
+      "map_record": {
+        "id": 7237,
+        "latLang": {
+          "lat": 34.7509247,
+          "lng": -82.2900162
+        }
+      }
+    },
+    {
+      "data-post-id": "7206",
+      "title": "Spinx #161 \u203a",
+      "address": "1501 Highway 101 South, Greer, SC 29651",
+      "map_record": {
+        "id": 7206,
+        "latLang": {
+          "lat": 34.896256099999995,
+          "lng": -82.1628185
+        }
+      }
+    },
+    {
+      "data-post-id": "7233",
+      "title": "Spinx #134 \u203a",
+      "address": "1301 Fairview Rd, Simpsonville, SC 29681",
+      "map_record": {
+        "id": 7233,
+        "latLang": {
+          "lat": 34.666467999999995,
+          "lng": -82.2612826
+        }
+      }
+    },
+    {
+      "data-post-id": "7255",
+      "title": "Spinx #292 \u203a",
+      "address": "121 Miller Farm Rd, Inman, SC 29349",
+      "map_record": {
+        "id": 7255,
+        "latLang": {
+          "lat": 35.0828243,
+          "lng": -82.060152
+        }
+      }
+    },
+    {
+      "data-post-id": "7174",
+      "title": "Spinx #266 \u203a",
+      "address": "495 Piney Grove Rd, Columbia, SC 29210",
+      "map_record": {
+        "id": 7174,
+        "latLang": {
+          "lat": 34.068652900000004,
+          "lng": -81.1398435
+        }
+      }
+    },
+    {
+      "data-post-id": "7226",
+      "title": "Spinx #271 \u203a",
+      "address": "3615 St. Matthews Rd, Orangeburg, SC 29118",
+      "map_record": {
+        "id": 7226,
+        "latLang": {
+          "lat": 33.552896999999994,
+          "lng": -80.8278275
+        }
+      }
+    },
+    {
+      "data-post-id": "7246",
+      "title": "Spinx #364 \u203a",
+      "address": "845 Jedburg Rd, Summerville, SC 29486",
+      "map_record": {
+        "id": 7246,
+        "latLang": {
+          "lat": 33.0841254,
+          "lng": -80.2056264
+        }
+      }
+    },
+    {
+      "data-post-id": "7247",
+      "title": "Spinx #366 \u203a",
+      "address": "10696 Dorchester Rd, Summerville, SC 29485",
+      "map_record": {
+        "id": 7247,
+        "latLang": {
+          "lat": 32.9707252,
+          "lng": -80.20915049999999
+        }
+      }
+    },
+    {
+      "data-post-id": "7252",
+      "title": "Spinx #341 \u203a",
+      "address": "2627 Hwy 41, Charleston, SC 29492",
+      "map_record": {
+        "id": 7252,
+        "latLang": {
+          "lat": 32.931799,
+          "lng": -79.819919
+        }
+      }
+    },
+    {
+      "data-post-id": "7221",
+      "title": "Spinx #317 \u203a",
+      "address": "1558 S Live Oak Dr, Moncks Corner, SC 29461",
+      "map_record": {
+        "id": 7221,
+        "latLang": {
+          "lat": 33.1531487,
+          "lng": -80.0589068
+        }
+      }
+    }
+  ]
+}

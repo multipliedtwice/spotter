@@ -1,0 +1,207 @@
+{
+  "records": [
+    {
+      "node_id": "160269330",
+      "canonical_url": "https://www.openstreetmap.org/node/160269330",
+      "latitude": "43.0827926",
+      "longitude": "-94.2362238",
+      "node_tags": {},
+      "route_ways": [
+        {
+          "id": "1387412403",
+          "tags": {
+            "hgv": "designated",
+            "hgv:national_network": "yes",
+            "highway": "primary",
+            "lanes": "4",
+            "maxspeed": "45 mph",
+            "name": "US Highway 18",
+            "NHS": "yes",
+            "ref": "US 18",
+            "source:hgv:national_network": "https://www.ecfr.gov/current/title-23/chapter-I/subchapter-G/part-658;https://hepgis-usdot.hub.arcgis.com/apps/usdot::national-network-conventional-combination-trucks-map",
+            "surface": "asphalt"
+          },
+          "node_ids": [
+            "12843310623",
+            "12635833601",
+            "160216435",
+            "12853772420",
+            "12853772427",
+            "160269330",
+            "12853772426",
+            "12853772416",
+            "160216646",
+            "160270591"
+          ],
+          "geometry": [
+            {
+              "id": "12843310623",
+              "lat": "43.0828019",
+              "lon": "-94.2396182",
+              "tags": {}
+            },
+            {
+              "id": "12635833601",
+              "lat": "43.0828075",
+              "lon": "-94.2385206",
+              "tags": {}
+            },
+            {
+              "id": "160216435",
+              "lat": "43.0828070",
+              "lon": "-94.2384180",
+              "tags": {}
+            },
+            {
+              "id": "12853772420",
+              "lat": "43.0827960",
+              "lon": "-94.2367450",
+              "tags": {}
+            },
+            {
+              "id": "12853772427",
+              "lat": "43.0827932",
+              "lon": "-94.2363194",
+              "tags": {
+                "direction": "forward",
+                "highway": "stop"
+              }
+            },
+            {
+              "id": "160269330",
+              "lat": "43.0827926",
+              "lon": "-94.2362238",
+              "tags": {}
+            },
+            {
+              "id": "12853772426",
+              "lat": "43.0827933",
+              "lon": "-94.2360906",
+              "tags": {
+                "direction": "backward",
+                "highway": "stop"
+              }
+            },
+            {
+              "id": "12853772416",
+              "lat": "43.0827956",
+              "lon": "-94.2356343",
+              "tags": {}
+            },
+            {
+              "id": "160216646",
+              "lat": "43.0828040",
+              "lon": "-94.2340070",
+              "tags": {}
+            },
+            {
+              "id": "160270591",
+              "lat": "43.0827918",
+              "lon": "-94.2319078",
+              "tags": {}
+            }
+          ],
+          "canonical_url": "https://www.openstreetmap.org/way/1387412403"
+        },
+        {
+          "id": "1388586821",
+          "tags": {
+            "highway": "primary",
+            "lanes": "4",
+            "maxspeed": "40 mph",
+            "name": "US Highway 169",
+            "NHS": "yes",
+            "ref": "US 169",
+            "surface": "asphalt"
+          },
+          "node_ids": [
+            "160223319",
+            "12853772413",
+            "12853772412",
+            "160269330"
+          ],
+          "geometry": [
+            {
+              "id": "160223319",
+              "lat": "43.0813920",
+              "lon": "-94.2360356",
+              "tags": {}
+            },
+            {
+              "id": "12853772413",
+              "lat": "43.0824029",
+              "lon": "-94.2361715",
+              "tags": {}
+            },
+            {
+              "id": "12853772412",
+              "lat": "43.0827148",
+              "lon": "-94.2362134",
+              "tags": {
+                "direction": "forward",
+                "highway": "stop"
+              }
+            },
+            {
+              "id": "160269330",
+              "lat": "43.0827926",
+              "lon": "-94.2362238",
+              "tags": {}
+            }
+          ],
+          "canonical_url": "https://www.openstreetmap.org/way/1388586821"
+        },
+        {
+          "id": "1388586826",
+          "tags": {
+            "hgv": "designated",
+            "hgv:national_network": "yes",
+            "highway": "primary",
+            "lanes": "4",
+            "maxspeed": "40 mph",
+            "name": "US Highway 169",
+            "ref": "US 169",
+            "source:hgv:national_network": "https://www.ecfr.gov/current/title-23/chapter-I/subchapter-G/part-658;https://hepgis-usdot.hub.arcgis.com/apps/usdot::national-network-conventional-combination-trucks-map",
+            "surface": "asphalt"
+          },
+          "node_ids": [
+            "160269330",
+            "12853772425",
+            "12853772419",
+            "160216471"
+          ],
+          "geometry": [
+            {
+              "id": "160269330",
+              "lat": "43.0827926",
+              "lon": "-94.2362238",
+              "tags": {}
+            },
+            {
+              "id": "12853772425",
+              "lat": "43.0828827",
+              "lon": "-94.2362269",
+              "tags": {
+                "direction": "backward",
+                "highway": "stop"
+              }
+            },
+            {
+              "id": "12853772419",
+              "lat": "43.0831527",
+              "lon": "-94.2362359",
+              "tags": {}
+            },
+            {
+              "id": "160216471",
+              "lat": "43.0839897",
+              "lon": "-94.2362640",
+              "tags": {}
+            }
+          ],
+          "canonical_url": "https://www.openstreetmap.org/way/1388586826"
+        }
+      ]
+    }
+  ]
+}

@@ -6,6 +6,56 @@ from django.test import TestCase
 from planner.models import City, Station
 
 class ImportTests(TestCase):
+    def test_spaced_exit_suffix_is_narrow(self):
+        from planner.road import road_marker_keys
+        self.assertEqual(road_marker_keys('I-94 EXIT 15 B'), {('I', '94', 'exit', '15B')})
+        self.assertEqual(road_marker_keys('I-94 EXIT 15 A, US-6'), {('I', '94', 'exit', '15A')})
+        for address in ('I-94 EXIT 15 E', 'I-94 EXIT 15 N', 'I-94 EXIT 15 B WEST', 'I-94 MM 15 B'):
+            with self.subTest(address=address):
+                self.assertNotIn(('I', '94', 'exit', '15B'), road_marker_keys(address) or set())
+
+    def test_road_markers_do_not_broadcast_to_other_clauses_or_later_roads(self):
+        from planner.management.commands.load_data import station_match
+        from planner.road import road_marker_keys
+        names = {'LOVES #766'}
+        for published in ('I-80 EXIT 12, US-6', 'I-80 EXIT 12 (US-6)', 'I-80 EXIT 12 & US-6'):
+            with self.subTest(published=published):
+                self.assertFalse(station_match(names, 'US-6 EXIT 12', "Love's #766", published))
+                self.assertTrue(station_match(names, 'I-80 EXIT 12', "Love's #766", published))
+        self.assertTrue(station_match(names, 'I-90 EXIT 15B', "Love's #766", 'I-94/90 EXIT 15B'))
+        self.assertTrue(station_match(names, 'I-85 EXIT 152', "Love's #766", 'I-40/85 EXIT 152'))
+        self.assertFalse(station_match(names, 'I-80 EXIT 13', "Love's #766", 'I-80 EXIT 12 US-6 EXIT 13'))
+        self.assertTrue(station_match(names, 'I-80 EXIT 12', "Love's #766", 'I-80 EXIT 12 US-6 EXIT 13'))
+        self.assertFalse(station_match(names, 'I-80 MM 12', "Love's #766", 'I-80 EXIT 12'))
+        self.assertEqual(road_marker_keys('I-80 EXIT 12/13'), {('I', '80', 'exit', '12'), ('I', '80', 'exit', '13')})
+
+    def test_explicit_us_route_decorators_preserve_type(self):
+        from planner.road import road_marker_keys
+        from planner.osm_evidence import typed_roads
+        for text in ('US HWY 41 EXIT 12', 'U.S. HIGHWAY 41 EXIT 12', 'US ROUTE 41 EXIT 12'):
+            with self.subTest(text=text):
+                self.assertEqual(road_marker_keys(text), {('US', '41', 'exit', '12')})
+                self.assertEqual(typed_roads(text), {('US', '41')})
+        self.assertNotIn(('US', '41'), typed_roads('HWY 41'))
+
+    def test_compound_county_and_farm_roads_cannot_be_dropped(self):
+        from planner.management.commands.load_data import station_match
+        from planner.osm_evidence import typed_roads
+        names = {'PILOT #42'}
+        cases = (
+            ('I-80/US-6 EXIT 93 & CR-P28', 'I-80 EXIT 93', 'I-80 EXIT 93 & US-6 & County Road P28'),
+            ('I-94/US-52 EXIT 135 & CR 173', 'I-94 EXIT 135', 'I-94 EXIT 135 & US-52 & County Road 173'),
+            ('I-20 EXIT 370 & FM 919', 'I-20 EXIT 370', 'I-20 EXIT 370 & Farm to Market 919'),
+            ('I-20 EXIT 370 & CR-H20', 'I-20 EXIT 370', 'I-20 EXIT 370 & County Road H20'),
+            ('I-20 EXIT 370 & CR-L26', 'I-20 EXIT 370', 'I-20 EXIT 370 & CR-L26'),
+        )
+        for source, partial, full in cases:
+            with self.subTest(source=source):
+                self.assertFalse(station_match(names, source, 'PILOT #42', partial))
+                self.assertTrue(station_match(names, source, 'PILOT #42', full))
+        self.assertNotIn(('US', '41'), typed_roads('HWY 41'))
+        self.assertFalse(station_match(names, 'I-20 EXIT 370 & US-41 ALT', 'PILOT #42', 'I-20 EXIT 370 & US-41'))
+
     def test_duplicates_and_conflicting_id(self):
         fields = ['OPIS Truckstop ID','Truckstop Name','Address','City','State','Rack ID','Retail Price']
         rows = [['1','Example','10 Main','Town ','TX','1','3'], ['1','Example','10 Main','Town ','TX','1','3'], ['1','Example','10 Main','Town ','TX','1','5'], ['1','Other','20 Main','Town','TX','1','9'], ['2','Canada','1 Road','Town','ON','1','4']]
@@ -47,9 +97,12 @@ class ImportTests(TestCase):
         self.assertFalse(City.objects.filter(name='Winston').exists())
         self.assertEqual(len(names), 9)
 
-    def test_evidence_identity_requires_name_and_location(self):
+    def test_evidence_identity_and_all_source_roads_required(self):
         from planner.management.commands.load_data import station_match
-        self.assertTrue(station_match({'PILOT TRAVEL CENTER #1243'}, 'I-44, EXIT 283 & US-69', 'PILOT #1243', 'I-44 EXIT 283'))
+        self.assertFalse(station_match({'PILOT TRAVEL CENTER #1243'}, 'I-44, EXIT 283 & US-69', 'PILOT #1243', 'I-44 EXIT 283'))
+        self.assertTrue(station_match({'PILOT TRAVEL CENTER #1243'}, 'I-44, EXIT 283 & US-69', 'PILOT #1243', 'I-44 EXIT 283 & US-69'))
+        self.assertFalse(station_match({'PILOT #1243'}, 'I-94 EXIT 344 & SR-31', 'PILOT #1243', 'I-94 EXIT 344', 'WI'))
+        self.assertTrue(station_match({'PILOT #1243'}, 'I-94 EXIT 344 & SR-31', 'PILOT #1243', 'I-94 EXIT 344 & WI-31', 'WI'))
         self.assertFalse(station_match({'PILOT TRAVEL CENTER #1243'}, 'I-44, EXIT 283 & US-69', 'PILOT', 'I-44 EXIT 283'))
         self.assertFalse(station_match({'PILOT TRAVEL CENTER'}, '10 MAIN ST', 'PILOT TRAVEL CENTER', '10 MAIN ST'))
         self.assertTrue(station_match({'LOVES TRAVEL STOP #766'}, 'I-80 EXIT 27', "Love’s #766", 'I-80 EXIT 27'))
@@ -69,17 +122,21 @@ class ImportTests(TestCase):
         ]
         for source, matched in intersections:
             with self.subTest(source=source):
-                self.assertTrue(station_match({'LOVES #766'}, source, "Love's #766", matched))
+                self.assertFalse(station_match({'LOVES #766'}, source, "Love's #766", matched))
+        from planner.road import road_marker_keys
         paired = [
-            ('I-40, EXIT 280 & I-55, EXIT 4', 'I-40 EXIT 280', 'I-40 EXIT 4'),
-            ('I-295, EXIT 56 & I-95, EXIT 7', 'I-295 EXIT 56', 'I-295 EXIT 7'),
-            ('I-81 EXIT 52B OR I-76 EXIT 226', 'I-81 EXIT 52B', 'I-81 EXIT 226'),
+            ('I-40, EXIT 280 & I-55, EXIT 4', 'I-40 EXIT 280', 'INTERSTATE 40 EXIT 280 & INTERSTATE 55 EXIT 4', 'I-40 EXIT 4 & I-55 EXIT 280', {('I', '40', 'exit', '280'), ('I', '55', 'exit', '4')}),
+            ('I-295, EXIT 56 & I-95, EXIT 7', 'I-295 EXIT 56', 'INTERSTATE 295 EXIT 56 & INTERSTATE 95 EXIT 7', 'I-295 EXIT 7 & I-95 EXIT 56', {('I', '295', 'exit', '56'), ('I', '95', 'exit', '7')}),
+            ('I-81 EXIT 52B OR I-76 EXIT 226', 'I-81 EXIT 52B', 'INTERSTATE 81 EXIT 52B OR INTERSTATE 76 EXIT 226', 'I-81 EXIT 226 OR I-76 EXIT 52B', {('I', '81', 'exit', '52B'), ('I', '76', 'exit', '226')}),
         ]
-        for source, correct, wrong in paired:
+        for source, partial, complete, wrong, markers in paired:
             with self.subTest(source=source):
-                self.assertTrue(station_match({'LOVES #766'}, source, "Love's #766", correct))
+                self.assertFalse(station_match({'LOVES #766'}, source, "Love's #766", partial))
+                self.assertTrue(station_match({'LOVES #766'}, source, "Love's #766", complete))
                 self.assertFalse(station_match({'LOVES #766'}, source, "Love's #766", wrong))
+                self.assertEqual(road_marker_keys(source), markers)
         self.assertFalse(station_match({'LOVES #766'}, paired[0][0], "Love's #766", 'I-55 EXIT 280'))
+        self.assertFalse(station_match({'LOVES #766'}, paired[0][0], "Love's #766", 'I-40 EXIT 280 & I-55 EXIT 999'))
         self.assertFalse(station_match({'LOVES #766'}, 'I-40 EXIT 280 OR I-55', "Love's #766", 'I-55 EXIT 280'))
 
 

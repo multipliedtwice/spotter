@@ -25,7 +25,9 @@ if (plan.recommended) {
     const marker = L.marker([s.latitude,s.longitude],{icon}).addTo(layers);
     const el = document.createElement('span');
     const action = s.purchase === false || s.gallons === 0 ? 'Pass through' : `$${s.price_usd_per_gallon.toFixed(3)}/gal · ${s.gallons.toFixed(1)} gal · $${s.cost_usd.toFixed(2)}`;
-    el.textContent = `${number}. ${s.name} · ${action} · fuel ${s.fuel_before_gallons.toFixed(1)} → ${s.fuel_after_gallons.toFixed(1)} gal`;
+    const sourceNote = s.verification_scope === 'operator_identity_and_named_plaza' ? ` · ${s.operator_location_label} · Postal city: ${s.operator_postal_city}` : typeof s.source_address === 'string' && s.verification_scope !== 'operator_branch_and_address' ? ' · CSV road details unverified' : '';
+    const address = s.address ? ` · ${s.address}` : '';
+    el.textContent = `${number}. ${s.name}${address} · ${action} · fuel ${s.fuel_before_gallons.toFixed(1)} → ${s.fuel_after_gallons.toFixed(1)} gal${sourceNote}`;
     marker.bindPopup(el);
   });
 } else {

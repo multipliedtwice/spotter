@@ -1,3 +1,2 @@
 station_id,address,city,state,latitude,longitude,matched_name,matched_address,source,source_row_ids,place_id,datasource_name,datasource_license,datasource_attribution,datasource_url,reason
 20,"I-8, EXIT 119 & SR-85",Gila Bend,AZ,32.9299688,-112.6727971,PILOT #1243,I-8 EXIT 119,https://locations.pilotflyingj.com/us/az/gila-bend/3006-s-butterfield-trl,,,,,,,independent_exit_evidence_not_reproducible_from_saved_sources
-906,"I-40, EXIT 280",West Memphis,AR,35.1577359,-90.1377026,PILOT #429,I-40 EXIT 280,https://locations.pilotflyingj.com/us/ar/west-memphis/1100-martin-luther-king-jr-dr,,,,,,,independent_exit_evidence_not_reproducible_from_saved_sources

@@ -1,194 +1,27 @@
 station_id,address,city,state,reason
-293,"I-35, MILE MARKER 97",MATFIELD GREEN,KS,no_matching_operator_store
-1807,I-40 EXIT 96 & SR-207,PANHANDLE,TX,no_matching_operator_store
-2764,US-64/54 & SR-94,HOOKER,OK,no_matching_operator_store
-2765,US-50 & US-287,LAMAR,CO,no_matching_operator_store
-7225,US-60,CLOVIS,NM,no_matching_operator_store
-7611,"I-44, EXIT 83",CHICKASHA,OK,no_matching_operator_store
-7753,SR-351,MUSKOGEE,OK,no_matching_operator_store
-8977,"I-44, EXIT 20",WALTERS,OK,no_matching_operator_store
-10122,"I-80 & I-94, EXIT 9A",GARY,IN,no_matching_operator_store
-52469,US-287/US-82/SR-79 & US-281,WICHITA FALLS,TX,no_matching_operator_store
-52480,US6-9 & US-75,ATOKA,OK,no_matching_operator_store
-52601,"I-40, EXIT 161 & SR-391",NORTH LITTLE ROCK,AR,no_matching_operator_store
-52661,"I-35 WEST, EXIT 40",FORT WORTH,TX,no_matching_operator_store
-63586,US-412 & US-69,CHOUTEAU,OK,no_matching_operator_store
-63603,US-59/US-69/S LOOP 287 & FM-841,LUFKIN,TX,no_matching_operator_store
-63727,"I-81, EXIT 3",BINGHAMTON,NY,no_matching_operator_store
-63731,"I-10, EXIT 43 & SR-383",IOWA,LA,no_matching_operator_store
-63795,US-412,CLAYTON,NM,no_matching_operator_store
-63799,US-69 BUS & US-69,EUFAULA,OK,no_matching_operator_store
-63964,"I-35 & FISHER RD, EXIT 144",VON ORMY,TX,no_matching_operator_store
-64336,I-90/I-94 EXIT 48,TOMAH,WI,no_matching_operator_store
-64399,US-287 & SR-256,MEMPHIS,TX,no_matching_operator_store
-64569,"I-65, EXIT 8B",MOBILE,AL,no_matching_operator_store
-65885,"US-75, EXIT 48 & SR-455",ANNA,TX,no_matching_operator_store
-66043,US-67 & US-287,MIDLOTHIAN,TX,no_matching_operator_store
-66120,"I-40/SR-66, EXIT 412",DANDRIDGE,TN,no_matching_operator_store
-66133,"I-4, EXIT 44",POLK CITY,FL,no_matching_operator_store
-66178,I-69C/US-281 & FM-2812,EDINBURG,TX,no_matching_operator_store
-66363,"US-35/KS TPKE, MM 26",BELLE PLAINE,KS,no_matching_operator_store
-66478,"I-70, EXIT 187",TECUMSEH,KS,no_matching_operator_store
-66750,I-35,EL DORADO,KS,no_matching_operator_store
-66778,"I-44, EXIT 179 & US-377/SR-99",STROUD,OK,no_matching_operator_store
-66853,US-77 & FM-1898,KINGSVILLE,TX,no_matching_operator_store
-67090,US-69 & PLATTER RD,CALERA,OK,no_matching_operator_store
-67316,US-287 & US-412,BOISE CITY,OK,no_matching_operator_store
-67322,"US-78, EXIT 81 & SR-178",TUPELO,MS,no_matching_operator_store
-67419,"I-75, EXIT 283",CARTERSVILLE,GA,no_matching_operator_store
-67421,US-79/SR-6 & FM-485,HEARNE,TX,no_matching_operator_store
-67439,US-287/SR-114,RHOME,TX,no_matching_operator_store
-67622,"I-5/US-12, EXIT 72",CHEHALIS,WA,no_matching_operator_store
-68359,"I-78, EXIT 65",JASPER,AL,no_matching_operator_store
-68663,US-85/US-2 & CR-6,WILLISTON,ND,no_matching_operator_store
-69099,"I-10, EXIT 92",RAYNE,LA,no_matching_operator_store
-69103,US-385 & FM-1910,ANDREWS,TX,no_matching_operator_store
-69141,US-283 & US-400/US-56,DODGE CITY,KS,no_matching_operator_store
-69152,"US-64/167, EXIT 44 & SR-367",SEARCY,AR,no_matching_operator_store
-69185,US-258 & US-58,FRANKLIN,VA,no_matching_operator_store
-69186,US-20 & CR-127,ANGOLA,IN,no_matching_operator_store
-69187,US-82 & US-49,INDIANOLA,MS,no_matching_operator_store
-69190,"I-10, EXIT 70 & US-90 & SR-285",DEFUNIAK SPRINGS,FL,no_matching_operator_store
-69223,"US-231/CR-53, EXIT 12",OZARK,AL,no_matching_operator_store
-69239,SR-20/157 & SR-133,TUSCUMBIA,AL,no_matching_operator_store
-69263,US-82 & SR-50 & SR-12,COLUMBUS,MS,no_matching_operator_store
-69308,SR-283,MIDDLETOWN,PA,no_matching_operator_store
-69393,US-35 & SR-850,BIDWELL,OH,no_matching_operator_store
-69440,US-24 & SR-101,WOODBURN,IN,no_matching_operator_store
-69477,US-36 & SR-110,BEVIER,MO,no_matching_operator_store
-69483,"US-63, EXIT 40 & SR-463",JONESBORO,AR,no_matching_operator_store
-69575,"I-68, EXIT 46 & US-220/SR-144",CUMBERLAND,MD,no_matching_operator_store
-69584,US-70,VALLIANT,OK,no_matching_operator_store
-69590,US-81,UNION CITY,OK,no_matching_operator_store
-69601,US-54,TEXHOMA,OK,no_matching_operator_store
-69615,US-275/SR-64,VALLEY,NE,no_matching_operator_store
-69618,US-50/400,HOLCOMB,KS,no_matching_operator_store
-69651,SR-19 & SR-76,LINDSAY,OK,no_matching_operator_store
-69652,US-30,PLYMOUTH,IN,no_matching_operator_store
-69654,US-169,NOWATA,OK,no_matching_operator_store
-69668,"I-55/57, EXIT 66A & US-60",SIKESTON,MO,no_matching_operator_store
-69670,"I-90, EXIT B3 & SR-22",CANAAN,NY,no_matching_operator_store
-69671,US-83 & SR-96,SCOTT CITY,KS,no_matching_operator_store
-69679,US-27 & SR-54,DAVENPORT,FL,no_matching_operator_store
-69709,US-287,DUMAS,TX,no_matching_operator_store
-69741,"I-10, EXIT 133B",TOLLESON,AZ,no_matching_operator_store
-69742,US-412/64,ENID,OK,no_matching_operator_store
-69743,US-81,BELLEVILLE,KS,no_matching_operator_store
-69744,US-54 & US-83,LIBERAL,KS,no_matching_operator_store
-69785,US-287 & SR-285,QUANAH,TX,no_matching_operator_store
-69788,"SR-370, EXIT 9 & SR-141",BRIDGETON,MO,no_matching_operator_store
-69789,US-301 & SR-20,HAWTHORNE,FL,no_matching_operator_store
-69798,US-36 & US-283,NORTON,KS,no_matching_operator_store
-69818,US-75,OKMULGEE,OK,no_matching_operator_store
-69823,US-41,TERRE HAUTE,IN,no_matching_operator_store
-69824,US-190 & LA-103,PORT BARRE,LA,no_matching_operator_store
-69833,US-412,WATTS,OK,no_matching_operator_store
-69835,US-287,EADS,CO,no_matching_operator_store
-69854,"I-39, EXIT 115 & CR-CS",POYNETTE,WI,no_matching_operator_store
-69855,US-18,FLOYD,IA,no_matching_operator_store
-69874,"I-72, EXIT 64 & US-67",JACKSONVILLE,IL,no_matching_operator_store
-69875,US-81,NORFOLK,NE,no_matching_operator_store
-69877,US-61 & SR-19,NEW LONDON,MO,no_matching_operator_store
-69886,SR-50,SYRACUSE,NE,no_matching_operator_store
-69903,US-60 & US-385,HEREFORD,TX,no_matching_operator_store
-69904,US-54/400,CUNNINGHAM,KS,no_matching_operator_store
-69906,US-169 & SR-39,CHANUTE,KS,no_matching_operator_store
-69936,US-27,MOORE HAVEN,FL,no_matching_operator_store
-69958,US-30/23 & SR-199,UPPER SANDUSKY,OH,no_matching_operator_store
-69974,US-77BUS & FM-1945,SINTON,TX,no_matching_operator_store
-69975,US-50,SOUTH HUTCHINSON,KS,no_matching_operator_store
-69978,US-271,PARIS,TX,no_matching_operator_store
-69989,US-45A,WEST POINT,MS,no_matching_operator_store
-69990,US-50/93 & US-6,ELY,NV,no_matching_operator_store
-70001,US-23,CIRCLEVILLE,OH,no_matching_operator_store
-70002,US-49,MAGEE,MS,no_matching_operator_store
-70028,"US-321, EXIT 37",NEWTON,NC,no_matching_operator_store
-70093,US-45/SR-5 & SR-57,RAMER,TN,no_matching_operator_store
-70095,US-380 & FM-1304,BRIDGEPORT,TX,no_matching_operator_store
-70096,US-65 & SR-81,PINE BLUFF,AR,no_matching_operator_store
-70150,"I-29, EXIT 35B & US-34",PACIFIC JUNCTION,IA,no_matching_operator_store
-70151,"I-45, EXIT 246 & FM-1183",ENNIS,TX,no_matching_operator_store
-70157,US-63,WATERLOO,IA,no_matching_operator_store
-70159,US-460 & SR-156,DISPUTANTA,VA,no_matching_operator_store
-70170,SR-3005,ELIZABETHTOWN,KY,no_matching_operator_store
-70218,I-69 & SR-260,HANSON,KY,no_matching_operator_store
-70219,US-59 & SR-116,LUFKIN,TX,no_matching_operator_store
-70254,I-70 & CR-829,ABILENE,KS,no_matching_operator_store
-70257,I-2,DONNA,TX,no_matching_operator_store
-70281,"I-75, EXIT 18",MONROE,MI,no_matching_operator_store
-70287,US-31 & SR 28,TIPTON,IN,no_matching_operator_store
-70305,I-40/US-270,EL RENO,OK,no_matching_operator_store
-70324,CR-17 & US-20,GOSHEN,IN,no_matching_operator_store
-70341,US-29,REIDSVILLE,NC,no_matching_operator_store
-70374,I-72 & SR-121,DECATUR,IL,no_matching_operator_store
-70405,SR-18 & SR-234,EUNICE,NM,no_matching_operator_store
-70406,SR-251,ROCHELLE,IL,no_matching_operator_store
-70423,I-90 & US-20,HAMPSHIRE,IL,no_matching_operator_store
-70424,"I-75, EXIT 144A",BRIDGEPORT,MI,no_matching_operator_store
-70452,SR-78,WESTMORLAND,CA,no_matching_operator_store
-70493,US-63/SR-11,HAZEN,AR,no_matching_operator_store
-70495,US-65 & US-82,LAKE VILLAGE,AR,no_matching_operator_store
-70530,FM-511 & SR-48,BROWNSVILLE,TX,no_matching_operator_store
-70540,US-27 & SR-60,LAKE WALES,FL,no_matching_operator_store
-70571,"I-90, I-80 & SR-49",EDON,OH,no_matching_operator_store
-70572,I-94,SAINT CLAIR,MI,no_matching_operator_store
-70583,US-60 & US-63,WILLOW SPRINGS,MO,no_matching_operator_store
-70593,I-75/SR-401,CALHOUN,GA,no_matching_operator_store
-70618,"I-270 N, EXIT 49",LOCKBOURNE,OH,no_matching_operator_store
-70638,"I-70, EXIT 358A & US-75",TOPEKA,KS,no_matching_operator_store
-70640,SR-3/SR-33,WATONGA,OK,no_matching_operator_store
-70643,US-431/CR-248,SMITHS STATION,AL,no_matching_operator_store
-70656,"US-23, EXIT 25",MILAN,MI,no_matching_operator_store
-70668,US-30 & CR-9,SCHUYLER,NE,no_matching_operator_store
-70682,"I-255/US-50, EXIT 15",EAST SAINT LOUIS,IL,no_matching_operator_store
-70710,US-72 & SR-15,WALNUT,MS,no_matching_operator_store
-70711,FM-1472,LAREDO,TX,no_matching_operator_store
-70877,"US-41, EXIT 1A",WADSWORTH,IL,no_matching_operator_store
-71023,SR-302 & CR-313,KERMIT,TX,no_matching_operator_store
-71024,US-34/US-67,MONMOUTH,IL,no_matching_operator_store
-71047,"I-17, EXIT 262 & SR-69",MAYER,AZ,no_matching_operator_store
-71055,"I-840, EXIT 67 & COUCHVILLE PIKE",MOUNT JULIET,TN,no_matching_operator_store
-71057,US-97/US-26 & HALL RD,MADRAS,OR,no_matching_operator_store
-71142,US-20 & SR-2,ROCKFORD,IL,no_matching_operator_store
-71151,US-50 & SR-130,OLNEY,IL,no_matching_operator_store
-71152,"US-24, EXIT 41",NAPOLEON,OH,no_matching_operator_store
-71169,"I-69 EXIT,286 & US-24 & SR-9",HUNTINGTON,IN,no_matching_operator_store
-71198,"I-90, EXIT 233 & SR-74",SAINT CHARLES,MN,no_matching_operator_store
-71221,I-435 EXIT 55,KANSAS CITY,MO,no_matching_operator_store
-71260,US HWY 224 & OH 225,DIAMOND,OH,no_matching_operator_store
-71267,"US-131/SR-43, EXIT 44",KALAMAZOO,MI,no_matching_operator_store
-71290,"US-19/SR-3, EXIT 3 & US-82",ALBANY,GA,no_matching_operator_store
-71313,"US-70, EXIT W MAIN ST",DURANT,OK,no_matching_operator_store
-71318,SR-83,ELK GROVE VILLAGE,IL,no_matching_operator_store
-71392,SR 17 & SR 1,GRANT PARK,IL,no_matching_operator_store
-71438,US-80 & SR-307,SAVANNAH,GA,no_matching_operator_store
-71443,US-33 & SR-540,BELLEFONTAINE,OH,no_matching_operator_store
-71480,US-87,DALHART,TX,no_matching_operator_store
-71503,US-80 & US-400/US-50,GARDEN CITY,KS,no_matching_operator_store
-71514,SR-136,SANTA TERESA,NM,no_matching_operator_store
-71515,"I-64 & SR-37, EXIT 80",MOUNT VERNON,IL,no_matching_operator_store
-71582,US-601 & SR-207,PAGELAND,SC,no_matching_operator_store
-71608,"I-194, EXIT 164",SAINT CLOUD,MN,no_matching_operator_store
-71632,SR-21 & SR-275,RINCON,GA,no_matching_operator_store
-71719,"I-35, EXIT 129",FOREST LAKE,MN,no_matching_operator_store
-71735,US-395,PASCO,WA,no_matching_operator_store
-71801,US HWY 75,LE MARS,IA,no_matching_operator_store
-71862,I-90 & SR-528,MADISON,OH,no_matching_operator_store
-71875,US-59 & US-79,CARTHAGE,TX,no_matching_operator_store
-71878,SR-78 & CR-27,LANCASTER,OH,no_matching_operator_store
-71898,I-55 EXIT 165,NORMAL,IL,no_matching_operator_store
-71899,US-61/SR-92,MUSCATINE,IA,no_matching_operator_store
-72104,I-44 EXIT 166 & SR-18,CHANDLER,OK,no_matching_operator_store
-72105,SR-375 & SR-31,MCALESTER,OK,no_matching_operator_store
-72106,US-77 & SR-29,WYNNEWOOD,OK,no_matching_operator_store
-72473,US 77,HARLINGEN,TX,no_matching_operator_store
-72575,US-98,LUCEDALE,MS,no_matching_operator_store
-72642,US-95 & US-6,TONOPAH,NV,no_matching_operator_store
-72648,US 50,CANON CITY,CO,no_matching_operator_store
-72649,US 93,JACKPOT,NV,no_matching_operator_store
-72714,I-85 & SR-18,WEST POINT,GA,no_matching_operator_store
-72745,US-81 EXIT 12 & SR-12,WATERTOWN,NY,no_matching_operator_store
-72791,SR-491 & RD. G,CORTEZ,CO,no_matching_operator_store
-72809,I-95 EXIT 305,SAINT AUGUSTINE,FL,no_matching_operator_store
-72968,US-52 EXIT 120,RURAL HALL,NC,no_matching_operator_store
-72969,US-30,DELPHOS,OH,no_matching_operator_store
+1807,I-40 EXIT 96 & SR-207,PANHANDLE,TX,unresolved_all_sources
+52601,"I-40, EXIT 161 & SR-391",NORTH LITTLE ROCK,AR,unresolved_all_sources
+63731,"I-10, EXIT 43 & SR-383",IOWA,LA,accepted_using_other_source
+63964,"I-35 & FISHER RD, EXIT 144",VON ORMY,TX,unresolved_all_sources
+64336,I-90/I-94 EXIT 48,TOMAH,WI,accepted_using_other_source
+64569,"I-65, EXIT 8B",MOBILE,AL,accepted_using_other_source
+66120,"I-40/SR-66, EXIT 412",DANDRIDGE,TN,unresolved_all_sources
+66133,"I-4, EXIT 44",POLK CITY,FL,accepted_using_other_source
+66478,"I-70, EXIT 187",TECUMSEH,KS,unresolved_all_sources
+67090,US-69 & PLATTER RD,CALERA,OK,unresolved_all_sources
+67419,"I-75, EXIT 283",CARTERSVILLE,GA,accepted_using_other_source
+67622,"I-5/US-12, EXIT 72",CHEHALIS,WA,accepted_using_other_source
+69099,"I-10, EXIT 92",RAYNE,LA,accepted_using_other_source
+69190,"I-10, EXIT 70 & US-90 & SR-285",DEFUNIAK SPRINGS,FL,unresolved_all_sources
+69308,SR-283,MIDDLETOWN,PA,unresolved_all_sources
+69854,"I-39, EXIT 115 & CR-CS",POYNETTE,WI,accepted_using_other_source
+69874,"I-72, EXIT 64 & US-67",JACKSONVILLE,IL,unresolved_all_sources
+70151,"I-45, EXIT 246 & FM-1183",ENNIS,TX,accepted_using_other_source
+70281,"I-75, EXIT 18",MONROE,MI,accepted_using_other_source
+70618,"I-270 N, EXIT 49",LOCKBOURNE,OH,unresolved_all_sources
+70682,"I-255/US-50, EXIT 15",EAST SAINT LOUIS,IL,unresolved_all_sources
+71267,"US-131/SR-43, EXIT 44",KALAMAZOO,MI,unresolved_all_sources
+71438,US-80 & SR-307,SAVANNAH,GA,unresolved_all_sources
+71515,"I-64 & SR-37, EXIT 80",MOUNT VERNON,IL,accepted_using_other_source
+71608,"I-194, EXIT 164",SAINT CLOUD,MN,unresolved_all_sources
+71719,"I-35, EXIT 129",FOREST LAKE,MN,accepted_using_other_source

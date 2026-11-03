@@ -20,9 +20,9 @@ class ResolverTests(TestCase):
         self.station = Station.objects.create(source_id='12', name='PILOT TRAVEL CENTER #12', address='10 MAIN ST', city='TOWN', state='TX', rows=[{'Truckstop Name':'PILOT TRAVEL CENTER #12'}], price=3, price_min=3, price_max=3)
         self.payload = {'results':[{'name':'PILOT #12','housenumber':'10','street':'MAIN ST','city':'TOWN','state_code':'TX','country_code':'us','lat':40,'lon':-100,'place_id':'abc','result_type':'amenity'}]}
 
-    def run_resolver(self, output, max_requests=1, credit_budget=1):
+    def run_resolver(self, output, max_requests=1, credit_budget=1, **options):
         with override_settings(BASE_DIR=self.root):
-            call_command('resolve_geoapify', cache=str(self.root/'cache.json'), output=str(self.root/output), max_requests=max_requests, credit_budget=credit_budget, stdout=io.StringIO())
+            call_command('resolve_geoapify', cache=str(self.root/'cache.json'), output=str(self.root/output), max_requests=max_requests, credit_budget=credit_budget, stdout=io.StringIO(), **options)
 
     @patch('planner.management.commands.resolve_geoapify.urllib.request.urlopen')
     @patch.dict(os.environ, {'GEOAPIFY_API_KEY':'private-api-key'}, clear=False)
@@ -38,6 +38,45 @@ class ResolverTests(TestCase):
         self.assertEqual(rows[0]['source_row_ids'], '12:1')
         self.assertNotIn('private-api-key', (self.root/'cache.json').read_text())
         self.assertNotIn('private-api-key', (self.root/'second.csv').read_text())
+
+    @patch('planner.management.commands.resolve_geoapify.urllib.request.urlopen')
+    def test_cache_replay_without_key(self, urlopen):
+        with patch.dict(os.environ, {'GEOAPIFY_API_KEY': 'private-api-key'}):
+            urlopen.return_value = io.BytesIO(json.dumps(self.payload).encode())
+            self.run_resolver('first.csv')
+        with patch.dict(os.environ, {'GEOAPIFY_API_KEY': ''}):
+            self.run_resolver('replay.csv', max_requests=0, credit_budget=0)
+        self.assertEqual(urlopen.call_count, 1)
+        with (self.root/'replay.csv').open() as stream:
+            self.assertEqual(len(list(csv.DictReader(stream))), 1)
+
+    @patch('planner.management.commands.resolve_geoapify.urllib.request.urlopen')
+    @patch.dict(os.environ, {'GEOAPIFY_API_KEY': 'private-api-key'}, clear=False)
+    def test_unresolved_only_with_sample_and_partial_coordinates(self, urlopen):
+        self.station.latitude, self.station.longitude = 40, -100
+        self.station.save()
+        for source_id, latitude, longitude in [('13', 40, None), ('14', None, -100), ('15', None, None)]:
+            Station.objects.create(source_id=source_id, name=f'OTHER #{source_id}', address=f'{source_id} MAIN ST', city='TOWN', state='TX', rows=[{'Truckstop Name': f'OTHER #{source_id}'}], price=3, price_min=3, price_max=3, latitude=latitude, longitude=longitude)
+        sample = self.root/'sample.csv'
+        sample.write_text('station_id,address,city,state\n12,10 MAIN ST,TOWN,TX\n13,13 MAIN ST,TOWN,TX\n14,14 MAIN ST,TOWN,TX\n15,15 MAIN ST,TOWN,TX\n')
+        urlopen.side_effect = lambda *args, **kwargs: io.BytesIO(json.dumps({'results': []}).encode())
+        with patch('planner.management.commands.resolve_geoapify.time.sleep'):
+            self.run_resolver('result.csv', max_requests=6, credit_budget=6, sample=str(sample), unresolved_only=True)
+        self.assertEqual(urlopen.call_count, 6)
+        urls = [call.args[0].full_url for call in urlopen.call_args_list]
+        self.assertFalse(any('PILOT' in url for url in urls))
+        for source_id in ('13', '14', '15'):
+            self.assertTrue(any(f'OTHER+%23{source_id}' in url for url in urls))
+
+    @patch('planner.management.commands.resolve_geoapify.urllib.request.urlopen')
+    @patch.dict(os.environ, {'GEOAPIFY_API_KEY': ''}, clear=False)
+    def test_unresolved_only_excludes_accepted_without_sample(self, urlopen):
+        self.station.latitude, self.station.longitude = 40, -100
+        self.station.save()
+        self.run_resolver('result.csv', unresolved_only=True)
+        urlopen.assert_not_called()
+        with (self.root/'result.csv').open() as stream:
+            self.assertEqual(list(csv.DictReader(stream)), [])
 
     @patch.dict(os.environ, {'GEOAPIFY_API_KEY':''}, clear=False)
     def test_missing_key(self):

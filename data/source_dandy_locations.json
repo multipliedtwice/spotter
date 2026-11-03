@@ -1,0 +1,96 @@
+{
+  "source": "https://www.godandy.com/store-locator/",
+  "stores": [
+    {
+      "id": 6363,
+      "store": "North Towanda &#8211; Dandy 5",
+      "address": "474 Reuter Blvd",
+      "address2": "",
+      "city": "Towanda",
+      "state": "PA",
+      "zip": "18848",
+      "country": "United States",
+      "lat": "41.78726",
+      "lng": "-76.453648",
+      "url": "https://www.godandy.com/north-towanda-dandy-5/"
+    },
+    {
+      "id": 6348,
+      "store": "Nichols &#8211; Dandy 14",
+      "address": "814 W River Rd",
+      "address2": "",
+      "city": "Nichols",
+      "state": "NY",
+      "zip": "13812",
+      "country": "United States",
+      "lat": "42.02525",
+      "lng": "-76.385927",
+      "url": "https://www.godandy.com/nichols-dandy-14/"
+    },
+    {
+      "id": 6338,
+      "store": "Sayre &#8211; Dandy 19",
+      "address": "78 White Wagon Rd",
+      "address2": "",
+      "city": "Sayre",
+      "state": "PA",
+      "zip": "18840",
+      "country": "United States",
+      "lat": "41.998593",
+      "lng": "-76.587317",
+      "url": "https://www.godandy.com/wilawana-dandy-19/"
+    },
+    {
+      "id": 6323,
+      "store": "Cayuta &#8211; Dandy 31",
+      "address": "6034 State Route 13",
+      "address2": "",
+      "city": "Cayuta",
+      "state": "NY",
+      "zip": "14824",
+      "country": "United States",
+      "lat": "42.293194",
+      "lng": "-76.714455",
+      "url": "https://www.godandy.com/cayuta-dandy-31"
+    },
+    {
+      "id": 6282,
+      "store": "Horseheads &#8211; Dandy 57",
+      "address": "104 Wygant Rd.",
+      "address2": "",
+      "city": "Horseheads",
+      "state": "NY",
+      "zip": "14845",
+      "country": "United States",
+      "lat": "42.189298",
+      "lng": "-76.833783",
+      "url": "https://www.godandy.com/horseheads-dandy-57/"
+    },
+    {
+      "id": 6268,
+      "store": "Elmira &#8211; Dandy 68",
+      "address": "1055 County Rd. 64",
+      "address2": "",
+      "city": "Elmira",
+      "state": "NY",
+      "zip": "14903",
+      "country": "United States",
+      "lat": "42.158662",
+      "lng": "-76.864096",
+      "url": "https://www.godandy.com/elmira-dandy-68"
+    },
+    {
+      "id": 6260,
+      "store": "Wysox &#8211; Dandy 74",
+      "address": "30023 US-6",
+      "address2": "",
+      "city": "Wysox",
+      "state": "PA",
+      "zip": "18854",
+      "country": "United States",
+      "lat": "41.774682",
+      "lng": "-76.398319",
+      "url": "https://www.godandy.com/wysox-dandy-74/"
+    }
+  ]
+}

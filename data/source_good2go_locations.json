@@ -1,0 +1,41 @@
+{
+  "source": "https://good2gostores.com/locations/",
+  "stores": [
+    {
+      "infoTitle": "Good 2 Go #121",
+      "position": "6662 W Overland Rd, Idaho falls, ID 83406",
+      "infoAddress": "6662 W Overland Rd, Idaho falls, ID 83406",
+      "coordinates": "43.43789839999999, -112.1152865"
+    },
+    {
+      "infoTitle": "Good 2 Go #212",
+      "position": "1801 US Hwy 310, Lovell, WY 82431",
+      "infoAddress": "1801 US Hwy 310, Lovell, WY 82431",
+      "coordinates": "44.8376301, -108.4190535"
+    },
+    {
+      "infoTitle": "Good 2 Go #213",
+      "position": "199 US Hwy 16 E, Buffalo, WY 82799",
+      "infoAddress": "199 US Hwy 16 E, Buffalo, WY 82799",
+      "coordinates": "44.3183607, -106.9338663"
+    },
+    {
+      "infoTitle": "Good 2 Go #218",
+      "position": "1229 East Brundage Lane, Sheridan, WY 82801",
+      "infoAddress": "1229 East Brundage Lane, Sheridan, WY 82801",
+      "coordinates": "44.7743901, -106.9381093"
+    },
+    {
+      "infoTitle": "Good 2 Go #418",
+      "position": "1063 East Highway 54, Mona, UT 84645",
+      "infoAddress": "1063 East Highway 54, Mona, UT 84645",
+      "coordinates": "39.8215858, -111.8352929"
+    },
+    {
+      "infoTitle": "Good 2 Go #717",
+      "position": "711 E Fillmore St, Colorado Springs, CO 80907",
+      "infoAddress": "711 E Fillmore St, Colorado Springs, CO 80907",
+      "coordinates": "38.873372, -104.812549"
+    }
+  ]
+}

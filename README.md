@@ -2,7 +2,7 @@
 
 A Django + SQLite API that plans fuel stops along a driving route in the USA. It requests the fastest driving route and a bounded set of alternatives from OSRM (public demo by default, local OSRM optional), picks verified fuel stops along the corridor, and minimizes fuel purchase cost for a vehicle with a 500-mile range (50 US gallons at 10 mpg). Each plan is stored and shown on a Leaflet map.
 
-> **Coverage limitation:** 1,214 of 6,626 US station groups (18.3%, 43 states) have accepted coordinates and take part in planning. This preserves 356 operator-backed locations and adds 858 OSM matches. Unmatched stations remain excluded; some routes can return 422 and cheaper unresolved stations can be missed.
+> **Coverage limitation:** 3,392 of 6,626 US station groups (51.2%, 48 states) have accepted coordinates and take part in planning. The remaining 3,234 are unlocated and excluded; some routes can return 422 and cheaper unresolved stations can be missed. For identity-only operator matches, the original CSV road details are unverified and disclosed in the response.
 
 ## Setup
 
@@ -46,6 +46,8 @@ Response (`200`):
 
 A verified candidate has distance, duration, every driven waypoint (pass-through waypoints have `purchase: false`), purchases, fuel balances and low points. The map uses the stored result and makes no server-side provider calls.
 
+For a stop with unverified CSV road details, `address` shows the published operator address. `source_address` retains the CSV address and `verification_scope` explains the evidence; the map flags the unverified details.
+
 Status codes:
 
 - `200`: plan returned.
@@ -55,13 +57,13 @@ Status codes:
 
 ## Example
 
-Dallas, TX to Los Angeles, CA, starting fuel 20 gallons, public OSRM, bundled evidence imported. Live check on 2026-11-01: the fastest-road plan verified at 1,453.6 miles and $368.39. The remaining routing call verified a second proposal with the same four purchase stops (QuikTrip Abilene TX, Circle K El Paso TX, QuikTrip Tucson AZ, Flyers Phoenix AZ) and one fewer pass-through waypoint: 1,453.4 miles, about 25.3 hours, 125.34 gallons, $368.34. It is recommended; comparison is `compared` with savings $0.05. Up to three routing calls; uncached time depends on OSRM latency and the 1 request/second throttle. Results change with road and station data.
+Try Dallas, TX to Los Angeles, CA with 20 gallons of starting fuel and the bundled evidence imported. Rerun before recording a demonstration: route results and costs depend on the current road and station data. An uncached plan uses up to three routing calls; time depends on OSRM latency and the 1 request/second throttle.
 
 ## Limits and assumptions
 
 - Vehicle: 50 US gallons, 10 mpg, zero arrival reserve. Starting fuel is valued at $0; `purchase_cost_usd` covers fuel bought during the journey only.
 - Prices are a snapshot (the source has no date): median per station ID and location, USD per gallon. Each stop charge rounds half up to cents.
-- Station coverage: 1,214 of 6,626 US groups are usable; 5,412 remain unlocated. OSM matching supports fuel geometry, source-confirmed business sites, and independently linked highway exits/intersections. City points screen candidates and never become fuel-stop coordinates. Missing coverage does not mean no station exists. Provenance: [data/SOURCES.md](data/SOURCES.md).
+- Station coverage: 3,392 of 6,626 US groups are usable; 3,234 remain unlocated. Remaining groups: [data/station_unresolved.csv](data/station_unresolved.csv). Identity-only operator matches have unverified CSV road details. OSM matching supports fuel geometry, source-confirmed business sites, and independently linked highway exits/intersections. City points screen candidates and never become fuel-stop coordinates. Missing coverage does not mean no station exists. Provenance: [data/SOURCES.md](data/SOURCES.md).
 - Stop search is a bounded heuristic with no global-optimum claim; waypoint routes are verified with the returned road legs.
 - City lookup uses Census gazetteer points. 21 coastal places whose Census point lies in water use Census Geocoder (Boston, San Francisco) or USGS GNIS points instead; see [data/SOURCES.md](data/SOURCES.md).
 - Calls per uncached request: 1 to 3 OSRM routing requests, plus 1 Census batch call for street addresses. Coordinates and local city lookups make no geocoding call.

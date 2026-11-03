@@ -1,0 +1,113 @@
+{
+  "source": "https://petescorp.com/locations/",
+  "stores": [
+    {
+      "marker_id": "1597",
+      "marker_title": "PETES 05",
+      "latitude": "37.36392944897959",
+      "longitude": "-95.25848169387756",
+      "popup_url": "https://petescorp.com/places/petes-05/",
+      "popup_title": "PETES 05",
+      "postal_address": {
+        "streetAddress": "2431 North 16th Street",
+        "addressLocality": "Parsons",
+        "addressRegion": "Kansas",
+        "postalCode": "67357",
+        "addressCountry": "United States"
+      },
+      "source_listing": "https://petescorp.com/locations/",
+      "popup_endpoint": "https://petescorp.com/wp-json/geodir/v2/markers/1597",
+      "popup_map": "osm"
+    },
+    {
+      "marker_id": "1620",
+      "marker_title": "PETES 36",
+      "latitude": "37.92203553674263",
+      "longitude": "-95.38807367660479",
+      "popup_url": "https://petescorp.com/places/petes-36/",
+      "popup_title": "PETES 36",
+      "postal_address": {
+        "streetAddress": "1700 East Street",
+        "addressLocality": "Iola",
+        "addressRegion": "Kansas",
+        "postalCode": "66749",
+        "addressCountry": "United States"
+      },
+      "source_listing": "https://petescorp.com/locations/",
+      "popup_endpoint": "https://petescorp.com/wp-json/geodir/v2/markers/1620",
+      "popup_map": "osm"
+    },
+    {
+      "marker_id": "1629",
+      "marker_title": "PETES 03 SIMPLE SIMON'S & BROASTER CHICKEN",
+      "latitude": "37.9051994823157",
+      "longitude": "-95.17181396484376",
+      "popup_url": "https://petescorp.com/places/petes-03-simple-simons-broaster-chicken/",
+      "popup_title": "PETES 03 SIMPLE SIMON&#8217;S &#038; BROASTER CHICKEN",
+      "postal_address": {
+        "streetAddress": "844 North Cedar",
+        "addressLocality": "Moran",
+        "addressRegion": "Kansas",
+        "postalCode": "66755",
+        "addressCountry": "United States"
+      },
+      "source_listing": "https://petescorp.com/locations/",
+      "popup_endpoint": "https://petescorp.com/wp-json/geodir/v2/markers/1629",
+      "popup_map": "osm"
+    },
+    {
+      "marker_id": "1630",
+      "marker_title": "PETES 14 SIMPLE SIMON'S & BROASTER CHICKEN",
+      "latitude": "37.81715159183673",
+      "longitude": "-94.70562314285715",
+      "popup_url": "https://petescorp.com/places/petes-14-simple-simons-broaster-chicken/",
+      "popup_title": "PETES 14 SIMPLE SIMON&#8217;S &#038; BROASTER CHICKEN",
+      "postal_address": {
+        "streetAddress": "1902 South Main Street",
+        "addressLocality": "Fort Scott",
+        "addressRegion": "Kansas",
+        "postalCode": "66701",
+        "addressCountry": "United States"
+      },
+      "source_listing": "https://petescorp.com/locations/",
+      "popup_endpoint": "https://petescorp.com/wp-json/geodir/v2/markers/1630",
+      "popup_map": "osm"
+    },
+    {
+      "marker_id": "1631",
+      "marker_title": "PETES 20",
+      "latitude": "37.820632846207886",
+      "longitude": "-94.70489501953126",
+      "popup_url": "https://petescorp.com/places/petes-20/",
+      "popup_title": "PETES 20",
+      "postal_address": {
+        "streetAddress": "998 N National",
+        "addressLocality": "Fort Scott",
+        "addressRegion": "Kansas",
+        "postalCode": "66701",
+        "addressCountry": "United States"
+      },
+      "source_listing": "https://petescorp.com/locations/",
+      "popup_endpoint": "https://petescorp.com/wp-json/geodir/v2/markers/1631",
+      "popup_map": "osm"
+    },
+    {
+      "marker_id": "1888",
+      "marker_title": "PETES 49",
+      "latitude": "37.03338316007088",
+      "longitude": "-95.61665823577341",
+      "popup_url": "https://petescorp.com/places/petes-49/",
+      "popup_title": "PETES 49",
+      "postal_address": {
+        "streetAddress": "104 W 11th Street",
+        "addressLocality": "Coffeyville",
+        "addressRegion": "Kansas",
+        "postalCode": "67337",
+        "addressCountry": "United States"
+      },
+      "source_listing": "https://petescorp.com/locations/",
+      "popup_endpoint": "https://petescorp.com/wp-json/geodir/v2/markers/1888",
+      "popup_map": "osm"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "records": [
+    {
+      "kind": "named_plaza",
+      "station_id": "293",
+      "address": "I-35, MILE MARKER 97",
+      "city": "MATFIELD GREEN",
+      "state": "KS",
+      "source": "https://www.loves.com/api/fetch_stores",
+      "store": {
+        "number": 176,
+        "latitude": 38.095391,
+        "longitude": -96.579511,
+        "address1": "Mile 97 Kansas Turnpike",
+        "city": "Cassoday",
+        "state": "KS",
+        "highway": "I-35",
+        "exitNumber": "Mile 97",
+        "preferredName": "Matfield Green Turnpike - SRI",
+        "facilitySubtypeName": "Travel Stop",
+        "isLoveStore": true,
+        "isCountryStore": false
+      }
+    }
+  ]
+}
